@@ -18,9 +18,10 @@ export const getAllUsers = () => async (dispatch, getState) => {
 	} = getState();
 
 	const config = { headers: { Authorization: `Bearer ${userInfo.token}`, 'Content-Type': 'application/json' } };
-
+console.log(config)
 	try {
 		const { data } = await axios.get('api/users', config);
+		console.log(data)
 		dispatch(getUsers(data));
 	} catch (error) {
 		setError(
@@ -86,7 +87,7 @@ export const deleteOrder = (id) => async (dispatch, getState) => {
 	const config = { headers: { Authorization: `Bearer ${userInfo.token}`, 'Content-Type': 'application/json' } };
 
 	try {
-		const { data } = await axios.delete(`api/orders/${id}`, config);
+		const { data } = await axios.delete(`/api/orders/${id}`, config);
 		dispatch(orderDelete(data));
 	} catch (error) {
 		setError(
@@ -108,7 +109,7 @@ export const setDelivered = (id) => async (dispatch, getState) => {
 	const config = { headers: { Authorization: `Bearer ${userInfo.token}`, 'Content-Type': 'application/json' } };
 
 	try {
-		await axios.put(`api/orders/${id}`, {}, config);
+		await axios.put(`/api/orders/${id}`, {}, config);
 		dispatch(setDeliveredFlag());
 	} catch (error) {
 		setError(

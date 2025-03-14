@@ -144,6 +144,8 @@ const LoginScreen = () => {
 										onClick={() => handleGoogleLogin()}>
 										Google sign in
 									</Button>
+
+									
 								</Stack>
 							</Stack>
 						</Box>

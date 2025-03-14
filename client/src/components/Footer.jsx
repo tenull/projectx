@@ -4,78 +4,62 @@ import {
 	Container,
 	Divider,
 	IconButton,
-	Input,
 	Stack,
 	Text,
-	useColorModeValue as mode,
 	Box,
 	Flex,
 	Icon,
+	Image,
 } from '@chakra-ui/react';
-import { FaGithub, FaLinkedin, FaFacebook } from 'react-icons/fa';
-import { BsPhoneFlip } from 'react-icons/bs';
+import { FaFacebook } from 'react-icons/fa';
 
 const Footer = () => (
-	<Box w='100%' bg={mode('cyan.300', 'gray.900')}>
-		<Container as='footer' maxW='7xl'>
-			<Stack
-				spacing='8'
-				direction={{ base: 'column', md: 'row' }}
-				justify='space-between'
-				py={{ base: '12', md: '16' }}>
-				<Stack spacing={{ base: '6', md: '8' }} align='start'>
-					<Flex alignItems='center'>
-						<Icon as={BsPhoneFlip} h='10' w='10' color={mode('black', 'yellow.200')} />
-						<Text fontSize='2xl' fontWeight='extrabold'>
-							Tech Lines
+	<Box bg="white" py={10}>
+		<Container maxW="7xl">
+			<Stack spacing={10} direction={{ base: 'column', md: 'row' }} justify="space-between">
+				{/* Logo + Brand */}
+				<Stack spacing={4} align={{ base: 'center', md: 'start' }}>
+					<Flex alignItems="center" gap={4}>
+						<Image src="../images/laskoditesztalogo.png" width="80px" height="80px" />
+						<Text fontSize="2xl" fontWeight="bold" color="gray.700">
+							Laskodi Tészta
 						</Text>
 					</Flex>
-					<Text color='muted'>We love phones.</Text>
 				</Stack>
-				<Stack direction={{ base: 'column-reverse', md: 'column', lg: 'row' }} spacing={{ base: '12', md: '8' }}>
-					<Stack direction='row' spacing='8'>
-						<Stack spacing='4' minW='36' flex='1'>
-							<Text fontSize='sm' fontWeight='semibold' color='subtle'>
-								Product
-							</Text>
-							<Stack spacing='3' shouldWrapChildren>
-								<Button variant='link'>How it works</Button>
-								<Button variant='link'>Pricing</Button>
-							</Stack>
-						</Stack>
-						<Stack spacing='4' minW='36' flex='1'>
-							<Text fontSize='sm' fontWeight='semibold' color='subtle'>
-								Legal
-							</Text>
-							<Stack spacing='3' shouldWrapChildren>
-								<Button variant='link'>Privacy</Button>
-								<Button variant='link'>Terms</Button>
-								<Button variant='link'>License</Button>
-							</Stack>
-						</Stack>
+
+				{/* Navigation Links */}
+				<Stack direction={{ base: 'column', md: 'row' }} spacing={10} flex={1} justify="center">
+					<Stack spacing={3} align={{ base: 'center', md: 'start' }}>
+						<Text fontSize="md" fontWeight="semibold" color="gray.600">Menü</Text>
+						<Button variant="link" color="gray.500">Rólunk</Button>
+						<Button variant="link" color="gray.500">Tésztáink</Button>
+						<Button variant="link" color="gray.500">Kapcsolat</Button>
 					</Stack>
-					<Stack spacing='4'>
-						<Text fontSize='sm' fontWeight='semibold' color='subtle'>
-							Stay up to date
-						</Text>
-						<Stack spacing='4' direction={{ base: 'column', sm: 'row' }} maxW={{ lg: '360px' }}>
-							<Input placeholder='Enter your email' type='email' required />
-							<Button variant='primary' type='submit' flexShrink={0}>
-								Subscribe
-							</Button>
-						</Stack>
+
+					<Stack spacing={3} align={{ base: 'center', md: 'start' }}>
+						<Text fontSize="md" fontWeight="semibold" color="gray.600">Információk</Text>
+						<Button variant="link" color="gray.500">ÁSZF</Button>
+						<Button variant="link" color="gray.500">Adatkezelés</Button>
+						<Button variant="link" color="gray.500">Szállítás</Button>
 					</Stack>
+				</Stack>
+
+				{/* Contact Info */}
+				<Stack spacing={3} align={{ base: 'center', md: 'end' }}>
+					<Text fontSize="md" fontWeight="semibold" color="gray.600">Elérhetőség</Text>
+					<Text fontSize="sm" color="gray.500">Cím: 4543, Laskod Szabadság út 31.</Text>
+					<Text fontSize="sm" color="gray.500">Telefon: <a href="tel:+3645709508">+36 45-709-508</a></Text>
+					<Text fontSize="sm" color="gray.500">Email: <a href="mailto:laskoditeszta@hu.inter.net">laskoditeszta@hu.inter.net</a></Text>
 				</Stack>
 			</Stack>
-			<Divider />
-			<Stack pt='8' pb='12' justify='space-between' direction={{ base: 'column-reverse', md: 'row' }} align='center'>
-				<Text fontSize='sm' color='subtle'>
-					&copy; {new Date().getFullYear()} Tech Lines, Inc. All rights reserved.
-				</Text>
-				<ButtonGroup variant='ghost'>
-					<IconButton as='a' href='#' icon={<FaLinkedin fontSize='1.25rem' />} />
-					<IconButton as='a' href='#' icon={<FaGithub fontSize='1.25rem' />} />
-					<IconButton as='a' href='#' icon={<FaFacebook fontSize='1.25rem' />} />
+
+			<Divider my={6} />
+
+			{/* Footer Bottom */}
+			<Stack direction={{ base: 'column', md: 'row' }} justify="space-between" align="center">
+				<Text fontSize="sm" color="gray.500">&copy; {new Date().getFullYear()} Laskodi Tészta. Minden jog fenntartva.</Text>
+				<ButtonGroup>
+					<IconButton as='a' href='#' icon={<FaFacebook fontSize='1.5rem' />} colorScheme="blue" variant="ghost"/>
 				</ButtonGroup>
 			</Stack>
 		</Container>

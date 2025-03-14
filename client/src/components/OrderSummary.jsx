@@ -4,46 +4,64 @@ import { useSelector } from 'react-redux';
 import { Link as ReactLink } from 'react-router-dom';
 
 const OrderSummary = ({ checkoutSreen = false }) => {
-	const { subtotal, shipping } = useSelector((state) => state.cart);
+	const { subtotal, shipping,selectedShippingMethod,paymentMethodCost,paymentMethod } = useSelector((state) => state.cart);
+
+	const paymentName = {
+		cash_on_delivery: 'Utánvétes fizetés (+495 Ft)',
+		credit_card: 'Bankkártyával',
+		bank_transfer: 'Banki átutalással',
+	};
 
 	return (
 		<Stack
 			minWidth='300px'
 			spacing='8'
 			borderWidth='1px'
-			borderColor={mode('cyan.500', 'cyan.100')}
+			borderColor={mode('red.600', 'cyan.100')}
 			rounded='lg'
 			padding='8'
 			w='full'>
-			<Heading size='md'>Order Summary</Heading>
+			<Heading size='md'>Összegzés</Heading>
 			<Stack spacing='6'>
 				<Flex justify='space-between'>
 					<Text fontWeight='medium' color={mode('gray.600', 'gray.400')}>
-						Subtotal
+						Összesen
 					</Text>
-					<Text fontWeight='medium'>${subtotal}</Text>
+					<Text fontWeight='medium'>{subtotal} Ft</Text>
 				</Flex>
 				<Flex justify='space-between'>
 					<Text fontWeight='medium' color={mode('gray.600', 'gray.400')}>
-						Shipping
+						Szállítási mód
 					</Text>
-					<Text fontWeight='medium'>${shipping}</Text>
+					<Text fontWeight='medium'>{shipping}</Text>
+				</Flex>
+				<Flex justify='space-between'>
+					<Text fontWeight='medium' color={mode('gray.600', 'gray.400')}>
+						Szállítási költség
+					</Text>
+					<Text fontWeight='medium'>{selectedShippingMethod} Ft</Text>
+				</Flex>
+				<Flex justify='space-between'>
+					<Text fontWeight='medium' color={mode('gray.600', 'gray.400')}>
+						Fizetési mód
+					</Text>
+					<Text fontWeight='medium'>{paymentName[paymentMethod] || "Ismeretlen fizetési mód"}</Text>
 				</Flex>
 				<Flex justify='space-between'>
 					<Text fontSize='xl' fontWeight='extrabold'>
-						Total
+						Végösszeg
 					</Text>
-					<Text fontWeight='medium'>${Number(subtotal) + Number(shipping)}</Text>
+					<Text fontWeight='medium'>{Number(subtotal) + Number(selectedShippingMethod) + Number(paymentMethodCost)} Ft</Text>
 				</Flex>
 			</Stack>
 			<Button
 				hidden={checkoutSreen}
 				as={ReactLink}
-				to='/checkout'
-				colorScheme='cyan'
+				to='/penztar'
+				colorScheme='red'
 				size='lg'
 				rightIcon={<FaArrowRight />}>
-				Checkout
+				Pénztár
 			</Button>
 		</Stack>
 	);

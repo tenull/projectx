@@ -7,14 +7,14 @@ export const setAddress = (data) => (dispatch) => {
 
 export const setPayment = () => async (dispatch, getState) => {
 	const {
-		cart: { cartItems, subtotal, shipping },
+		cart: { cartItems, subtotal, shipping, packaking,paymentMethod,selectedShippingMethod,paymentMethodCost },
 		order: { shippingAddress },
 		user: { userInfo },
 	} = getState();
 
 	console.log(shippingAddress);
 
-	const newOrder = { subtotal, shipping, shippingAddress, cartItems, userInfo };
+	const newOrder = { subtotal, shipping, shippingAddress, cartItems, userInfo,paymentMethod,packaking,selectedShippingMethod,paymentMethodCost };
 
 	try {
 		const config = { headers: { Authorization: `Bearer ${userInfo.token}`, 'Content-Type': 'application/json' } };

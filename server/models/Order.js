@@ -23,6 +23,7 @@ const orderSchema = new mongoose.Schema(
 				qty: { type: Number, required: true },
 				image: { type: String, required: true },
 				price: { type: Number, required: true },
+				packaking: { type: Number, required: true },
 				id: {
 					type: mongoose.Schema.Types.ObjectId,
 					required: true,
@@ -34,13 +35,16 @@ const orderSchema = new mongoose.Schema(
 			address: { type: String, required: true },
 			city: { type: String, required: true },
 			postalCode: { type: String, required: true },
-			country: { type: String, required: true },
+			phone:{ type:String,required: true},
+			comment:{type:String}
 		},
-		shippingPrice: { type: Number, default: 0.0 },
+		shipping: { type: String, default: 0.0 },
 		totalPrice: { type: Number, default: 0.0 },
 		subtotal: { type: Number, default: 0.0 },
 		isDelivered: { type: Boolean, required: true, default: false },
-
+		paymentMethod:{type:String,required:true},
+		paymentMethodCost: { type: Number, required: true, default: 0 },
+		selectedShippingMethod: { type: Number, required: true, default: 0 },
 		deliveredAt: {
 			type: Date,
 		},

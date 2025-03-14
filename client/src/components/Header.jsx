@@ -22,7 +22,26 @@ import {
 	MenuList,
 	Spacer,
 	useToast,
+	Button,
+	Input
 } from '@chakra-ui/react';
+import {
+	DrawerActionTrigger,
+	DrawerBackdrop,
+	DrawerBody,
+	DrawerCloseTrigger,
+	DrawerContent,
+	DrawerFooter,
+	DrawerHeader,
+	DrawerRoot,
+	DrawerTitle,
+	DrawerTrigger,
+	Drawer,
+	DrawerOverlay,
+	DrawerCloseButton
+
+} from "@chakra-ui/react"
+
 import { useEffect, useState } from 'react';
 import { BsPhoneFlip } from 'react-icons/bs';
 import { Link as ReactLink } from 'react-router-dom';
@@ -30,7 +49,7 @@ import { MdOutlineFavorite, MdOutlineFavoriteBorder } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import NavLink from './NavLink';
 import ColorModeToggle from './ColorModeToggle';
-import { BiUserCheck, BiLogInCircle } from 'react-icons/bi';
+import { BiUserCheck, BiUser, BiLogInCircle, BiSearchAlt } from 'react-icons/bi';
 import { toggleFavorites } from '../redux/actions/productActions';
 import { HamburgerIcon, CloseIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { TbShoppingCart } from 'react-icons/tb';
@@ -38,22 +57,40 @@ import { logout } from '../redux/actions/userActions';
 import { MdOutlineAdminPanelSettings } from 'react-icons/md';
 import { FcGoogle } from 'react-icons/fc';
 import { googleLogout } from '@react-oauth/google';
-
+import { color } from 'framer-motion';
+import LoginForm from './LoginForm';
+import CartForm from './CartForm';
+import CartMenu from './CartMenu';
+import SearchInput from './SearchInput';
 const Links = [
-	{ name: 'Products', route: '/products' },
-	{ name: 'Hot Deals', route: '/hot-deals' },
-	{ name: 'Contact', route: '/contact' },
-	{ name: 'Services', route: '/services' },
+	{ name: 'Rólunk', route: '/rolunk' },
+	{ name: 'Tésztáink', route: '/tesztaink' },
+	{ name: 'Szállítási információk', route: '/szallitasi-informaciok' },
+	{ name: 'Kapcsolat', route: '/kapcsolat' },
 ];
 
 const Header = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const dispatch = useDispatch();
 	const toast = useToast();
-	const { favoritesToggled } = useSelector((state) => state.product);
-	const { cartItems } = useSelector((state) => state.cart);
+	const { favoritesToggled, products } = useSelector((state) => state.product);
+	const { cartItems, subtotal } = useSelector((state) => state.cart);
 	const { userInfo } = useSelector((state) => state.user);
 	const [showBanner, setShowBanner] = useState(userInfo ? !userInfo.active : false);
+	const [isLoginVisible, setIsLoginVisible] = useState(false);
+	const [isCartVisible, setIsCartVisible] = useState(false);
+	let timeoutId;
+
+	const handleMouseEnter = () => {
+		clearTimeout(timeoutId);
+		setIsCartVisible(true);
+	};
+
+	const handleMouseLeave = () => {
+		timeoutId = setTimeout(() => {
+			setIsCartVisible(false);
+		}, 300);
+	};
 
 	useEffect(() => {
 		if (userInfo && !userInfo.active) {
@@ -73,67 +110,24 @@ const Header = () => {
 
 	return (
 		<>
-			<Box bg={mode(`cyan.300`, 'gray.900')} px='4'>
-				<Flex h='16' alignItems='center' justifyContent='space-between'>
-					<Flex display={{ base: 'flex', md: 'none' }} alignItems='center'>
-						<IconButton
-							bg='parent'
-							size='md'
-							icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-							onClick={isOpen ? onClose : onOpen}
-						/>
-						<IconButton
-							ml='12'
-							position='absolute'
-							icon={<TbShoppingCart size='20px' />}
-							as={ReactLink}
-							to='/cart'
-							variant='ghost'
-						/>
-						{cartItems.length > 0 && (
-							<Text fontWeight='bold' fontStyle='italic' position='absolute' ml='74px' mt='-6' fontSize='sm'>
-								{cartItems.length}
-							</Text>
-						)}
-					</Flex>
-					<HStack spacing='8' alignItems='center'>
-						<Box alignItems='center' display='flex' as={ReactLink} to='/'>
-							<Icon as={BsPhoneFlip} h='6' w='6' color={mode('black', 'yellow.200')} />
-							<Text as='b'>Tech Lines</Text>
-						</Box>
-
-						<HStack as='nav' spacing='4' display={{ base: 'none', md: 'flex' }}>
-							{Links.map((link) => (
-								<NavLink route={link.route} key={link.route}>
-									<Text fontWeight='medium'>{link.name}</Text>
-								</NavLink>
-							))}
-							<Box>
-								<IconButton icon={<TbShoppingCart size='20px' />} as={ReactLink} to='/cart' variant='ghost' />
-								{cartItems.length > 0 && (
-									<Text fontWeight='bold' fontStyle='italic' position='absolute' ml='26px' mt='-6' fontSize='sm'>
-										{cartItems.length}
-									</Text>
-								)}
-							</Box>
-
-							<ColorModeToggle />
-							{favoritesToggled ? (
-								<IconButton
-									onClick={() => dispatch(toggleFavorites(false))}
-									icon={<MdOutlineFavorite size='20px' />}
-									variant='ghost'
-								/>
-							) : (
-								<IconButton
-									onClick={() => dispatch(toggleFavorites(true))}
-									icon={<MdOutlineFavoriteBorder size='20px' />}
-									variant='ghost'
-								/>
-							)}
-						</HStack>
-					</HStack>
-					<Flex alignItems='center'>
+			<Box zIndex={1} bg={mode(`white`, 'gray.900')} position='sticky' top='0' w='100%' px='4'>
+				<Box alignItems='center' display='flex' justifyContent='space-between' px={10}>
+					<Box width={{ base: '0', md: '150px' }} h='1px'>
+						<Flex display={{ base: 'flex', md: 'none' }} position='absolute' left={4} top={2}>
+							<IconButton
+								bg='parent'
+								size='md'
+								icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+								onClick={isOpen ? onClose : onOpen}
+							/>
+						</Flex>
+					</Box>
+					{/* <Icon as={BsPhoneFlip} h='6' w='6' color={mode('black', 'yellow.200')} /> */}
+					<Box display='flex' alignItems='center' as={ReactLink} to='/'>
+					<Image src="../images/laskoditesztalogo.png" width="50px" height="50px" />
+						<Text as='b' display={{base:'none',md:'block'}} fontSize={{ base: 'xl', md: '2xl' }}>LaskodiTészta</Text>
+					</Box>
+					<Flex alignItems='center' justify='flex-end'>
 						{userInfo ? (
 							<Menu>
 								<MenuButton rounded='full' variant='link' cursor='pointer' minW='0'>
@@ -146,10 +140,10 @@ const Header = () => {
 												referrerPolicy='no-referrer'
 											/>
 										) : (
-											<BiUserCheck size='30' />
+											<BiUserCheck size='35' />
 										)}
 
-										<ChevronDownIcon />
+										{/* <ChevronDownIcon ms={-3}/> */}
 									</HStack>
 								</MenuButton>
 								<MenuList>
@@ -173,27 +167,74 @@ const Header = () => {
 												<MdOutlineAdminPanelSettings />
 												<Text ml='2'>Admin Console</Text>
 											</MenuItem>
+											<MenuItem as={ReactLink} to='/admin'>
+												<MdOutlineAdminPanelSettings />
+												<Text ml='2'>Admin</Text>
+											</MenuItem>
 										</>
 									)}
 									<MenuDivider />
 									<MenuItem onClick={logoutHandler}>Logout</MenuItem>
+
 								</MenuList>
+
 							</Menu>
 						) : (
-							<Menu>
-								<MenuButton as={IconButton} variant='ghost' cursor='pointer' icon={<BiLogInCircle size='25px' />} />
-								<MenuList>
-									<MenuItem as={ReactLink} to='/login' p='2' fontWeight='400' variant='link'>
-										Sign in
-									</MenuItem>
-									<MenuDivider />
-									<MenuItem as={ReactLink} to='/registration' p='2' fontWeight='400' variant='link'>
-										Sign up
-									</MenuItem>
-								</MenuList>
-							</Menu>
+							<Box position="relative">
+								<IconButton
+									icon={<BiUser />}
+									fontSize="25px"
+									onMouseEnter={() => setIsLoginVisible(true)}
+									onMouseLeave={() => setIsLoginVisible(false)}
+									aria-label="User"
+								/>
+								{isLoginVisible && (
+									<Box position="absolute" zIndex={1} top="40px" right="0" onMouseEnter={() => setIsLoginVisible(true)} onMouseLeave={() => setIsLoginVisible(false)}>
+										<LoginForm />
+									</Box>
+								)}
+							</Box>
 						)}
+						{favoritesToggled ? (
+							<IconButton
+								onClick={() => dispatch(toggleFavorites(false))}
+								icon={<MdOutlineFavorite size='25px' />}
+								variant='ghost'
+							/>
+						) : (
+							<IconButton
+								onClick={() => dispatch(toggleFavorites(true))}
+								icon={<MdOutlineFavoriteBorder size='25px' />}
+								variant='ghost'
+							/>
+						)}
+
+						{/* <IconButton icon={<BiSearchAlt size='25px' />} onClick={searchOpen} variant='ghost' />
+						{handleSearch && <Box display='flex' alignItems='center' position='fixed' left='1px' top='80px' width='100%'>
+							<Input placeholder='keresés...' />
+							<Button>Keresés</Button>
+							<Text onClose={() => setSearchOpen(false)}>X</Text>
+						</Box>} */}
+						<SearchInput/>
+
+							<CartMenu/>
+						
 					</Flex>
+				</Box>
+				<Flex h="10" alignItems="center" justifyContent={{ base: 'space-between', md: 'center' }}>
+
+					<HStack spacing='8' alignItems='center' >
+
+
+						<HStack as='nav' spacing='4' display={{ base: 'none', md: 'flex' }} >
+							{Links.map((link) => (
+								<NavLink route={link.route} key={link.route}>
+									<Text fontWeight='medium'>{link.name}</Text>
+								</NavLink>
+							))}
+						</HStack>
+					</HStack>
+
 				</Flex>
 				<Box display='flex'>
 					{isOpen && (
@@ -218,22 +259,10 @@ const Header = () => {
 									variant='ghost'
 								/>
 							)}
-							<ColorModeToggle />
 						</Box>
 					)}
 				</Box>
 			</Box>
-			{userInfo && !userInfo.active && showBanner && (
-				<Box>
-					<Alert status='warning'>
-						<AlertIcon />
-						<AlertTitle>Email not verified!</AlertTitle>
-						<AlertDescription>You must verify your email address.</AlertDescription>
-						<Spacer />
-						<CloseIcon cursor={'pointer'} onClick={() => setShowBanner(false)} />
-					</Alert>
-				</Box>
-			)}
 		</>
 	);
 };

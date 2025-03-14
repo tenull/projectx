@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { setError, setLoading, setShippingCosts, cartItemAdd, cartItemRemoval, clearCart } from '../slices/cart';
+import { setError, setLoading, setShippingCosts, cartItemAdd, cartItemRemoval, clearCart,setPaymentMethod,setSelectedShippingMethod,setPaymentMethodCost } from '../slices/cart';
+import PaymentMethod from '../../components/PaymentMethod';
 
 export const addCartItem = (id, qty) => async (dispatch) => {
 	dispatch(setLoading(true));
@@ -8,13 +9,12 @@ export const addCartItem = (id, qty) => async (dispatch) => {
 		const itemToAdd = {
 			id: data._id,
 			name: data.name,
-			subtitle: data.subtitle,
+			brand: data.brand,
 			image: data.images[0],
 			price: data.price,
 			stock: data.stock,
-			brand: data.brand,
+			packaking: data.packaking,
 			qty,
-			stripeId: data.stripeId,
 		};
 
 		dispatch(cartItemAdd(itemToAdd));
@@ -39,6 +39,19 @@ export const removeCartItem = (id) => async (dispatch) => {
 export const setShipping = (value) => async (dispatch) => {
 	dispatch(setShippingCosts(value));
 };
+
+export const setPaymentMethodValue = (value) => async (dispatch) => {
+	dispatch(setPaymentMethod(value));
+};
+export const setPaymentMethodCostValue = (value) => async (dispatch) => {
+	dispatch(setPaymentMethodCost(value));
+};
+
+
+export const setSelectedShippingMethodPrice = (value) => async (dispatch) => {
+	dispatch(setSelectedShippingMethod(value));
+};
+
 
 export const resetCart = () => (dispatch) => {
 	dispatch(clearCart);

@@ -19,7 +19,17 @@ import YourOrdersScreen from './screens/YourOrdersScreen';
 import CancelScreen from './screens/CancelScreen';
 import SuccessScreen from './screens/SuccessScreen';
 import AdminConsoleScreen from './screens/AdminConsoleScreen';
-
+import AboutUs from './screens/AboutUs';
+import Deliver from './screens/Deliver';
+import Contact from './screens/Contact';
+import AdminScreen from './screens/AdminScreen';
+import AdminOrderScreen from './screens/admin/AdminOrderScreen';
+import AdminLastOrderScreen from './screens/admin/AdminLastOrderScreen';
+import AdminUsersScreen from './screens/admin/AdminUsersScreen';
+import AdminProductScreen from './screens/admin/AdminProductScreen';
+import AdminNewProductScreen from './screens/admin/AdminNewProductScreen';
+import AdminMessage from './screens/admin/AdminMessage';
+import OrderScreen from './screens/OrderScreen';
 function App() {
 	const theme = extendTheme({
 		styles: {
@@ -52,19 +62,34 @@ function App() {
 						<Header />
 						<main>
 							<Routes>
-								<Route path='/products' element={<ProductsScreen />} />
+								<Route path='/tesztaink' element={<ProductsScreen />} />
+								<Route path='/rolunk' element={<AboutUs />} />
+								<Route path='/szallitasi-informaciok' element={<Deliver />} />
+								<Route path='/kapcsolat' element={<Contact />} />
 								<Route path='/' element={<LandingScreen />} />
-								<Route path='/product/:id' element={<ProductScreen />} />
-								<Route path='/cart' element={<CartScreen />} />
-								<Route path='/login' element={<LoginScreen />} />
-								<Route path='/registration' element={<RegistrationScreen />} />
+								<Route path='/teszta/:id' element={<ProductScreen />} />
+								<Route path='/search/:keyword' element={<ProductsScreen />} />
+								<Route path='/kosar' element={<CartScreen />} />
+								<Route path='/bejelentkezes' element={<LoginScreen />} />
+								<Route path='/regisztracio' element={<RegistrationScreen />} />
 								<Route path='/email-verify/:token' element={<EmailVerificationScreen />} />
 								<Route path='/password-reset/:token' element={<PasswordResetScreen />} />
-								<Route path='/checkout' element={<CheckoutScreen />} />
-								<Route path='/cancel' element={<CancelScreen />} />
+								<Route path='/penztar' element={<CheckoutScreen />} />
+								<Route path='/torles' element={<CancelScreen />} />
 								<Route path='/order-history' element={<YourOrdersScreen />} />
-								<Route path='/success' element={<SuccessScreen />} />
+								<Route path='/sikeres' element={<SuccessScreen />} />
 								<Route path='/admin-console' element={<AdminConsoleScreen />} />
+								<Route path="/admin" element={<AdminScreen />}>
+									
+									<Route path="legutolsorendeles" element={<AdminLastOrderScreen />} />
+
+									<Route path="termekek" element={<AdminProductScreen />} />
+									<Route path="ujtermek" element={<AdminNewProductScreen />} />
+									<Route path="uzenet" element={<AdminMessage />} />
+								</Route>
+								<Route path="/felhasznalok" element={<AdminUsersScreen />} />
+								<Route path="/rendeles" element={<AdminOrderScreen />} />
+								<Route path='/rendeles/:id' element={<OrderScreen />} />
 							</Routes>
 						</main>
 						<Footer />

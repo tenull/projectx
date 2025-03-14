@@ -9,7 +9,6 @@ import path from 'path';
 import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import stripeRoute from './routes/stripeRoute.js';
-import simplePayRoute from './routes/simplePayRoute.js';
 import orderRoutes from './routes/orderRoutes.js';
 
 connectToDatabase();
@@ -19,7 +18,7 @@ app.use(cors());
 
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
-app.use('/api/checkout', simplePayRoute);
+app.use('/api/checkout', stripeRoute);
 app.use('/api/orders', orderRoutes);
 
 app.get('/api/config/google', (req, res) => res.send(process.env.GOOGLE_CLIENT_ID));

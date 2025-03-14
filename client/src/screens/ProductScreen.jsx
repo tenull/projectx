@@ -20,6 +20,14 @@ import {
 	Textarea,
 	Input,
 	Tooltip,
+	Tabs,
+	Tab,
+	TabList,
+	TabPanels,
+	TabPanel,
+	Breadcrumb,
+	BreadcrumbItem,
+	Container
 } from '@chakra-ui/react';
 import { BiCheckShield, BiPackage, BiSupport } from 'react-icons/bi';
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,6 +37,11 @@ import { useEffect, useState } from 'react';
 import { addCartItem } from '../redux/actions/cartActions';
 import Star from '../components/Star';
 import { createProductReview } from '../redux/actions/productActions';
+import { IoTimerOutline } from "react-icons/io5";
+import { MdOutlineBackpack } from "react-icons/md";
+import { TbMapSearch } from "react-icons/tb";
+import { Link as ReactLink } from 'react-router-dom';
+import { ChevronRightIcon } from '@chakra-ui/icons';
 
 const ProductScreen = () => {
 	const [amount, setAmount] = useState(1);
@@ -43,6 +56,8 @@ const ProductScreen = () => {
 	const [reviewBoxOpen, setReviewBoxOpen] = useState(false);
 	const { userInfo } = useSelector((state) => state.user);
 	const [buttonLoading, setButtonLoading] = useState(false);
+
+	console.log(product)
 
 	useEffect(() => {
 		dispatch(getProduct(id));
@@ -81,14 +96,9 @@ const ProductScreen = () => {
 		});
 	};
 
-	const hasUserReviewed = () => product.reviews.some((item) => item.user === userInfo._id);
-	const onSubmit = () => {
-		setButtonLoading(true);
-		dispatch(createProductReview(product._id, userInfo._id, comment, rating, title));
-	};
-
 	return (
 		<Wrap spacing='30px' justify='center' minHeight='100vh'>
+
 			{loading ? (
 				<Stack direction='row' spacing='4'>
 					<Spinner mt='20' thickness='2px' speed='0.65s' emptyColor='gray.200' color='cyan.500' size='xl' />
@@ -101,184 +111,189 @@ const ProductScreen = () => {
 				</Alert>
 			) : (
 				product && (
-					<Box
-						maxW={{ base: '3xl', lg: '5xl' }}
-						mx='auto'
-						px={{ base: '4', md: '8', lg: '12' }}
-						py={{ base: '6', md: '8', lg: '12' }}>
-						<Stack direction={{ base: 'column', lg: 'row' }} align='flex-start'>
-							<Stack pr={{ base: '0', md: 'row' }} flex='1.5' mb={{ base: '12', md: 'none' }}>
-								{product.productIsNew && (
-									<Badge p='2' rounded='md' w='50px' fontSize='0.8em' colorScheme='green'>
-										New
-									</Badge>
-								)}
-								{product.stock === 0 && (
-									<Badge rounded='full' w='70px' fontSize='0.8em' colorScheme='red'>
-										sold out
-									</Badge>
-								)}
-								<Heading fontSize='2xl' fontWeight='extrabold'>
-									{product.brand} {product.name}
-								</Heading>
-								<Stack spacing='5'>
-									<Box>
-										<Text fontSize='xl'>${product.price}</Text>
-										<Flex>
-											<HStack spacing='2px'>
-												<Star color='cyan.500' />
-												<Star rating={product.rating} star={2} />
-												<Star rating={product.rating} star={3} />
-												<Star rating={product.rating} star={4} />
-												<Star rating={product.rating} star={5} />
-											</HStack>
-											<Text fontSize='md' fontWeight='bold' ml='4px'>
-												{product.numberOfReviews} Reviews
-											</Text>
-										</Flex>
-									</Box>
-									<Text>{product.subtitle}</Text>
-									<Text>{product.description}</Text>
-									<Text fontWeight='bold'>Quantity</Text>
-									<Flex w='170px' p='5px' border='1px' borderColor='gray.200' alignItems='center'>
-										<Button isDisabled={amount <= 1} onClick={() => changeAmount('minus')}>
-											<MinusIcon />
-										</Button>
-										<Text mx='30px'>{amount}</Text>
-										<Button isDisabled={amount >= product.stock} onClick={() => changeAmount('plus')}>
-											<SmallAddIcon />
-										</Button>
-									</Flex>
-									<Badge fontSize='lg' width='170px' textAlign='center' colorScheme='gray'>
-										In Stock: {product.stock}
-									</Badge>
-									<Button
-										variant='outline'
-										isDisabled={product.stock === 0}
-										colorScheme='cyan'
-										onClick={() => addItem()}>
-										Add to cart
-									</Button>
-									<Stack width='270px'>
-										<Flex alignItems='center'>
-											<BiPackage size='20px' />
-											<Text fontWeight='medium' fontSize='sm' ml='2'>
-												Shipped in 2 - 3 days
-											</Text>
-										</Flex>
-										<Flex alignItems='center'>
-											<BiCheckShield size='20px' />
-											<Text fontWeight='medium' fontSize='sm' ml='2'>
-												2 year extended warranty
-											</Text>
-										</Flex>
-										<Flex alignItems='center'>
-											<BiSupport size='20px' />
-											<Text fontWeight='medium' fontSize='sm' ml='2'>
-												We're here for you 24/7
-											</Text>
-										</Flex>
+					<Box>
+						<Container
+							maxW='container.xl'
+							mx='auto'
+							px={{ base: '4', md: '8', lg: '8' }}
+							py={{ base: '6', md: '8', lg: '12' }}>
+							<Breadcrumb scrollMarginY={3} fontSize={{ base: 'xs', md: 'sm' }} spacing={{ base: '3px', md: '8px' }} separator={<ChevronRightIcon color='gray.400' />}>
+								<BreadcrumbItem>
+									<ReactLink to='/'>Főoldal</ReactLink>
+								</BreadcrumbItem>
+								<BreadcrumbItem>
+									<ReactLink to='/tesztaink'>{product.packingOf} tojásos tészta</ReactLink>
+								</BreadcrumbItem>
+
+								<BreadcrumbItem>
+									<ReactLink to={`/teszta/${product.name}`}>{product.name}</ReactLink>
+								</BreadcrumbItem>
+
+							</Breadcrumb>
+
+							<Stack direction={{ base: 'column', lg: 'row' }} align='center'>
+								<Stack mt={5} pr={{ base: '0', md: 'row' }} flex='1.5' mb={{ base: '12', md: 'none' }}>
+									<Heading fontSize='sm' fontWeight='bold'>
+										{product.brand}
+									</Heading>
+									<Heading fontSize='2xl' fontWeight='extrabold'>
+										{product.name}
+									</Heading>
+									<Stack spacing='5'>
+
+										<Text textAlign='justify'>{product.description}</Text>
+
+
+										<Box flexBasis='50%' minWidth='300px' maxW='500px' display='flex' flexDirection='column' justifyContent='flex-start' alignItems='center'>
+											<Box pb={4} width='100%' borderBottom='2px'>
+												<Text fontWeight='bold' >A TERMÉKRŐL</Text>
+											</Box>
+											<Flex py={3} borderBottom='2px' justify='space-between' alignItems='center' width='100%'>
+												<Box display='flex' alignItems='center'>
+													<MdOutlineBackpack fontSize='40px' />
+													<Text fontSize='xl' ms={3}>Kiszerelés</Text>
+												</Box>
+												<Text fontSize='xl' fontWeight='bold'>{product.packaking * 1000}g</Text>
+											</Flex>
+											<Flex py={3} borderBottom='2px' justify='space-between' alignItems='center' width='100%'>
+												<Box display='flex' alignItems='center'>
+													<IoTimerOutline fontSize='40px' />
+													<Text fontSize='xl' ms={3}>Főzési idő</Text>
+												</Box>
+												<Text fontSize={{ base: 'xl', md: 'xl' }} fontWeight='bold'>{product.cookingTime}</Text>
+											</Flex>
+											<Flex py={3} borderBottom='2px' justify='space-between' alignItems='center' width='100%'>
+												<Box display='flex' alignItems='center'>
+													<TbMapSearch fontSize='40px' />
+													<Text fontSize={{ base: 'md', md: 'xl' }} ms={3}>Összetevők</Text>
+												</Box>
+												<Text fontSize={{ base: 'sm', md: 'xl' }} fontWeight='bold'>{product.ingredients}</Text>
+											</Flex>
+										</Box>
+										<Box display='flex' alignItems='center'>
+											<Text me={5}>Mennyiség:</Text>
+											{product.productIsNew && (
+												<Badge p='2' rounded='md' w='50px' fontSize='0.8em' colorScheme='green'>
+													New
+												</Badge>
+											)}
+											{product.stock === 0 && (
+												<Badge w='80px' fontSize='0.8em' colorScheme='red'>
+													sold out
+												</Badge>
+											)}
+											{product.stock > 1 && (
+												<Badge w='80px' fontSize='0.8em' colorScheme='green'>
+													Raktáron
+												</Badge>
+											)}
+										</Box>
+										<Box display='flex' alignItems='center' justifyContent='space-between'>
+											<Flex w='170px' p='5px' border='1px' borderColor='gray.200' alignItems='center'>
+												<Button isDisabled={amount <= 1} onClick={() => changeAmount('minus')}>
+													<MinusIcon />
+												</Button>
+												<Text mx='30px'>{amount}</Text>
+												<Button isDisabled={amount >= product.stock} onClick={() => changeAmount('plus')}>
+													<SmallAddIcon />
+												</Button>
+
+											</Flex>
+
+											<Button
+												variant='outline'
+												isDisabled={product.stock === 0}
+												colorScheme='red'
+												w='100%'
+												onClick={() => addItem()}>
+												Kosárba
+											</Button>
+										</Box>
 									</Stack>
 								</Stack>
+								<Flex direction='column' align='center' flex='1' _dark={{ bg: 'gray.900' }}>
+									<Image
+										mb='30px'
+										maxH='400px'
+										src={product.images[0]}
+										alt={product.name}
+										fallbackSrc='https://via.placeholder.com/250'
+									/>
+								</Flex>
 							</Stack>
-							<Flex direction='column' align='center' flex='1' _dark={{ bg: 'gray.900' }}>
-								<Image
-									mb='30px'
-									src={product.images[0]}
-									alt={product.name}
-									fallbackSrc='https://via.placeholder.com/250'
-								/>
-								<Image
-									mb='30px'
-									src={product.images[1]}
-									alt={product.name}
-									fallbackSrc='https://via.placeholder.com/250'
-								/>
-							</Flex>
-						</Stack>
 
-						{userInfo && (
-							<>
-								<Tooltip label={hasUserReviewed() && 'you have already reviewed this product.'} fontSize='medium'>
-									<Button
-										isDisabled={hasUserReviewed()}
-										my='20px'
-										w='140px'
-										colorScheme='cyan'
-										onClick={() => setReviewBoxOpen(!reviewBoxOpen)}>
-										Write a review
-									</Button>
-								</Tooltip>
-								{reviewBoxOpen && (
-									<Stack mb='20px'>
-										<Wrap>
-											<HStack spacing='2px'>
-												<Button variant='outline' onClick={() => setRating(1)}>
-													<Star />
-												</Button>
-												<Button variant='outline' onClick={() => setRating(2)}>
-													<Star rating={rating} star={2} />
-												</Button>
-												<Button variant='outline' onClick={() => setRating(3)}>
-													<Star rating={rating} star={3} />
-												</Button>
-												<Button variant='outline' onClick={() => setRating(4)}>
-													<Star rating={rating} star={4} />
-												</Button>
-												<Button variant='outline' onClick={() => setRating(5)}>
-													<Star rating={rating} star={5} />
-												</Button>
-											</HStack>
-										</Wrap>
-										<Input
-											onChange={(e) => {
-												setTitle(e.target.value);
-											}}
-											placeholder='Review title (optional)'
-										/>
-										<Textarea
-											onChange={(e) => {
-												setComment(e.target.value);
-											}}
-											placeholder={`The ${product.brand} ${product.name} is...`}
-										/>
-										<Button
-											isLoading={buttonLoading}
-											loadingText='Saving'
-											w='140px'
-											colorScheme='cyan'
-											onClick={() => onSubmit()}>
-											Publish review
-										</Button>
-									</Stack>
-								)}
-							</>
-						)}
-						<Stack>
-							<Text fontSize='xl' fontWeight='bold'>
-								Reviews
-							</Text>
-							<SimpleGrid minChildWidth='300px' spacingX='40px' spacingY='20px'>
-								{product.reviews.map((review) => (
-									<Box key={review._id}>
-										<Flex spcaing='2px' alignItems='center'>
-											<Star color='cyan.500' />
-											<Star rating={product.rating} star={2} />
-											<Star rating={product.rating} star={3} />
-											<Star rating={product.rating} star={4} />
-											<Star rating={product.rating} star={5} />
-											<Text fontWeight='semibold' ml='4px'>
-												{review.title && review.title}
-											</Text>
-										</Flex>
-										<Box py='12px'>{review.comment}</Box>
-										<Text fontSize='sm' color='gray.400'>
-											by {review.name}, {new Date(review.createdAt).toDateString()}
+
+						</Container>
+						<Box my={10} display='flex' justifyContent={{ base: 'center', md: 'flex-start' }}>
+							<Tabs>
+								<TabList border={0}>
+									<Tab
+										_selected={{ color: 'red.600' }}
+
+										borderRadius='md'
+									>
+										TÁPÉRTÉK
+									</Tab>
+									<Tab
+										_selected={{ color: 'red.600' }}
+
+										borderRadius='md'
+									>
+										ÁLTALÁNOS INFORMÁCIÓ
+									</Tab>
+								</TabList>
+
+								<TabPanels>
+									<TabPanel width="350px">
+										<Box color="white" fontWeight="bold" py={3} px={2} display="flex" justifyContent="space-between" bg="red.600">
+											<Text>Átlagos Tápérték</Text>
+											<Text>100g/adag</Text>
+										</Box>
+
+										{product.nutrionalValue.map((value) => (
+											<Box key={value._id}>
+												<Box display="flex" py={3} px={2} justifyContent="space-between" border="2px" borderColor="red.600">
+													<Text>Energiatartalom</Text>
+													<Text>{value.energy}</Text>
+												</Box>
+												<Box display="flex" py={3} px={2} justifyContent="space-between" border="2px" borderTop="0" borderColor="red.600">
+													<Text>Zsír</Text>
+													<Text>{value.fat}</Text>
+												</Box>
+												<Box display="flex" py={3} px={2} justifyContent="space-between" border="2px" borderTop="0" borderColor="red.600">
+													<Text fontSize="sm"> -amelyből telített zsírsavak</Text>
+													<Text>{value.saturedFat}</Text>
+												</Box>
+												<Box display="flex" py={3} px={2} justifyContent="space-between" border="2px" borderTop="0" borderColor="red.600">
+													<Text>Szénhidrát</Text>
+													<Text>{value.carbohydrates}</Text>
+												</Box>
+												<Box display="flex" py={3} px={2} justifyContent="space-between" border="2px" borderTop="0" borderColor="red.600">
+													<Text fontSize="sm">-amelyből cukrok</Text>
+													<Text>{value.sugar}</Text>
+												</Box>
+												<Box display="flex" py={3} px={2} justifyContent="space-between" border="2px" borderTop="0" borderColor="red.600">
+													<Text>Fehérje</Text>
+													<Text>{value.protein}</Text>
+												</Box>
+												<Box display="flex" py={3} px={2} justifyContent="space-between" border="2px" borderTop="0" borderColor="red.600">
+													<Text>Só</Text>
+													<Text>{value.salt}</Text>
+												</Box>
+											</Box>
+										))}
+									</TabPanel>
+
+									<TabPanel>
+										<Text textAlign="justify">
+											Ezen alapanyagok felhasználásával készített száraztészták, kifőzés után, a háromszorosukat adják vissza.
+											1 kg száraztésztából 3kg főtt tésztát kapunk, amit készételként fogyaszthatunk.
 										</Text>
-									</Box>
-								))}
-							</SimpleGrid>
-						</Stack>
+									</TabPanel>
+								</TabPanels>
+							</Tabs>
+
+						</Box>
 					</Box>
 				)
 			)}
