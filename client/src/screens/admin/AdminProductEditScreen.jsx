@@ -1,43 +1,29 @@
-import { Container } from "@chakra-ui/react";
-import { Navigate, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { DeleteIcon } from '@chakra-ui/icons';
 import {
+	Box,
+	Button,
+	FormControl,
+	FormLabel,
+	Input,
+	Spinner,
+	Textarea,
+	useToast,
     Badge,
-    Box,
-    Select,
-    Button,
-    Flex,
-    FormControl,
-    FormLabel,
-    Input,
-    Switch,
-    Td,
-    Textarea,
-    Tr,
-    VStack,
-    useDisclosure,
-    Text,
-    Tbody,
-    Tooltip,
-    Spacer,
-    useToast,
-    Image
+    Switch
 } from '@chakra-ui/react';
-import { useRef, useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
+import { getProductDetails } from '../../redux/actions/productActions';
+import { updateProduct } from '../../redux/actions/adminActions';
 
-import { useDispatch } from 'react-redux';
-import { uploadProduct } from "../../redux/actions/adminActions";
-import axios from "axios";
-
-const AddNewProductScreen = () => {
-
-    const { userInfo } = useSelector((state) => state.user);
-    const location = useLocation();
-    const { error, loading } = useSelector((state) => state.admin);
-    const { products, productUpdate } = useSelector((state) => state.product);
-    const toast = useToast();
-    const dispatch = useDispatch()
+const AdminProductEditScreen = () => {
+	const { id: productId } = useParams();
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const toast = useToast();
+    console.log("Product ID from useParams:", productId);
+	const { product, loading } = useSelector((state) => state.product);
+    console.log(product)
     
 	const [name, setName] = useState('');
 	const [price, setPrice] = useState('');
@@ -51,22 +37,40 @@ const AddNewProductScreen = () => {
 	const [packaking, setPackaking] = useState('');
     const [packing, setPacking] = useState('');
     const [productIsNew, setProductIsNew] = useState('');
-    const [type, setType] = useState('');
 	const [nutrionalValue, setNutrionalValue] = useState({
-		energy: '1644 kJ / 389 kcal',
-		fat: '4,62g',
-		saturedFat: '1,48g',
-		carbohydrates: '70,48g',
-		sugar: '2,74g',
-		protein: '14,67g',
-		salt: '0,153g',
+		energy: '',
+		fat: '',
+		saturedFat: '',
+		carbohydrates: '',
+		sugar: '',
+		protein: '',
+		salt: '',
 	});
 
+	useEffect(() => {
+		if (!product || product._id !== productId) {
+			dispatch(getProductDetails(productId));
+		} else {
+			setName(product.name);
+			setPrice(product.price);
+			setBrand(product.brand);
+			setStock(product.stock);
+			setDescription(product.description);
+			setIngredients(product.ingredients);
+			setImage(product.image);
+			setPackingOf(product.packingOf);
+			setCookingTime(product.cookingTime);
+			setPackaking(product.packaking);
+            setProductIsNew(product.productIsNew)
+			setNutrionalValue(product.nutrionalValue[0]  || {});
+            setPacking(product.packing)
+		}
+	}, [dispatch, product, productId]);
 
-    
-    const createNewProduct = () => {
-        dispatch(uploadProduct({
-            name,
+	const submitHandler = () => {
+		dispatch(
+            updateProduct(
+			name,
 			price,
 			brand,
 			stock,
@@ -78,41 +82,44 @@ const AddNewProductScreen = () => {
 			packaking, 
             packing,
             productIsNew,
-            type,
-            nutrionalValue
-        }))
-    }
+            nutrionalValue,
+            productId,
+		    
+		));
+		toast({ description: 'Product updated!', status: 'success', isClosable: true });
+		navigate('/termekek');
+	};
 
-    useEffect(() => {
-
-        if (productUpdate) {
-            toast({
-                description: 'A termék frissítve lett.',
-                status: 'success',
-                isClosable: true,
-            });
-        }
-    }, [dispatch, toast, productUpdate]);
-
-
-
-    return userInfo && userInfo.isAdmin ? (
-
-        <Container maxW='container.md' my={5}>
-            <Text fontSize='xl' fontWeight='bold' my={10} textAlign='center'>Új termék hozzáadása</Text>
-
-            <FormControl>
-                <FormLabel fontSize="sm">Kép</FormLabel>
-                <Input
-                 
-                    onChange={(e) => setImage(e.target.value)}
-                />
-            </FormControl>
-
-          
-
-
-            <FormControl mb={3}>
+    console.log("Updating product with:", {
+        productId,
+        name,
+        price,
+        brand,
+        stock,
+        description,
+        ingredients,
+        image,
+        packingOf,
+        cookingTime,
+        packaking,
+        packing,
+        productIsNew
+      });
+	return (
+		<Box p={4}>
+			{loading ? (
+				<Spinner size='xl' color='cyan.500' />
+			) : (
+				<form onSubmit={submitHandler}>
+                    <FormControl display='flex' justifyContent='space-between' alignItems='center'>
+								<FormLabel htmlFor='productIsNewFlag' mb='0' fontSize='sm'>
+									<Badge rounded='full' px='1' mx='1' fontSize='0.8em' colorScheme='green' >
+										AKCIÓ
+									</Badge>
+								</FormLabel>
+								<Switch id='productIsNewFlag' onChange={() => setProductIsNew(!productIsNew)} isChecked={productIsNew} />
+							</FormControl>
+					<FormControl mb={3}>
 						<FormLabel>Name</FormLabel>
 						<Input value={name} onChange={(e) => setName(e.target.value)} />
 					</FormControl>
@@ -159,10 +166,6 @@ const AddNewProductScreen = () => {
                     <FormControl mb={3}>
 						<FormLabel>packing Type</FormLabel>
 						<Input value={packing} onChange={(e) => setPacking(e.target.value)} />
-					</FormControl>
-                    <FormControl mb={3}>
-						<FormLabel>Type</FormLabel>
-						<Input value={type} onChange={(e) => setType(e.target.value)} />
 					</FormControl>
 					{/* Tápértékek mezők */}
 					<FormControl mb={3}>
@@ -214,28 +217,16 @@ const AddNewProductScreen = () => {
 							onChange={(e) => setNutrionalValue({ ...nutrionalValue, salt: e.target.value })} 
 						/>
 					</FormControl>
-                    <FormControl display='flex' alignItems='center'>
-                <FormLabel htmlFor="productIsNewFlag" mb='0' fontSize='sm'>
-                    Akciós
-                    <Badge rounded='full' px='1' mx='1' fontSize='0.8em' colorScheme='green'>AKCIÓ</Badge>
-                    jelvény hozzáadása?
-                </FormLabel>
-                <Switch id="productIsNewFlag" onChange={() => setProductIsNew(!productIsNew)} isChecked={productIsNew} />
-            </FormControl>
-         
-            <VStack>
-                <Button variant='outline' w='160px' colorScheme="cyan" onClick={createNewProduct}><Text ml='2'>Save Product</Text></Button>
-            </VStack>
+					<Button type='submit' colorScheme='blue' mr={3}>
+						Update Product
+					</Button>
+					<Button onClick={() => navigate('/termekek')} colorScheme='gray'>
+						Cancel
+					</Button>
+				</form>
+			)}
+		</Box>
+	);
+};
 
-
-
-
-        </Container>
-    ) : (
-        <Navigate to='/' replace={true} state={{ from: location }} />
-    );
-
-
-}
-
-export default AddNewProductScreen;
+export default AdminProductEditScreen;

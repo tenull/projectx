@@ -10,7 +10,7 @@ export const addCartItem = (id, qty) => async (dispatch) => {
 			id: data._id,
 			name: data.name,
 			brand: data.brand,
-			image: data.images[0],
+			image: data.image,
 			price: data.price,
 			stock: data.stock,
 			packaking: data.packaking,

@@ -37,7 +37,7 @@ const ProductsTab = () => {
 
 		if (productUpdate) {
 			toast({
-				description: 'Product has been updated.',
+				description: 'Termékek frissÍtve lettek.',
 				status: 'success',
 				isClosable: true,
 			});

@@ -35,7 +35,7 @@ const ProductEditScreen = () => {
 	const [subtitle, setSubtitle] = useState(product.subtitle);
 	const [imageOne, setImageOne] = useState(product.images[0]);
 	const [imageTwo, setImageTwo] = useState(product.images[1]);
-	const [stripeId, setStripeId] = useState(product.stripeId);
+
 	const dispatch = useDispatch();
 
 const onSaveProduct = () => {
@@ -50,7 +50,6 @@ const onSaveProduct = () => {
                 productIsNew,
                 description,
                 subtitle,
-                stripeId,
                 imageOne,
                 imageTwo
             )
@@ -85,10 +84,7 @@ const onSaveProduct = () => {
 					</Flex>
 				</Td>
 				<Td>
-					<Flex direction='column' gap='2'>
-						<Input size='sm' value={stripeId} onChange={(e) => setStripeId(e.target.value)} />
-						<Input size='sm' value={subtitle} onChange={(e) => setSubtitle(e.target.value)} />
-					</Flex>
+			
 				</Td>
 				<Td>
 					<Flex direction='column' gap='2'>

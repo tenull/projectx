@@ -8,7 +8,7 @@ const protectRoute = asyncHandler(async (req, res, next) => {
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         try {
             token = req.headers.authorization.split(' ')[1]; // Kivágjuk a Bearer-t
-            const decoded = jwt.verify(token, process.env.TOKEN_SECRET); // Ellenőrizzük a tokent
+            const decoded = jwt.verify(token, 'secret'); // Ellenőrizzük a tokent
             req.user = await User.findById(decoded.id); // Keresünk a felhasználót az adatbázisban
 
             if (!req.user) {

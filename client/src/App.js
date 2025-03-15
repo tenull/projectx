@@ -30,6 +30,7 @@ import AdminProductScreen from './screens/admin/AdminProductScreen';
 import AdminNewProductScreen from './screens/admin/AdminNewProductScreen';
 import AdminMessage from './screens/admin/AdminMessage';
 import OrderScreen from './screens/OrderScreen';
+import AdminProductEditScreen from './screens/admin/AdminProductEditScreen';
 function App() {
 	const theme = extendTheme({
 		styles: {
@@ -83,13 +84,16 @@ function App() {
 									
 									<Route path="legutolsorendeles" element={<AdminLastOrderScreen />} />
 
-									<Route path="termekek" element={<AdminProductScreen />} />
-									<Route path="ujtermek" element={<AdminNewProductScreen />} />
+									
+									
 									<Route path="uzenet" element={<AdminMessage />} />
 								</Route>
 								<Route path="/felhasznalok" element={<AdminUsersScreen />} />
 								<Route path="/rendeles" element={<AdminOrderScreen />} />
 								<Route path='/rendeles/:id' element={<OrderScreen />} />
+								<Route path="/termekek" element={<AdminProductScreen />} />
+								<Route path="/termekek/:id/edit" element={<AdminProductEditScreen />} />
+								<Route path="/ujtermek" element={<AdminNewProductScreen />} />
 							</Routes>
 						</main>
 						<Footer />

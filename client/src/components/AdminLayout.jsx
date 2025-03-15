@@ -11,8 +11,8 @@ const AdminLayout = () => {
                         <NavLink to="/rendeles"><Text>Rendelések</Text></NavLink>
                         <NavLink to="/admin/legutolsorendeles"><Text>Legutolsó Rendelés</Text></NavLink>
                         <NavLink to="/felhasznalok"><Text>Felhasználók</Text></NavLink>
-                        <NavLink to="/admin/termekek"><Text>Termékek</Text></NavLink>
-                        <NavLink to="/admin/ujtermek"><Text>Új termék hozzáadása</Text></NavLink>
+                        <NavLink to="/termekek"><Text>Termékek</Text></NavLink>
+                        <NavLink to="/ujtermek"><Text>Új termék hozzáadása</Text></NavLink>
                         <NavLink to="/admin/uzenet"><Text>Kiírás</Text></NavLink>
                     </Stack>
                 </Box>

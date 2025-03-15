@@ -50,18 +50,11 @@ const ProductScreen = () => {
 	const { loading, error, product, reviewed } = useSelector((state) => state.product);
 	const { cartItems } = useSelector((state) => state.cart);
 	const toast = useToast();
-	const [comment, setComment] = useState('');
-	const [rating, setRating] = useState(1);
-	const [title, setTitle] = useState('');
-	const [reviewBoxOpen, setReviewBoxOpen] = useState(false);
-	const { userInfo } = useSelector((state) => state.user);
-	const [buttonLoading, setButtonLoading] = useState(false);
 
-	console.log(product)
 
 	useEffect(() => {
 		dispatch(getProduct(id));
-		setReviewBoxOpen(false);
+
 
 		if (reviewed) {
 			toast({
@@ -69,7 +62,7 @@ const ProductScreen = () => {
 				status: 'success',
 				isClosable: 'true',
 			});
-			setReviewBoxOpen(false);
+
 		}
 	}, [dispatch, id, toast, reviewed]);
 
@@ -95,6 +88,7 @@ const ProductScreen = () => {
 			isClosable: true,
 		});
 	};
+	console.log(cartItems)
 
 	return (
 		<Wrap spacing='30px' justify='center' minHeight='100vh'>
@@ -215,7 +209,7 @@ const ProductScreen = () => {
 									<Image
 										mb='30px'
 										maxH='400px'
-										src={product.images[0]}
+										src={product.image}
 										alt={product.name}
 										fallbackSrc='https://via.placeholder.com/250'
 									/>

@@ -8,6 +8,7 @@ import {
 	setProduct,
 	productReviewed,
 	resetError,
+	setProductDetails
 } from '../slices/product';
 import axios from 'axios';
 
@@ -107,4 +108,21 @@ export const createProductReview = (productId, userId, comment, rating, title) =
 
 export const resetProductError = () => async (dispatch) => {
 	dispatch(resetError());
+};
+
+
+
+export const getProductDetails = (id) => async (dispatch, getState) => {
+	dispatch(setLoading());
+
+	try {
+		const { data } = await axios.get(`/api/products/${id}`);
+		dispatch(setProductDetails(data));
+	} catch (error) {
+		dispatch(setError(
+			error.response && error.response.data.message
+				? error.response.data.message
+				: 'Failed to fetch product details'
+		));
+	}
 };

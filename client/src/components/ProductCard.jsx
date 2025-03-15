@@ -139,7 +139,7 @@ const ProductCard = ({ product, loading }) => {
 				
 					onMouseEnter={() => setIsShown(true)}
 					onMouseLeave={() => setIsShown(false)}
-					src={product.images[isShown && product.images.length === 2 ? 1 : 0]}
+					src={product.image}
 					fallbackSrc='https://via.placeholder.com/150'
 					alt={product.name}
 					height='200px'

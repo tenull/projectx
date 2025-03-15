@@ -127,8 +127,22 @@ export const resetErrorAndRemoval = () => async (dispatch) => {
 };
 
 export const updateProduct =
-	(brand, name, category, stock, price, id, productIsNew, description, subtitle, stripeId, imageOne, imageTwo) =>
-	async (dispatch, getState) => {
+	(
+		name,
+		price,
+		brand,
+		stock,
+		description,
+		ingredients,
+		image,
+		packingOf,
+		cookingTime,
+		packaking,
+		packing,
+		productIsNew,
+		nutrionalValue,
+		productId
+	) => async (dispatch, getState) => {
 		setLoading();
 		const {
 			user: { userInfo },
@@ -138,20 +152,35 @@ export const updateProduct =
 
 		try {
 			const { data } = await axios.put(
-				'api/products',
-				{ brand, name, category, stock, price, id, productIsNew, description, subtitle, stripeId, imageOne, imageTwo },
+				`/api/products/${productId}`,
+				{
+					name,
+					price,
+					brand,
+					stock,
+					description,
+					ingredients,
+					image,
+					packingOf,
+					cookingTime,
+					packaking,
+					packing,
+					productIsNew,
+					nutrionalValue, 
+					productId
+				},
 				config
 			);
 			dispatch(setProducts(data));
 			dispatch(setProductUpdateFlag());
 		} catch (error) {
-			setError(
+			dispatch(setError(
 				error.response && error.response.data.message
 					? error.response.data.message
 					: error.message
 					? error.message
-					: 'An expected error has occured. Please try again later.'
-			);
+					: 'An expected error has occurred. Please try again later.'
+			));
 		}
 	};
 

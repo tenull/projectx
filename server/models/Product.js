@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const reviewSchema = new mongoose.Schema(
+const nutrionalValueSchema = new mongoose.Schema(
 	{
 		energy: { type: String, required: true, default: '1644 kJ / 389 kcal' },
 		fat: { type: String, required: true, default: '4,62g' },
@@ -23,10 +23,9 @@ const productSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		images: {
-			type: Array,
+		image: {
+			type: String,
 			required: true,
-			default: [],
 		},
 		packingOf: {
 			type: Number,
@@ -40,7 +39,7 @@ const productSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		nutrionalValue: [reviewSchema],
+		 nutrionalValue: [nutrionalValueSchema],
 		description: {
 			type: String,
 		},
@@ -55,10 +54,6 @@ const productSchema = new mongoose.Schema(
 		productIsNew: {
 			type: Boolean,
 			required: true,
-		},
-		stripeId: {
-			type: String,
-			default: 0,
 		},
 		packaking: {
 			type: Number,
