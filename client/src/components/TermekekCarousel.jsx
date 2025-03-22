@@ -33,7 +33,7 @@ const TermekekCarousel = () => {
     const top = useBreakpointValue({ base: '60%', md: '50%' });
     const side = useBreakpointValue({ base: '5px', md: '-30px' });
     const slidesToShow = useBreakpointValue({ base: 1, sm: 1, md: 3, lg: 4 });
-    const dotsToShow = useBreakpointValue({ base: false, md: true })
+    const dotsToShow = useBreakpointValue({ base: false, md: false })
     const settings = {
         dots: dotsToShow,
         arrows: false,
@@ -92,7 +92,7 @@ const TermekekCarousel = () => {
                         left={side}
                         top={top}
                         transform={'translate(0%, -50%)'}
-                        zIndex={2}
+                        zIndex={1}
                         onClick={() => slider?.slickPrev()}>
                         <BiLeftArrowAlt size="40px" />
                     </IconButton>
@@ -103,7 +103,7 @@ const TermekekCarousel = () => {
                         right={side}
                         top={top}
                         transform={'translate(0%, -50%)'}
-                        zIndex={2}
+                        zIndex={1}
                         onClick={() => slider?.slickNext()}>
                         <BiRightArrowAlt size="40px" />
                     </IconButton>

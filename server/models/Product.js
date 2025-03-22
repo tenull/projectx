@@ -43,6 +43,9 @@ const productSchema = new mongoose.Schema(
 		description: {
 			type: String,
 		},
+		cookingTime: {
+			type: String,
+		},
 		price: {
 			type: Number,
 			required: true,

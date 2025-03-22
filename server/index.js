@@ -21,7 +21,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/checkout', stripeRoute);
 app.use('/api/orders', orderRoutes);
 
-app.get('/api/config/google', (req, res) => res.send('914658874090-oi3d53n6vpvaftclqrscv5em97lhdus2.apps.googleusercontent.com'));
+app.get('/api/config/google', (req, res) => res.send(process.env.GOOGLE_CLIENT_ID));
 
 const port = 5000;
 

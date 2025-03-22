@@ -9,6 +9,8 @@ import {
 	getUsers,
 	userDelete,
 	orderDelete,
+	setOrderFlag,
+	userIsAdmin,
 } from '../slices/admin';
 
 export const getAllUsers = () => async (dispatch, getState) => {
@@ -18,9 +20,8 @@ export const getAllUsers = () => async (dispatch, getState) => {
 	} = getState();
 
 	const config = { headers: { Authorization: `Bearer ${userInfo.token}`, 'Content-Type': 'application/json' } };
-console.log(config)
 	try {
-		const { data } = await axios.get('api/users', config);
+		const { data } = await axios.get('/api/users', config);
 		console.log(data)
 		dispatch(getUsers(data));
 	} catch (error) {
@@ -43,7 +44,7 @@ export const deleteUser = (id) => async (dispatch, getState) => {
 	const config = { headers: { Authorization: `Bearer ${userInfo.token}`, 'Content-Type': 'application/json' } };
 
 	try {
-		const { data } = await axios.delete(`api/users/${id}`, config);
+		const { data } = await axios.delete(`/api/users/${id}`, config);
 		dispatch(userDelete(data));
 	} catch (error) {
 		setError(
@@ -65,7 +66,7 @@ export const getAllOrders = () => async (dispatch, getState) => {
 	const config = { headers: { Authorization: `Bearer ${userInfo.token}`, 'Content-Type': 'application/json' } };
 
 	try {
-		const { data } = await axios.get('api/orders', config);
+		const { data } = await axios.get('/api/orders', config);
 		dispatch(getOrders(data));
 	} catch (error) {
 		setError(
@@ -89,6 +90,7 @@ export const deleteOrder = (id) => async (dispatch, getState) => {
 	try {
 		const { data } = await axios.delete(`/api/orders/${id}`, config);
 		dispatch(orderDelete(data));
+		dispatch(setOrderFlag())
 	} catch (error) {
 		setError(
 			error.response && error.response.data.message
@@ -110,6 +112,7 @@ export const setDelivered = (id) => async (dispatch, getState) => {
 
 	try {
 		await axios.put(`/api/orders/${id}`, {}, config);
+		console.log(config)
 		dispatch(setDeliveredFlag());
 	} catch (error) {
 		setError(
@@ -141,6 +144,7 @@ export const updateProduct =
 		packing,
 		productIsNew,
 		nutrionalValue,
+		type,
 		productId
 	) => async (dispatch, getState) => {
 		setLoading();
@@ -167,6 +171,7 @@ export const updateProduct =
 					packing,
 					productIsNew,
 					nutrionalValue, 
+					type,
 					productId
 				},
 				config
@@ -193,7 +198,7 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
 	const config = { headers: { Authorization: `Bearer ${userInfo.token}`, 'Content-Type': 'application/json' } };
 
 	try {
-		const { data } = await axios.delete(`api/products/${id}`, config);
+		const { data } = await axios.delete(`/api/products/${id}`, config);
 		dispatch(setProducts(data));
 		dispatch(setProductUpdateFlag());
 		dispatch(resetError());
@@ -217,7 +222,7 @@ export const uploadProduct = (newProduct) => async (dispatch, getState) => {
 	const config = { headers: { Authorization: `Bearer ${userInfo.token}`, 'Content-Type': 'application/json' } };
 
 	try {
-		const { data } = await axios.post(`api/products`, newProduct, config);
+		const { data } = await axios.post(`/api/products`, newProduct, config);
 		dispatch(setProducts(data));
 		dispatch(setProductUpdateFlag());
 	} catch (error) {
@@ -240,7 +245,7 @@ export const removeReview = (productId, reviewId) => async (dispatch, getState) 
 	const config = { headers: { Authorization: `Bearer ${userInfo.token}`, 'Content-Type': 'application/json' } };
 	console.log('asdfdsaf');
 	try {
-		const { data } = await axios.put(`api/products/${productId}/${reviewId}`, {}, config);
+		const { data } = await axios.put(`/api/products/${productId}/${reviewId}`, {}, config);
 		dispatch(setProducts(data));
 		dispatch(setReviewRemovalFlag());
 	} catch (error) {
@@ -252,4 +257,32 @@ export const removeReview = (productId, reviewId) => async (dispatch, getState) 
 				: 'An expected error has occured. Please try again later.'
 		);
 	}
+};
+
+
+export const updateUser = (id, updatedData) => async (dispatch, getState) => {
+    try {
+        dispatch(setLoading());
+
+        const {
+            user: { userInfo },
+        } = getState();
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${userInfo.token}`,
+                'Content-Type': 'application/json',
+            },
+        };
+
+        const { data } = await axios.put(`/api/users/${id}`, updatedData, config);
+
+        dispatch(userIsAdmin(data.user)); 
+    } catch (error) {
+        dispatch(setError(
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message || 'Ismeretlen hiba történt.'
+        ));
+    }
 };

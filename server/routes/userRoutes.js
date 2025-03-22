@@ -186,6 +186,37 @@ const getUsers = asyncHandler(async (req, res) => {
 	res.json(users);
 });
 
+const updateUser = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+
+        if (!user) {
+            return res.status(404).json({ message: "Felhasználó nem található" });
+        }
+
+        if (req.body.isAdmin !== undefined) {
+            user.isAdmin = req.body.isAdmin;
+        }
+
+        const updatedUser = await user.save();
+
+        res.json({
+            message: "Felhasználó frissítve",
+            user: {
+                _id: updatedUser._id,
+                name: updatedUser.name,
+                email: updatedUser.email,
+                isAdmin: updatedUser.isAdmin,
+            },
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Hiba történt", error: error.message });
+    }
+};
+
+
+
+
 const deleteUser = asyncHandler(async (req, res) => {
 	try {
 		const user = await User.findByIdAndRemove(req.params.id);
@@ -205,5 +236,7 @@ userRoutes.route('/google-login').post(googleLogin);
 userRoutes.route('/:id').get(protectRoute, getUserOrders);
 userRoutes.route('/').get(protectRoute, admin, getUsers);
 userRoutes.route('/:id').delete(protectRoute, admin, deleteUser);
+userRoutes.route('/:id').put(protectRoute, admin, updateUser);
+
 
 export default userRoutes;

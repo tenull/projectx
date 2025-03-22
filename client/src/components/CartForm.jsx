@@ -7,12 +7,13 @@ import { FaTrashCan } from "react-icons/fa6";
 import { useState } from 'react';
 import { Link, Link as ReactLink } from 'react-router-dom';
 import { TbShoppingCartOff } from "react-icons/tb";
+import { useNavigate } from 'react-router-dom';
 const CartForm = ({ cartItems, onClose }) => {
     const dispatch = useDispatch();
     const toast = useToast();
     const { loading } = useSelector((state) => state.user);
     const { subtotal, shipping } = useSelector((state) => state.cart);
-
+    const navigate = useNavigate()
     const handleQtyChange = (id, stock, value) => {
         let newQty = parseInt(value, 10);
 
@@ -54,12 +55,11 @@ const CartForm = ({ cartItems, onClose }) => {
         e.preventDefault();
     };
 
-
     return (
         <Box as="form" onSubmit={handleSubmit} minWidth="250px" bg="white" align="center">
             <Text fontWeight='bold'>Kosár tartalma</Text>
             {cartItems.length > 0 ? (
-                cartItems.map(({ name, image, price, stock, qty, id }) => (
+                cartItems.map(({ name, image, price, stock, qty, id,packaking }) => (
                     <VStack borderBottom="2px" borderBottomColor="gray.300" key={id} p="2" w="100%" align="stretch">
                         <Flex alignItems="center" justify="space-between">
                             <Image
@@ -70,7 +70,7 @@ const CartForm = ({ cartItems, onClose }) => {
                                 src={image}
                                 fallbackSrc="https://via.placeholder.com/150"
                             />
-                            <Text fontSize="sm" fontWeight="medium">{name}</Text>
+                            <Text fontSize="sm" fontWeight="medium">{name} {packaking*1000}g</Text>
                             <Spacer />
                             <FaTrashCan cursor='pointer' onClick={() => dispatch(removeCartItem(id))} />
                         </Flex>
@@ -88,9 +88,9 @@ const CartForm = ({ cartItems, onClose }) => {
                                 <Input
                                     type="number"
                                     _focus={{
-                                        borderColor: "red", 
+                                        borderColor: "red",
                                         boxShadow: "0 0 0 1px red",
-                                      }}
+                                    }}
                                     value={qty}
                                     onChange={(e) => handleQtyChange(id, stock, e.target.value)}
                                     max={stock}
@@ -98,7 +98,7 @@ const CartForm = ({ cartItems, onClose }) => {
                                     width="40px"
                                     height='30px'
                                     mx="1"
-                                    px={2}
+                                    px={3}
                                     fontSize="md"
                                 />
                                 <Button
@@ -126,7 +126,20 @@ const CartForm = ({ cartItems, onClose }) => {
                 <Box mt={10} display='flex' flexDirection='column' justifyContent='center' alignItems='center'>
                     <TbShoppingCartOff fontSize='50' />
                     <Box p={4}>Üres a kosár.</Box>
-                    <Button as={Link} to='/tesztaink' colorScheme='red' onClick={onClose}>Tovább a tésztáinkhoz</Button>
+                    <Button
+                    colorScheme="red"
+                    size="md"
+                    isLoading={loading}
+                    type="button"
+                    onClick={() => {
+                        onClose();
+                        setTimeout(() => {
+                            navigate('/tesztaink');
+                        }, 100);
+                    }}
+                >
+                    Tovább a tésztáinkhoz
+                </Button>
                 </Box>
             )}
 
@@ -135,7 +148,18 @@ const CartForm = ({ cartItems, onClose }) => {
                     <Text>Teljes összeg</Text>
                     <Text>{subtotal} Ft</Text>
                 </Box>
-                <Button onClick={onClose} as={ReactLink} colorScheme="red" size="md" isLoading={loading} type="button" to='/kosar'>
+                <Button
+                    colorScheme="red"
+                    size="md"
+                    isLoading={loading}
+                    type="button"
+                    onClick={() => {
+                        onClose();
+                        setTimeout(() => {
+                            navigate('/kosar');
+                        }, 100);
+                    }}
+                >
                     Pénztár
                 </Button></>)}
 

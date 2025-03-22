@@ -116,7 +116,7 @@ const ProductScreen = () => {
 									<ReactLink to='/'>Főoldal</ReactLink>
 								</BreadcrumbItem>
 								<BreadcrumbItem>
-									<ReactLink to='/tesztaink'>{product.packingOf} tojásos tészta</ReactLink>
+									<ReactLink to={`/tesztaink/${product.packingOf}-${product.type}`}>{product.packingOf} tojásos {product.type}</ReactLink>
 								</BreadcrumbItem>
 
 								<BreadcrumbItem>

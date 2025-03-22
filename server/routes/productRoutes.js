@@ -51,8 +51,8 @@ const createNewProduct = asyncHandler(async (req, res) => {
 		packaking, 
 		packing,
 		productIsNew,
-		type
-	//nutrionalValue
+		type,
+		nutrionalValue
 	 } = req.body;
 
 	const newProduct = await Product.create({
@@ -69,15 +69,7 @@ const createNewProduct = asyncHandler(async (req, res) => {
 		packing,
 		productIsNew,
 		type,
-		if (nutrionalValue) {
-			nutrionalValue[0].energy 
-			nutrionalValue[0].fat
-			nutrionalValue[0].saturedFat 
-			nutrionalValue[0].carbohydrates 
-			nutrionalValue[0].sugar 
-			nutrionalValue[0].protein
-			nutrionalValue[0].salt 
-		}
+		nutrionalValue
 	});
 
 	await newProduct.save();
@@ -107,6 +99,7 @@ const updateProduct = asyncHandler(async (req, res) => {
 		nutrionalValue,
 		packing,
 		productIsNew,
+		type,
 		productId } =
 		req.body;
 
@@ -125,8 +118,9 @@ const updateProduct = asyncHandler(async (req, res) => {
 		product.image = image;
 		product.ingredients = ingredients;
 		product.packaking = packaking;
+		product.type = type;
 		product.packing = packing;
-		if (nutrionalValue) {
+	if (nutrionalValue) {
 			product.nutrionalValue[0].energy = nutrionalValue.energy || product.nutrionalValue[0].energy;
 			product.nutrionalValue[0].fat = nutrionalValue.fat || product.nutrionalValue[0].fat;
 			product.nutrionalValue[0].saturedFat = nutrionalValue.saturedFat || product.nutrionalValue[0].saturedFat;
@@ -134,9 +128,9 @@ const updateProduct = asyncHandler(async (req, res) => {
 			product.nutrionalValue[0].sugar = nutrionalValue.sugar || product.nutrionalValue[0].sugar;
 			product.nutrionalValue[0].protein = nutrionalValue.protein || product.nutrionalValue[0].protein;
 			product.nutrionalValue[0].salt = nutrionalValue.salt || product.nutrionalValue[0].salt;
-		}
+		}	
 		console.log("Updating product with data:", {
-			name, price, brand, stock, description, ingredients, image, packingOf, cookingTime, packaking,nutrionalValue
+			name, price, brand, stock, description, ingredients, image, packingOf, cookingTime, packaking,nutrionalValue,type
 		  });
 		await product.save();
 

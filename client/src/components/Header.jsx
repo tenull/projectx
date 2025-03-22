@@ -62,6 +62,7 @@ import LoginForm from './LoginForm';
 import CartForm from './CartForm';
 import CartMenu from './CartMenu';
 import SearchInput from './SearchInput';
+import MobileNav from './MobileNav';
 const Links = [
 	{ name: 'Rólunk', route: '/rolunk' },
 	{ name: 'Tésztáink', route: '/tesztaink' },
@@ -110,7 +111,7 @@ const Header = () => {
 
 	return (
 		<>
-			<Box zIndex={1} bg={mode(`white`, 'gray.900')} position='sticky' top='0' w='100%' px='4'>
+			<Box zIndex={2} bg={mode(`white`, 'gray.900')} position='sticky' top='0' w='100%' px='4'>
 				<Box alignItems='center' display='flex' justifyContent='space-between' px={10}>
 					<Box width={{ base: '0', md: '150px' }} h='1px'>
 						<Flex display={{ base: 'flex', md: 'none' }} position='absolute' left={4} top={2}>
@@ -118,13 +119,16 @@ const Header = () => {
 								bg='parent'
 								size='md'
 								icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-								onClick={isOpen ? onClose : onOpen}
+								onClick={onOpen}
+								
 							/>
+							      <MobileNav Links={Links} isOpen={isOpen} onClose={onClose} />
+
 						</Flex>
 					</Box>
 					{/* <Icon as={BsPhoneFlip} h='6' w='6' color={mode('black', 'yellow.200')} /> */}
 					<Box display='flex' alignItems='center' as={ReactLink} to='/'>
-					<Image src="../images/laskoditesztalogo.png" width="50px" height="50px" />
+					<Image src="/images/laskoditesztalogo.png" width="50px" height="50px" />
 						<Text as='b' display={{base:'none',md:'block'}} fontSize={{ base: 'xl', md: '2xl' }}>LaskodiTészta</Text>
 					</Box>
 					<Flex alignItems='center' justify='flex-end'>
@@ -149,24 +153,25 @@ const Header = () => {
 								<MenuList>
 									<HStack>
 										<Text pl='3' as='i'>
-											{userInfo.email}
+											Üdvözöljük,{userInfo.email}!
 										</Text>
 										{userInfo.googleId && <FcGoogle />}
 									</HStack>
 									<Divider py='1' />
-									<MenuItem as={ReactLink} to='/order-history'>
-										Order History
+									<MenuItem as={ReactLink} to='/profil'>
+										Profil
 									</MenuItem>
-									<MenuItem as={ReactLink} to='/profile'>
-										Profile
+									<MenuItem as={ReactLink} to='/rendelesitortenet'>
+										Rendelési történet
 									</MenuItem>
+									
 									{userInfo.isAdmin && (
 										<>
 											<MenuDivider />
-											<MenuItem as={ReactLink} to='/admin-console'>
+											{/* <MenuItem as={ReactLink} to='/admin-console'>
 												<MdOutlineAdminPanelSettings />
 												<Text ml='2'>Admin Console</Text>
-											</MenuItem>
+											</MenuItem> */}
 											<MenuItem as={ReactLink} to='/admin'>
 												<MdOutlineAdminPanelSettings />
 												<Text ml='2'>Admin</Text>
@@ -174,7 +179,7 @@ const Header = () => {
 										</>
 									)}
 									<MenuDivider />
-									<MenuItem onClick={logoutHandler}>Logout</MenuItem>
+									<MenuItem onClick={logoutHandler}>Kijelentkezés</MenuItem>
 
 								</MenuList>
 
@@ -215,7 +220,8 @@ const Header = () => {
 							<Button>Keresés</Button>
 							<Text onClose={() => setSearchOpen(false)}>X</Text>
 						</Box>} */}
-						<SearchInput/>
+			
+						<SearchInput products={products}/>
 
 							<CartMenu/>
 						
@@ -236,32 +242,7 @@ const Header = () => {
 					</HStack>
 
 				</Flex>
-				<Box display='flex'>
-					{isOpen && (
-						<Box pb='4' display={{ md: 'none' }}>
-							<Stack as='nav' spacing='4'>
-								{Links.map((link) => (
-									<NavLink route={link.route} key={link.route}>
-										<Text fontWeight='medium'>{link.name}</Text>
-									</NavLink>
-								))}
-							</Stack>
-							{favoritesToggled ? (
-								<IconButton
-									onClick={() => dispatch(toggleFavorites(false))}
-									icon={<MdOutlineFavorite size='20px' />}
-									variant='ghost'
-								/>
-							) : (
-								<IconButton
-									onClick={() => dispatch(toggleFavorites(true))}
-									icon={<MdOutlineFavoriteBorder size='20px' />}
-									variant='ghost'
-								/>
-							)}
-						</Box>
-					)}
-				</Box>
+				
 			</Box>
 		</>
 	);

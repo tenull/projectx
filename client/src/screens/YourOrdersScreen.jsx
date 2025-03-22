@@ -16,11 +16,13 @@ import {
 	Td,
 	AlertTitle,
 	Wrap,
+	Text,
+	Container
 } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserOrders } from '../redux/actions/userActions';
 import { useEffect } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Link, Navigate, useLocation } from 'react-router-dom';
 
 const YourOrdersScreen = () => {
 	const dispatch = useDispatch();
@@ -32,6 +34,7 @@ const YourOrdersScreen = () => {
 			dispatch(getUserOrders());
 		}
 	}, [dispatch, userInfo]);
+	console.log(orders)
 
 	return userInfo ? (
 		<>
@@ -49,40 +52,45 @@ const YourOrdersScreen = () => {
 				</Alert>
 			) : (
 				orders && (
-					<TableContainer minH='100vh'>
+					<Container py={10} maxW='container.xl'>
+						<Text my={5} fontSize='lg' fontWeight='bold' textAlign='center'>
+							Rendelési történet
+						</Text>
 						<Table variant='striped'>
 							<Thead>
 								<Tr>
-									<Th>Order Id</Th>
-									<Th>Oder Date</Th>
-									<Th>Paid Total</Th>
-									<Th>Items</Th>
-									<Th>Print Receipt</Th>
+	
+									<Th>rendelés dátuma</Th>
+									<Th>teljes összeg</Th>
+									<Th>Termékek</Th>
+									<Th>Szállítás</Th>
+									
 								</Tr>
 							</Thead>
 							<Tbody>
 								{orders.map((order) => (
 									<Tr key={order._id}>
-										<Td>{order._id}</Td>
+	
 										<Td>{new Date(order.createdAt).toDateString()}</Td>
-										<Td>${order.totalPrice}</Td>
+										<Td>{order.totalPrice} Ft</Td>
 										<Td>
 											{order.orderItems.map((item) => (
 												<UnorderedList key={item._id}>
 													<ListItem>
-														{item.qty} x {item.name} (${item.price} each)
+														{item.qty} x {item.name} ({item.price} Ft/db)
 													</ListItem>
 												</UnorderedList>
 											))}
 										</Td>
+										<Td>{order.isDelivered ?'Kiszállítva' :'Folyamatban van'}</Td>
 										<Td>
-											<Button variant='outline'>Receipt</Button>
+											<Button as={Link} to={`/rendelesitortenet/${order._id}`} variant='outline'>Részletek</Button>
 										</Td>
 									</Tr>
 								))}
 							</Tbody>
 						</Table>
-					</TableContainer>
+					</Container>
 				)
 			)}
 		</>

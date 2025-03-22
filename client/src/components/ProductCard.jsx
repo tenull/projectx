@@ -26,6 +26,7 @@ const ProductCard = ({ product, loading }) => {
 			setCartQty(cartItem.qty);
 		}
 	}, [cartItem]);
+
 	const handleQtyChange = (e) => {
 		let value = parseInt(e.target.value, 10);
 
@@ -93,8 +94,8 @@ const ProductCard = ({ product, loading }) => {
 	};
 
 	return (
-		<Skeleton 
-		 isLoaded={!loading}>
+		<Skeleton
+			isLoaded={!loading}>
 			<Box
 				_hover={{ shadow: 'lg', transitionDuration: '0.5s' }}
 				position='relative'
@@ -125,50 +126,68 @@ const ProductCard = ({ product, loading }) => {
 						onClick={() => dispatch(addToFavorites(product._id))}
 					/>
 				)}
+				<Text
+					position="absolute"
+					top="35px"
+					right="10px"
+					bg="blackAlpha.700"
+					color="yellow.300"
+					border="2px solid yellow.400"
+					borderRadius="full"
+					px={3}
+					py={1}
+					fontSize="lg"
+					fontWeight="bold"
+					boxShadow="lg"
+					transform="translateY(-50%)"
+				>
+					{product.packingOf}
+				</Text>
+
 				{product.productIsNew && (
 					<Badge fontSize='lg' color='white' position='absolute' rounded='lg' right={1} top={1} ml='2' bg='red.500'>
 						új
 					</Badge>
 				)}
 				<Box
-				 as={ReactLink}
-				 to={`/teszta/${product._id}`}
-				 >
-				<Box display='flex' justifyContent='center'>
-				<Image
-				
-					onMouseEnter={() => setIsShown(true)}
-					onMouseLeave={() => setIsShown(false)}
-					src={product.image}
-					fallbackSrc='https://via.placeholder.com/150'
-					alt={product.name}
-					height='200px'
-				/>
-				</Box>
-				{product.stock < 5 ? (
-					<Badge colorScheme='yellow'>csak {product.stock} db maradt</Badge>
-				) : product.stock < 1 ? (
-					<Badge colorScheme='red'>elfogyott</Badge>
-				) : (
-					<Badge colorScheme='green'>Raktáron</Badge>
-				)}
-				<Text textAlign='center' noOfLines={2} fontSize='sm' mt='2' mb={-2}>
+					as={ReactLink}
+					to={`/teszta/${product._id}`}
+				>
+					<Box display='flex' justifyContent='center'>
+						<Image
+
+							onMouseEnter={() => setIsShown(true)}
+							onMouseLeave={() => setIsShown(false)}
+							src={product.image}
+							fallbackSrc='https://via.placeholder.com/150'
+							alt={product.name}
+							height='200px'
+						/>
+					</Box>
+					{product.stock < 5 ? (
+						<Badge colorScheme='yellow'>csak {product.stock} db maradt</Badge>
+					) : product.stock < 1 ? (
+						<Badge colorScheme='red'>elfogyott</Badge>
+					) : (
+						<Badge colorScheme='green'>Raktáron</Badge>
+					)}
+					{/* <Text textAlign='center' noOfLines={2} fontSize='sm' mt='2' mb={-2}>
 					{product.packing}
-				</Text>
-				<Text textAlign='center' noOfLines={2} fontSize='sm' mt='2' mb={-2}>
+				</Text> */}
+					{/* <Text textAlign='center' noOfLines={2} fontSize='sm' mt='2' mb={-2}>
 					{product.packingOf} Tojásos
-				</Text>
-				<Text textAlign='center' noOfLines={2} fontSize='xl' fontWeight='semibold'>
-					{product.name}
-				</Text>
-				<Text textAlign='center' noOfLines={1} fontSize='md' color='gray.600'>
-					{product.packaking*1000}g
-				</Text>
-				<Flex justify='center' alignItems='center' mt='2'>
-					<Text textAlign='center' fontSize='xl' fontWeight='semibold' color='red.600'>
-						{product.price} Ft
+				</Text> */}
+					<Text textAlign='center' noOfLines={2} fontSize='xl' fontWeight='semibold'>
+						{product.name}
 					</Text>
-				</Flex>
+					<Text textAlign='center' noOfLines={1} fontSize='md' color='gray.600'>
+						{product.packaking * 1000}g
+					</Text>
+					<Flex justify='center' alignItems='center' mt='2'>
+						<Text textAlign='center' fontSize='xl' fontWeight='semibold' color='red.600'>
+							{product.price} Ft
+						</Text>
+					</Flex>
 				</Box>
 				<Flex justify='center' mt='2'>
 					{cartQty > 0 ? (
@@ -188,7 +207,7 @@ const ProductCard = ({ product, loading }) => {
 								min={1}
 								border={0}
 								_focus={{
-									borderColor: "red", 
+									borderColor: "red",
 									boxShadow: "0 0 0 2px red",
 								}}
 								width="60px"

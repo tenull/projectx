@@ -9,9 +9,7 @@ const ShippingMethodForm = () => {
     const { shipping, subtotal,selectedShippingMethodPrice } = useSelector((state) => state.cart);
     const { cartItems } = useSelector((state) => state.cart);
     const totalWeight = cartItems.reduce((acc, item) => acc + item.qty * (item.packaking ?? 0), 0);
-    console.log(subtotal)
     const [selectedShippingPrice, setSelectedShippingPrice] = useState(selectedShippingMethodPrice || shipping || "");
-
     const [selectedShipping, setSelectedShipping] = useState(shipping || "");
 
     const handleShippingChange = (value) => {

@@ -3,23 +3,31 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getProducts } from '../redux/actions/productActions';
-import { Box,Breadcrumb,BreadcrumbItem, Container, Text, Wrap, WrapItem, Center, Button, Alert, AlertIcon, AlertTitle, AlertDescription } from '@chakra-ui/react';
+import { Box, Breadcrumb, BreadcrumbItem, Container, Text, Wrap, WrapItem, Center, Button, Alert, AlertIcon, AlertTitle, AlertDescription } from '@chakra-ui/react';
 import { ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons';
 import ProductCard from '../components/ProductCard';
 import { IoIosCheckmark } from "react-icons/io";
 import { Link as ReactLink } from "react-router-dom";
 import { ChevronRightIcon } from '@chakra-ui/icons';
-
+import { useNavigate } from 'react-router-dom';
 const ProductsScreen = () => {
+
 	const dispatch = useDispatch();
-
-
+	const { category } = useParams();
+	const navigate = useNavigate();
 	const { pageNumber = 1, keyword = '' } = useParams();
 	const [filteredProducts, setFilteredProducts] = useState([]);
 	const [selectedType, setSelectedType] = useState(null);
 	const [selectedCategory, setSelectedCategory] = useState();
 	const { loading, error, products, pagination, favoritesToggled } = useSelector((state) => state.product);
 	const { cartItems } = useSelector((state) => state.cart);
+
+	const handleCategorySelect = (category) => {
+		setSelectedCategory(category.name);
+		navigate(`/tesztaink/${category.filter.packingOf}-${category.filter.type}`);
+	};
+
+
 	useEffect(() => {
 		dispatch(getProducts(pageNumber, favoritesToggled, keyword));
 	}, [dispatch, pageNumber, keyword, favoritesToggled]);
@@ -36,24 +44,26 @@ const ProductsScreen = () => {
 	];
 
 	useEffect(() => {
-		if (selectedCategory) {
-			const filtered = products.filter(
-				(product) =>
-					product.packingOf === categoryButtons.find((c) => c.name === selectedCategory)?.filter.packingOf &&
-					product.type === categoryButtons.find((c) => c.name === selectedCategory)?.filter.type
-			);
-			setFilteredProducts(filtered);
+		if (category) {
+		  const [packingOf, type] = category.split('-'); // Szétbontjuk az URL-ből kapott stringet
+		  const filtered = products.filter(
+			(product) => product.packingOf === Number(packingOf) && product.type === type
+		  );
+		  setFilteredProducts(filtered);
 		} else {
-			setFilteredProducts(products);
+		  setFilteredProducts(products);
 		}
-	}, [selectedCategory, products]);
+	  }, [category, products]);
 
-
+	console.log(products)
 
 	const filteredByType = filteredProducts.filter(item => {
 		if (!selectedType) return true;
+		console.log(item.packing)
 		return item.packing === selectedType.toLowerCase();
+
 	});
+
 
 
 	return (
@@ -75,15 +85,15 @@ const ProductsScreen = () => {
 						Tésztáink
 					</Center>
 					<Breadcrumb mt={3} fontSize={{ base: 'xs', md: 'sm' }} spacing={{ base: '3px', md: '8px' }} separator={<ChevronRightIcon color='gray.400' />}>
-                <BreadcrumbItem>
-                    <ReactLink to='/'>Főoldal</ReactLink>
-                </BreadcrumbItem>
+						<BreadcrumbItem>
+							<ReactLink to='/'>Főoldal</ReactLink>
+						</BreadcrumbItem>
 
-                <BreadcrumbItem>
-                    <ReactLink to='/tesztaink'>Tésztáink</ReactLink>
-                </BreadcrumbItem>
+						<BreadcrumbItem>
+							<ReactLink to='/tesztaink'>Tésztáink</ReactLink>
+						</BreadcrumbItem>
 
-            </Breadcrumb>
+					</Breadcrumb>
 					<Container maxW='container.xl' display='flex' spacing="30px" justify="between" minHeight="80vh" >
 
 						<Wrap minW="260px" rounded="md" maxW="5%" display={{ base: "none", md: "block" }}>
@@ -92,30 +102,30 @@ const ProductsScreen = () => {
 							</Text>
 							{categoryButtons.map((category, index) => (
 								<Button
-									key={category.name}
-									onClick={() => setSelectedCategory(category.name)}
-									minW="100%"
-									borderTop={index === 0 ? "none" : "2px"}
-									borderColor="red.600"
-									borderRadius="0"
-									fontSize="md"
-									fontFamily="Poppins"
-									fontWeight="500"
-									position="relative"
-									bg={selectedCategory === category.name ? "red.600" : "transparent"}
-									color={selectedCategory === category.name ? "white" : "black"}
-									_hover={{ bg: "red.600", color: "white" }}
-									display="flex"
-									justifyContent="space-between"
-								>
-									{category.name}
-									{selectedCategory === category.name && <IoIosCheckmark style={{ position: 'absolute', right: '1px' }} fontSize='30px' />}
-								</Button>
+								key={category.name}
+								onClick={() => handleCategorySelect(category)}
+								minW="100%"
+								borderTop={index === 0 ? "none" : "2px"}
+								borderColor="red.600"
+								borderRadius="0"
+								fontSize="md"
+								fontFamily="Poppins"
+								fontWeight="500"
+								position="relative"
+								bg={selectedCategory === category.name ? "red.600" : "transparent"}
+								color={selectedCategory === category.name ? "white" : "black"}
+								_hover={{ bg: "red.600", color: "white" }}
+								display="flex"
+								justifyContent="space-between"
+							  >
+								{category.name}
+								{selectedCategory === category.name && <IoIosCheckmark style={{ position: 'absolute', right: '1px' }} fontSize='30px' />}
+							  </Button>
 							))}
 
 						</Wrap>
 
-						<Container maxW={{base:'container.md',md:'container.lg',lg:'container.lg'}} mx={0}>
+						<Container maxW={{ base: 'container.md', md: 'container.lg', lg: 'container.lg' }} mx={0}>
 
 							<Box display='flex' justifyContent='center' gap={0}>
 								<Button
@@ -165,7 +175,7 @@ const ProductsScreen = () => {
 								</Button>
 
 							</Box>
-							<Box spacing='30px' gap={10} display='flex' justifyContent='center' flexWrap='wrap'>
+							<Wrap mt={5} spacing={{base:'20px',md:'30px'}} justify='center' minHeight='80vh' >
 								{error ? (
 									<Alert status="error">
 										<AlertIcon />
@@ -184,37 +194,17 @@ const ProductsScreen = () => {
 								) : (
 									filteredByType.map((product) => (
 										<WrapItem key={product._id}>
-											<Center w="250px" h="450px">
+											<Center >
 												<ProductCard key={product._id} product={product} loading={loading} cartItems={cartItems} />
 											</Center>
 										</WrapItem>
 									))
 								)}
-							</Box>
+							</Wrap>
 						</Container>
 
 					</Container>
-					{!favoritesToggled && (
-						<Wrap spacing="10px" justify="center" p="5">
-							<Button border="1px solid red" color='red' onClick={() => paginationButtonClick(1)}>
-								<ArrowLeftIcon />
-							</Button>
-							{Array.from(Array(pagination.totalPages), (e, i) => {
-								return (
-									<Button
-										color={pagination.currentPage === i + 1 ? 'red' : 'gray'}
-										border={pagination.currentPage === i + 1 ? '1px solid red' : '1px solid white'}
-										key={i}
-										onClick={() => paginationButtonClick(i + 1)}>
-										{i + 1}
-									</Button>
-								);
-							})}
-							<Button border="1px solid red" color='red' onClick={() => paginationButtonClick(pagination.totalPages)}>
-								<ArrowRightIcon />
-							</Button>
-						</Wrap>
-					)}
+
 				</Box >
 			)}
 		</>

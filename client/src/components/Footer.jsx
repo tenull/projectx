@@ -20,7 +20,7 @@ const Footer = () => (
 				{/* Logo + Brand */}
 				<Stack spacing={4} align={{ base: 'center', md: 'start' }}>
 					<Flex alignItems="center" gap={4}>
-						<Image src="../images/laskoditesztalogo.png" width="80px" height="80px" />
+						<Image src="/images/laskoditesztalogo.png" width="80px" height="80px" />
 						<Text fontSize="2xl" fontWeight="bold" color="gray.700">
 							Laskodi Tészta
 						</Text>

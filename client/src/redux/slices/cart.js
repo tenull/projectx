@@ -8,7 +8,7 @@ export const initialState = {
     loading: false,
     error: null,
     cartItems: JSON.parse(localStorage.getItem('cartItems')) ?? [],
-    shipping: JSON.parse(localStorage.getItem('shipping')) ?? Number(4.99),
+    shipping: JSON.parse(localStorage.getItem('shipping')) ?? null,
     paymentMethod: localStorage.getItem('paymentMethod') ?? null,
 	paymentMethodCost: localStorage.getItem('paymentMethodCost') ?? null,
     subtotal: localStorage.getItem('cartItems') ? calculateSubtotal(JSON.parse(localStorage.getItem('cartItems'))) : 0,

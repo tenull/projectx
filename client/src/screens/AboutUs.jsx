@@ -10,7 +10,8 @@ const AboutUs = () => {
                 backgroundColor="red.600"
                 color="white"
                 position="relative"
-                backgroundPosition="bottom"
+                backgroundImage='/images/pastalogo2.jpg'
+                backgroundPosition="20% 30%"
                 backgroundRepeat="no-repeat"
                 backgroundSize="cover"
                 fontSize={{ base: '2xl', md: '4xl' }}

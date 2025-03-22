@@ -1,33 +1,38 @@
 import { Box, Text } from "@chakra-ui/react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
-const HoverBox = ({ text }) => {
+const HoverBox = ({ text,image,link }) => {
   const [hovered, setHovered] = useState(false);
 
   return (
     <Box
       display="flex"
+      as={Link}
+      to={link}
+      cursor='pointer'
       justifyContent="center"
       alignItems="center"
       w="300px"
       h="400px"
-      bg="blue"
+      backgroundImage={image}
+      backgroundPosition='center'
+      backgroundSize='cover'
       position="relative"
       overflow="hidden"
       onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)} // Itt visszaállítjuk
+      onMouseLeave={() => setHovered(false)} 
     >
-      {/* Felső vonal */}
       <Box
         position="absolute"
         top="15px"
         left="15px"
         width={hovered ? "calc(100% - 30px)" : "0%"}
+        
         height="2px"
         background="white"
         transition="width 0.3s ease-in-out"
       />
-      {/* Jobb oldali vonal */}
       <Box
         position="absolute"
         top="15px"
@@ -37,7 +42,6 @@ const HoverBox = ({ text }) => {
         background="white"
         transition="height 0.3s ease-in-out"
       />
-      {/* Alsó vonal */}
       <Box
         position="absolute"
         bottom="15px"
@@ -47,19 +51,24 @@ const HoverBox = ({ text }) => {
         background="white"
         transition="width 0.3s ease-in-out 0.3s"
       />
-      {/* Bal oldali vonal */}
       <Box
         position="absolute"
         top="15px"
         left="15px"
         width="2px"
         height={hovered ? "calc(100% - 30px)" : "0%"}
+        bg="rgba(0, 0, 0, 0.5)"
         background="white"
         transition="height 0.3s ease-in-out 0.3s"
       />
-      <Text fontSize="xl" color="white">
-        {text}
-      </Text>
+     <Text
+  fontSize="xl"
+  color="white"
+  fontWeight="bold"
+  textShadow="2px 2px 5px rgba(0, 0, 0, 0.9)" 
+>
+  {text}
+</Text>
     </Box>
   );
 };

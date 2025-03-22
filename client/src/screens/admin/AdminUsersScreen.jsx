@@ -26,19 +26,23 @@ import { FaTimes, FaEdit } from "react-icons/fa";
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllUsers, deleteUser, resetErrorAndRemoval } from "../../redux/actions/adminActions";
+import { updateUser } from "../../redux/actions/adminActions";
 import ConfirmRemovalAlert from "../../components/ConfirmRemovalAlert";
+import ConfirmAdminChangeAlert from "../../components/ConfirmAdminChangeAlert"
 import { useNavigate } from "react-router-dom";
 import { NavLink, Outlet } from 'react-router-dom';
 const AdminUsersScreen = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const { isOpen: isAdminOpen, onOpen: openAdminModal, onClose: closeAdminModal } = useDisclosure();
     const cancelRef = useRef();
     const [userToDelete, setUserToDelete] = useState("");
+    const [userToEdit, setUserToEdit] = useState(null);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { error, loading, userRemoval, userList } = useSelector((state) => state.admin);
+    const { error, loading, userRemoval, userList, userAdmin } = useSelector((state) => state.admin);
     const { userInfo } = useSelector((state) => state.user);
     const toast = useToast();
-    console.log(userList)
+
     useEffect(() => {
         dispatch(getAllUsers());
         dispatch(resetErrorAndRemoval());
@@ -49,11 +53,31 @@ const AdminUsersScreen = () => {
                 isClosable: true,
             });
         }
-    }, [dispatch, toast, userRemoval]);
+        if (userAdmin) {
+            toast({
+                description: "Felhasználó Admin lett.",
+                status: "success",
+                isClosable: true,
+            });
+        }
+        // if (!userAdmin) {
+        //     toast({
+        //         description: "Felhasználó nem Admin.",
+        //         status:'warning',
+        //         isClosable: true,
+        //     });
+        // }
+
+    }, [dispatch, toast, userRemoval, userAdmin,]);
 
     const openDeleteConfirmBox = (user) => {
         setUserToDelete(user);
         onOpen();
+    };
+
+    const handleAdminChange = (user) => {
+        setUserToEdit(user);
+        openAdminModal();
     };
 
     return (
@@ -72,87 +96,75 @@ const AdminUsersScreen = () => {
                     </Stack>
                 </Wrap>
             ) : (
-                <Box minH='2xl'>
+                <Box>
                     <Text my={10} textAlign='center' fontSize='xl' fontWeight='bold'>Felhasználók</Text>
-                    <Container maxW="container.xl" display="flex" flexDirection={{ base: "column", md: "row" }}>
-
-                        <Box
-                            width={{ base: "100%", md: "20%" }}
-                            p={4}
-                            borderRight={{ base: "none", md: "1px solid gray" }}
-                            borderBottom={{ base: "1px solid gray", md: "none" }}
-                        >
-
-                            <Stack spacing={4} direction={{ base: "row", md: "column" }} justify='center' wrap="wrap">
-                                <NavLink to="/rendeles"><Text>Rendelések</Text></NavLink>
-                                <NavLink to="/admin/legutolsorendeles"><Text>Legutolsó Rendelés</Text></NavLink>
-                                <NavLink to="/felhasznalok"><Text>Felhasználók</Text></NavLink>
-                                <NavLink to="/admin/termekek"><Text>Termékek</Text></NavLink>
-                                <NavLink to="/admin/ujtermek"><Text>Új termék hozzáadása</Text></NavLink>
-                                <NavLink to="/admin/uzenet"><Text>Üzenet</Text></NavLink>
-                            </Stack>
-                        </Box>
-
-                        {/* Tartalom */}
-                        <Box flex="1" p={4}>
-                            <TableContainer>
-                                <Table variant="striped" colorScheme="gray" size={{ base: "sm", md: "md" }}>
-                                    <Thead>
-                                        <Tr>
-                                            <Th>ID</Th>
-                                            <Th>Név</Th>
-                                            <Th>Email</Th>
-                                            <Th>Regisztráció</Th>
-                                            <Th>Admin</Th>
-                                            <Th>Műveletek</Th>
+                    <TableContainer>
+                        <Table variant="striped" colorScheme="gray" size={{ base: "sm", md: "md" }}>
+                            <Thead>
+                                <Tr>
+                                    <Th>ID</Th>
+                                    <Th>Név</Th>
+                                    <Th>Email</Th>
+                                    <Th>Regisztráció</Th>
+                                    <Th>Admin</Th>
+                                    <Th>Műveletek</Th>
+                                </Tr>
+                            </Thead>
+                            <Tbody>
+                                {userList &&
+                                    userList.map((user) => (
+                                        <Tr key={user._id}>
+                                            <Td>{user._id}</Td>
+                                            <Td>{user.name} {user._id === userInfo._id ? "(You)" : ""}</Td>
+                                            <Td>{user.email}</Td>
+                                            <Td>{new Date(user.createdAt).toDateString()}</Td>
+                                            <Td>
+                                                {user.isAdmin ? (
+                                                    <CheckCircleIcon color="green.500" />
+                                                ) : (
+                                                    <FaTimes color="red" />
+                                                )}
+                                            </Td>
+                                            <Td>
+                                                <IconButton
+                                                    aria-label="Admin státusz módosítása"
+                                                    icon={user.isAdmin ? <FaEdit /> : <FaEdit />}
+                                                    colorScheme={user.isAdmin ? "blue" : "blue"}
+                                                    mr={2}
+                                                    onClick={() => handleAdminChange(user)}
+                                                />
+                                                <IconButton
+                                                    aria-label="Törlés"
+                                                    icon={<DeleteIcon />}
+                                                    colorScheme="red"
+                                                    isDisabled={user._id === userInfo._id}
+                                                    onClick={() => openDeleteConfirmBox(user)}
+                                                />
+                                            </Td>
                                         </Tr>
-                                    </Thead>
-                                    <Tbody>
-                                        {userList &&
-                                            userList.map((user) => (
-                                                <Tr key={user._id}>
-                                                    <Td>{user._id}</Td>
-                                                    <Td>{user.name} {user._id === userInfo._id ? "(You)" : ""}</Td>
-                                                    <Td>{user.email}</Td>
-                                                    <Td>{new Date(user.createdAt).toDateString()}</Td>
-                                                    <Td>
-                                                        {user.isAdmin ? (
-                                                            <CheckCircleIcon color="green.500" />
-                                                        ) : (
-                                                            <FaTimes color="red" />
-                                                        )}
-                                                    </Td>
-                                                    <Td>
-                                                        <IconButton
-                                                            aria-label="Szerkesztés"
-                                                            icon={<FaEdit />}
-                                                            colorScheme="blue"
-                                                            mr={2}
-                                                            onClick={() => navigate(`/admin/user/${user._id}/edit`)}
-                                                        />
-                                                        <IconButton
-                                                            aria-label="Törlés"
-                                                            icon={<DeleteIcon />}
-                                                            colorScheme="red"
-                                                            isDisabled={user._id === userInfo._id}
-                                                            onClick={() => openDeleteConfirmBox(user)}
-                                                        />
-                                                    </Td>
-                                                </Tr>
-                                            ))}
-                                    </Tbody>
-                                </Table>
-                            </TableContainer>
-                            <ConfirmRemovalAlert
-                                isOpen={isOpen}
-                                onOpen={onOpen}
-                                onClose={onClose}
-                                cancelRef={cancelRef}
-                                itemToDelete={userToDelete}
-                                deleteAction={deleteUser}
-                            />
-                        </Box>
-                    </Container>
+                                    ))}
+                            </Tbody>
+                        </Table>
+                        <ConfirmRemovalAlert
+                            isOpen={isOpen}
+                            onOpen={onOpen}
+                            onClose={onClose}
+                            cancelRef={cancelRef}
+                            itemToDelete={userToDelete}
+                            redirectUrl='/admin/felhasznalok'
+                            deleteAction={deleteUser}
+                            navigate={navigate}
+                        />
+                        <ConfirmAdminChangeAlert
+                            isOpen={isAdminOpen}
+                            onClose={closeAdminModal}
+                            cancelRef={cancelRef}
+                            updateUser={updateUser}
+                            user={userToEdit}
+                            redirectUrl='/admin/felhasznalok'
+                            navigate={navigate}
+                        />
+                    </TableContainer>
                 </Box>
 
             )

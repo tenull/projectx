@@ -1,4 +1,5 @@
 import {
+    Text,
     Table,
     Thead,
     Tbody,
@@ -25,17 +26,18 @@ const AdminProductScreen = () => {
     const { products, productUpdate, loading, error } = useSelector((state) => state.product);
     const toast = useToast();
     const [productToDelete, setProductToDelete] = useState(null);
+    
     useEffect(() => {
-        dispatch(getProducts()); // Mindig lekérjük az aktuális terméklistát a szerverről
+        dispatch(getProducts());
         dispatch(resetProductError());
     
         if (productUpdate) {
             toast({
-                description: 'Product has been updated.',
+                description: 'A termék frissítve lett.',
                 status: 'success',
                 isClosable: true,
             });
-            dispatch(getProducts()); // Újra lekérjük a friss terméklistát
+            dispatch(getProducts()); 
         }
     }, [dispatch, toast, productUpdate]);
     
@@ -54,16 +56,20 @@ const AdminProductScreen = () => {
                     <Spinner size='xl' color='cyan.500' />
                 </Wrap>
             ) : (
+                <Box >
+                <Text my={10} textAlign='center' fontSize='xl' fontWeight='bold'>Termékek</Text>
+
                 <TableContainer>
                     <Table variant='simple' size='lg'>
                         <Thead bg='gray.100'>
                             <Tr>
-                                <Th>ID</Th>
-                                <Th>NAME</Th>
-                                <Th>PRICE</Th>
-                                <Th>CATEGORY</Th>
-                                <Th>BRAND</Th>
-                                <Th>ACTIONS</Th>
+                             
+                                <Th>NÉV</Th>
+                                <Th>KISZERELÉS</Th>
+                                <Th>TOJÁS</Th>
+                                <Th>ÁR</Th>
+                                <Th>KÉSZLETEN</Th>
+                                <Th>LEHETŐSÉGEK</Th>
                             </Tr>
                         </Thead>
                         <Tbody>
@@ -77,6 +83,7 @@ const AdminProductScreen = () => {
                         </Tbody>
                     </Table>
                 </TableContainer>
+                </Box >
             )}
 
        

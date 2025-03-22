@@ -15,7 +15,7 @@ import axios from 'axios';
 export const getProducts = (page, favouriteToggle, keyword = '') => async (dispatch) => {
 	dispatch(setLoading());
 	try {
-	  const { data } = await axios.get(`/api/products/${page}/${10}`, {
+	  const { data } = await axios.get(`/api/products/${page}/${50}`, {
 		params: { keyword }, // Itt adjuk át helyesen a keyword paramétert
 	  });
 	  

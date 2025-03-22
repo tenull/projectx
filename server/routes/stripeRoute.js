@@ -35,11 +35,13 @@ const stripePayment = async (req, res) => {
     email: data.userInfo.email,
     shippingAddress: data.shippingAddress,
     shipping: data.shipping,
+    subtotal:data.subtotal,
 	paymentMethod:data.paymentMethod,
 	paymentMethodCost:data.paymentMethodCost,
 	selectedShippingMethod:data.selectedShippingMethod,
 	totalPrice: Number(data.subtotal) + Number(data.selectedShippingMethod) + (data.paymentMethodCost)
   });
+  console.log(order)
 
   const newOrder = await order.save();
 

@@ -9,13 +9,13 @@ import {
 } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
 
-const ConfirmRemovalAlert = ({ isOpen, onClose, cancelRef, itemToDelete, deleteAction }) => {
+const ConfirmRemovalAlert = ({ isOpen, onClose, cancelRef, itemToDelete, deleteAction,navigate,redirectUrl }) => {
 	const dispatch = useDispatch();
 	const onDeleteItem = () => {
 		dispatch(deleteAction(itemToDelete._id));
+		navigate(redirectUrl)
 		onClose();
 	};
-	console.log(itemToDelete)
 	return (
 		<AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
 			<AlertDialogOverlay>

@@ -1,26 +1,41 @@
 import { Box, Text, Stack, Container } from '@chakra-ui/react';
-import { NavLink, Outlet } from 'react-router-dom';
-
+import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import DashboardChart from './DasboardChart';
+import { useDispatch } from 'react-redux';
+import { getAllOrders,resetErrorAndRemoval } from '../redux/actions/adminActions';
 const AdminLayout = () => {
+    const location = useLocation();
+    const dispatch = useDispatch()
+    const { error, loading, orders, deliveredFlag, orderRemoval } = useSelector((state) => state.admin);
+    const isDashboard = location.pathname === "/admin";
+
+    useEffect(() => {
+        dispatch(getAllOrders());
+        dispatch(resetErrorAndRemoval());
+    }, [dispatch]);
     return (
         <Box>
-            <Text textAlign="center" fontSize="2xl" fontWeight="bold">Admin Console</Text>
+            <Text textAlign="center" fontSize="2xl" fontWeight="bold">Admin felület</Text>
             <Container maxW="container.xl" display="flex">
-                <Box width="20%" p={4} borderRight="1px solid gray">
+                <Box display={{ base: 'none', md: 'block' }} width="20%" p={4} borderRight="1px solid gray">
                     <Stack spacing={4}>
-                        <NavLink to="/rendeles"><Text>Rendelések</Text></NavLink>
-                        <NavLink to="/admin/legutolsorendeles"><Text>Legutolsó Rendelés</Text></NavLink>
-                        <NavLink to="/felhasznalok"><Text>Felhasználók</Text></NavLink>
-                        <NavLink to="/termekek"><Text>Termékek</Text></NavLink>
-                        <NavLink to="/ujtermek"><Text>Új termék hozzáadása</Text></NavLink>
-                        <NavLink to="/admin/uzenet"><Text>Kiírás</Text></NavLink>
+
+                        <NavLink to="/admin/rendeles"><Text>Rendelések</Text></NavLink>
+                        {/* <NavLink to="/admin/legutolsorendeles"><Text>Legutolsó Rendelés</Text></NavLink> */}
+                        <NavLink to="/admin/felhasznalok"><Text>Felhasználók</Text></NavLink>
+                        <NavLink to="/admin/termekek"><Text>Termékek</Text></NavLink>
+                        <NavLink to="/admin/ujtermek"><Text>Új termék hozzáadása</Text></NavLink>
+                        <NavLink to="/admin/uzenet"><Text>Üzenet</Text></NavLink>
                     </Stack>
                 </Box>
-                <Box width="80%" p={4}>
+                <Box width={{ base: '100%', md: '80%' }} p={4}>
+                    {isDashboard && <DashboardChart orders={orders} loading={loading} />}
                     <Outlet />
                 </Box>
-                
-            </Container> 
+
+            </Container>
         </Box>
     );
 };
