@@ -102,7 +102,7 @@ const ProductsScreen = () => {
 					</Breadcrumb>
 					<Container maxW='container.xl' display='flex' spacing="30px" justify="between" minHeight="80vh" >
 
-						<Wrap minW="260px" rounded="md" maxW="5%" display={{ base: "none", md: "block" }}>
+						<Box minW="260px" rounded="md" maxW="5%" display={{ base: "none", md: "block" }}>
 							<Text fontFamily="Poppins" mb={2} color="black" fontWeight="bold" fontSize="4xl">
 								KATEGÓRIA
 							</Text>
@@ -129,7 +129,7 @@ const ProductsScreen = () => {
 								</Button>
 							))}
 
-						</Wrap>
+						</Box>
 
 						<Container maxW={{ base: 'container.md', md: 'container.lg', lg: 'container.lg' }} mx={0} display='flex' flexDirection='column' alignItems='center'>
 							<Box minW="260px" rounded="md" maxW="5%" display={{ base: "block", md: "none" }}>
