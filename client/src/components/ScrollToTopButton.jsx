@@ -6,7 +6,7 @@ const ScrollToTopButton = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 300) { 
+      if (window.scrollY > 300) {
         setIsVisible(true);
       } else {
         setIsVisible(false);
@@ -35,15 +35,14 @@ const ScrollToTopButton = () => {
         bottom: '25px',
         right: '25px',
         display: isVisible ? 'block' : 'none',
-        backgroundColor: 'red', 
+        backgroundColor: 'red',
         color: 'white',
         border: 'none',
-        
-        borderRadius: '50%',
         cursor: 'pointer',
       }}
+      _hover={{ transform: 'scale(1.05)' }}
     >
-     <FaLongArrowAltUp fontSize='20'/>
+      <FaLongArrowAltUp fontSize='20' />
     </Button>
   );
 };
