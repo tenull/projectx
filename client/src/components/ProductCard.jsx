@@ -194,7 +194,7 @@ const ProductCard = ({ product, loading }) => {
 					{/* <Text textAlign='center' noOfLines={2} fontSize='sm' mt='2' mb={-2}>
 					{product.packingOf} Tojásos
 				</Text> */}
-					<Text textAlign='center' noOfLines={2} fontSize='xl' fontWeight='semibold'>
+					<Text textAlign='center' noOfLines={2} fontSize={{base:'lg',md:'xl'}} fontWeight='semibold'>
 						{product.name}
 					</Text>
 					<Text textAlign="center" noOfLines={1} fontSize="md" color="gray.600">
