@@ -80,10 +80,10 @@ const ProductScreen = () => {
 			isClosable: true,
 		});
 	};
-	console.log(cartItems)
+	
 
 	return (
-		<Wrap spacing='30px' justify='center' minHeight='100vh'>
+		<Wrap  spacing='30px' justify='center' minHeight='100vh'>
 
 			{loading ? (
 				<Stack direction='row' spacing='4'>

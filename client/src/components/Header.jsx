@@ -101,7 +101,7 @@ const Header = () => {
 
 	return (
 		<>
-			<Box height={{base:'80px',md:'100px'}} pt={2} zIndex={2} bg={mode(`white`, 'gray.900')} position='sticky' top={{base:'-1',md:'0'}} w='100%' px='4'>
+			<Box height={{base:'70px',md:'100px'}} pt={2} zIndex={2} bg={mode(`white`, 'gray.900')} position='sticky' top='0' w='100%' px='4'>
 				<Box alignItems='center' display='flex' justifyContent='space-between' px={10}>
 					<Box width={{ base: '0', md: '150px' }} h='1px'>
 						<Flex display={{ base: 'flex', md: 'none' }} position='absolute' left={7} top={4}>
