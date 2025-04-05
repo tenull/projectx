@@ -9,7 +9,6 @@ const handleCallback = (req, res) => {
 
     if (signature === receivedData.signature) {
         console.log('Payment successful:', receivedData);
-        // Rendelés státuszának frissítése
         res.status(200).send('OK');
     } else {
         console.error('Invalid signature');

@@ -49,7 +49,7 @@ const barionPayment = async (req, res) => {
     const newOrder = await order.save();
     let orderId = newOrder._id.toString();
 
-    // Készlet frissítése
+
     for (let cartItem of data.cartItems) {
       let product = await Product.findById(cartItem.id);
       product.stock = product.stock - cartItem.qty;
@@ -60,7 +60,7 @@ const barionPayment = async (req, res) => {
     const redirectUrl = `${redirectBase}?orderId=${orderId}`;
 
 
-    // Barion fizetési kérés előkészítése
+
     const paymentData = {
       POSKey: process.env.BARION_POS_KEY,
       PaymentType: 'Immediate',
@@ -82,13 +82,13 @@ const barionPayment = async (req, res) => {
 
     const barionResponse = await axios.post(
       'https://api.test.barion.com/v2/Payment/Start',
-      paymentData, // A fizetési adatok request body-ban mennek
+      paymentData,
       {
         params: {
-          POSKey: process.env.BARION_POS_KEY, // API kulcs query paraméterként
+          POSKey: process.env.BARION_POS_KEY, 
         },
         headers: {
-          'Content-Type': 'application/json', // Barion JSON adatokat vár
+          'Content-Type': 'application/json', 
         },
       }
     );

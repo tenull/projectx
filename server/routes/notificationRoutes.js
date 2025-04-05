@@ -5,7 +5,6 @@ import { protectRoute, admin } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// GET – Értesítés lekérése
 router.get('/', asyncHandler(async (req, res) => {
     const notification = await Notification.findOne();
     if (notification) {

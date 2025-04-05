@@ -51,7 +51,7 @@ const sendBarionEmailController  = async (order) => {
         console.log("📦 Barion e-mail küldése ezekkel:", userInfo);
   
       const shipping = order.shipping;
-      const packing = order.packing || ""; // ha van ilyen meződ
+      const packing = order.packing || "";
       const cartItems = order.orderItems;
       const shippingAddress = order.shippingAddress;
       const paymentMethod = order.paymentMethod;
@@ -94,5 +94,4 @@ const sendBarionEmailController  = async (order) => {
   
 
 
-// Több függvény exportálása
 export { sendOrderConfirmationEmail, sendEmailContactEmail,sendBarionEmailController  };

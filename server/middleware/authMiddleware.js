@@ -7,9 +7,9 @@ const protectRoute = asyncHandler(async (req, res, next) => {
 
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         try {
-            token = req.headers.authorization.split(' ')[1]; // Kivágjuk a Bearer-t
-            const decoded = jwt.verify(token, 'secret'); // Ellenőrizzük a tokent
-            req.user = await User.findById(decoded.id); // Keresünk a felhasználót az adatbázisban
+            token = req.headers.authorization.split(' ')[1]; 
+            const decoded = jwt.verify(token, 'secret'); 
+            req.user = await User.findById(decoded.id);
 
             if (!req.user) {
                 res.status(404);
@@ -32,7 +32,7 @@ const admin = (req, res, next) => {
     if (req.user && req.user.isAdmin) {
         next();
     } else {
-        res.status(403);  // Forbidden
+        res.status(403); 
         throw new Error('Not authorized as an admin.');
     }
 };
