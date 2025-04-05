@@ -48,7 +48,7 @@ const AdminLayout = () => {
                     borderBottom="1px solid gray"
                     mb={4}
                 >
-                    <Stack direction="row" spacing={2} justify="center">
+                    <Stack fontSize='xs' direction="row" textAlign='center' spacing={2} justify="center">
                         <NavLink to="/admin/rendeles"><Text>Rendelések</Text></NavLink>
                         <NavLink to="/admin/felhasznalok"><Text>Felhasználók</Text></NavLink>
                         <NavLink to="/admin/termekek"><Text>Termékek</Text></NavLink>
