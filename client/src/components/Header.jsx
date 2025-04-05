@@ -4,15 +4,9 @@ import {
 	Box,
 	Flex,
 	HStack,
-	Icon,
-	Stack,
 	Text,
 	useColorModeValue as mode,
 	useDisclosure,
-	AlertDescription,
-	Alert,
-	AlertIcon,
-	AlertTitle,
 	Divider,
 	Image,
 	Menu,
@@ -20,52 +14,30 @@ import {
 	MenuDivider,
 	MenuItem,
 	MenuList,
-	Spacer,
 	useToast,
-	Button,
-	Input
+
 } from '@chakra-ui/react';
-import {
-	DrawerActionTrigger,
-	DrawerBackdrop,
-	DrawerBody,
-	DrawerCloseTrigger,
-	DrawerContent,
-	DrawerFooter,
-	DrawerHeader,
-	DrawerRoot,
-	DrawerTitle,
-	DrawerTrigger,
-	Drawer,
-	DrawerOverlay,
-	DrawerCloseButton
 
-} from "@chakra-ui/react"
-
-import { useEffect, useState } from 'react';
-import { BsPhoneFlip } from 'react-icons/bs';
+import { useEffect, useState, useRef } from 'react';
 import { Link as ReactLink } from 'react-router-dom';
-import { MdOutlineFavorite, MdOutlineFavoriteBorder } from 'react-icons/md';
+import { MdOutlineFavoriteBorder } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import NavLink from './NavLink';
-import ColorModeToggle from './ColorModeToggle';
-import { BiUserCheck, BiUser, BiLogInCircle, BiSearchAlt } from 'react-icons/bi';
+import { BiUserCheck, BiUser } from 'react-icons/bi';
 import { toggleFavorites } from '../redux/actions/productActions';
-import { HamburgerIcon, CloseIcon, ChevronDownIcon } from '@chakra-ui/icons';
-import { TbShoppingCart } from 'react-icons/tb';
+import { HamburgerIcon, CloseIcon, } from '@chakra-ui/icons';
 import { logout } from '../redux/actions/userActions';
 import { MdOutlineAdminPanelSettings } from 'react-icons/md';
 import { FcGoogle } from 'react-icons/fc';
 import { googleLogout } from '@react-oauth/google';
-import { color } from 'framer-motion';
 import LoginForm from './LoginForm';
-import CartForm from './CartForm';
 import CartMenu from './CartMenu';
 import SearchInput from './SearchInput';
 import MobileNav from './MobileNav';
 const Links = [
 	{ name: 'Rólunk', route: '/rolunk' },
 	{ name: 'Tésztáink', route: '/tesztaink' },
+	{ name: 'Pályázat', route: '/palyazat' },
 	{ name: 'Szállítási információk', route: '/szallitasi-informaciok' },
 	{ name: 'Kapcsolat', route: '/kapcsolat' },
 ];
@@ -75,13 +47,13 @@ const Header = () => {
 	const dispatch = useDispatch();
 	const toast = useToast();
 	const { favoritesToggled, products } = useSelector((state) => state.product);
-	const { cartItems, subtotal } = useSelector((state) => state.cart);
 	const { userInfo } = useSelector((state) => state.user);
-	const [showBanner, setShowBanner] = useState(userInfo ? !userInfo.active : false);
+	const [, setShowBanner] = useState(userInfo ? !userInfo.active : false);
 	const [isLoginVisible, setIsLoginVisible] = useState(false);
 	const [isCartVisible, setIsCartVisible] = useState(false);
+	const loginRef = useRef(null); // Ref a teljes panelhez
+	const formRef = useRef(null);  // Ref a LoginForm-hoz
 	let timeoutId;
-
 	const handleMouseEnter = () => {
 		clearTimeout(timeoutId);
 		setIsCartVisible(true);
@@ -103,33 +75,51 @@ const Header = () => {
 		googleLogout();
 		dispatch(logout());
 		toast({
-			description: 'You have been logged out.',
+			description: 'Kijelentkeztél.',
 			status: 'success',
 			isClosable: 'true',
 		});
 	};
 
+	const handleClickOutside = (event) => {
+		if (loginRef.current && !loginRef.current.contains(event.target) && !formRef.current.contains(event.target)) {
+			setIsLoginVisible(false);
+		}
+	};
+
+	useEffect(() => {
+		if (isLoginVisible) {
+			document.addEventListener("mousedown", handleClickOutside);
+		} else {
+			document.removeEventListener("mousedown", handleClickOutside);
+		}
+
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, [isLoginVisible]);
+
 	return (
 		<>
-			<Box zIndex={2} bg={mode(`white`, 'gray.900')} position='sticky' top='0' w='100%' px='4'>
+			<Box height={{base:'80px',md:'100px'}} pt={2} zIndex={2} bg={mode(`white`, 'gray.900')} position='sticky' top='-1' w='100%' px='4'>
 				<Box alignItems='center' display='flex' justifyContent='space-between' px={10}>
 					<Box width={{ base: '0', md: '150px' }} h='1px'>
-						<Flex display={{ base: 'flex', md: 'none' }} position='absolute' left={4} top={2}>
+						<Flex display={{ base: 'flex', md: 'none' }} position='absolute' left={7} top={4}>
 							<IconButton
 								bg='parent'
 								size='md'
-								icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+								icon={isOpen ? <CloseIcon /> : <HamburgerIcon fontSize='20' />}
 								onClick={onOpen}
-								
+
 							/>
-							      <MobileNav Links={Links} isOpen={isOpen} onClose={onClose} />
+							<MobileNav Links={Links} isOpen={isOpen} onClose={onClose} />
 
 						</Flex>
 					</Box>
 					{/* <Icon as={BsPhoneFlip} h='6' w='6' color={mode('black', 'yellow.200')} /> */}
 					<Box display='flex' alignItems='center' as={ReactLink} to='/'>
-					<Image src="/images/laskoditesztalogo.png" width="50px" height="50px" />
-						<Text as='b' display={{base:'none',md:'block'}} fontSize={{ base: 'xl', md: '2xl' }}>LaskodiTészta</Text>
+						<Image src="/images/laskoditesztalogo.png" width="50px" height="50px" />
+						<Text as='b' display={{ base: 'none', md: 'block' }} fontSize={{ base: 'xl', md: '2xl' }}>LaskodiTészta</Text>
 					</Box>
 					<Flex alignItems='center' justify='flex-end'>
 						{userInfo ? (
@@ -164,7 +154,7 @@ const Header = () => {
 									<MenuItem as={ReactLink} to='/rendelesitortenet'>
 										Rendelési történet
 									</MenuItem>
-									
+
 									{userInfo.isAdmin && (
 										<>
 											<MenuDivider />
@@ -185,34 +175,50 @@ const Header = () => {
 
 							</Menu>
 						) : (
-							<Box position="relative">
-								<IconButton
-									icon={<BiUser />}
-									fontSize="25px"
-									onMouseEnter={() => setIsLoginVisible(true)}
-									onMouseLeave={() => setIsLoginVisible(false)}
-									aria-label="User"
-								/>
-								{isLoginVisible && (
-									<Box position="absolute" zIndex={1} top="40px" right="0" onMouseEnter={() => setIsLoginVisible(true)} onMouseLeave={() => setIsLoginVisible(false)}>
-										<LoginForm />
-									</Box>
-								)}
+							<Box>
+								<Box display={{ base: 'none', md: 'block' }} position="relative" ref={loginRef}>
+									<IconButton
+										icon={<BiUser />}
+										fontSize="25px"
+										onClick={() => setIsLoginVisible(!isLoginVisible)}
+										aria-label="User"
+									/>
+									{isLoginVisible && (
+										<Box
+											position="absolute"
+											zIndex={1}
+											top="40px"
+											right="0"
+										>
+
+											<div ref={formRef}>
+												<LoginForm />
+											</div>
+										</Box>
+									)}
+								</Box>
+								<Box display={{ base: 'block', md: 'none' }} position="relative" ref={loginRef}>
+									<IconButton
+										icon={<BiUser />}
+										fontSize="25px"
+										as={ReactLink}
+										to='/bejelentkezes'
+										aria-label="User"
+									/>
+
+								</Box>
 							</Box>
 						)}
-						{favoritesToggled ? (
-							<IconButton
-								onClick={() => dispatch(toggleFavorites(false))}
-								icon={<MdOutlineFavorite size='25px' />}
-								variant='ghost'
-							/>
-						) : (
-							<IconButton
-								onClick={() => dispatch(toggleFavorites(true))}
-								icon={<MdOutlineFavoriteBorder size='25px' />}
-								variant='ghost'
-							/>
-						)}
+
+						<IconButton
+							as={ReactLink}
+							to='/kedvencek'
+							onClick={() => dispatch(toggleFavorites(false))}
+							icon={<MdOutlineFavoriteBorder size='25px' />}
+							variant='ghost'
+						/>
+
+
 
 						{/* <IconButton icon={<BiSearchAlt size='25px' />} onClick={searchOpen} variant='ghost' />
 						{handleSearch && <Box display='flex' alignItems='center' position='fixed' left='1px' top='80px' width='100%'>
@@ -220,11 +226,11 @@ const Header = () => {
 							<Button>Keresés</Button>
 							<Text onClose={() => setSearchOpen(false)}>X</Text>
 						</Box>} */}
-			
-						<SearchInput products={products}/>
 
-							<CartMenu/>
-						
+						<SearchInput products={products} />
+
+						<CartMenu />
+
 					</Flex>
 				</Box>
 				<Flex h="10" alignItems="center" justifyContent={{ base: 'space-between', md: 'center' }}>
@@ -242,7 +248,7 @@ const Header = () => {
 					</HStack>
 
 				</Flex>
-				
+
 			</Box>
 		</>
 	);

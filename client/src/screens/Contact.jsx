@@ -16,17 +16,18 @@ import {
 import { PhoneIcon, TimeIcon } from '@chakra-ui/icons';
 import { MdMail } from "react-icons/md";
 import { MdLocationPin } from "react-icons/md";
-
+import axios from "axios";
+import { useSelector } from "react-redux";
 const Contact = () => {
 
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [phone, setPhone] = useState('');
+    const [tphone, setTphone] = useState('');
     const [submitFailed, setSubmitFailed] = useState(false);
     const [submitSuccessful, setSubmitSuccessful] = useState(false);
-
+    const { userInfo } = useSelector((state) => state.user);
     const [firstNameIsInvalid, setFirstNameIsInvalid] = useState(false);
     const [lastNameIsInvalid, setLastNameIsInvalid] = useState(false);
     const [emailIsInvalid, setEmailIsInvalid] = useState(false);
@@ -44,7 +45,7 @@ const Contact = () => {
         if (lastName.length < 2) setLastNameIsInvalid(true);
         else setLastNameIsInvalid(false);
 
-        if (phone.length < 6) setPhoneIsInvalid(true);
+        if (tphone.length < 6) setPhoneIsInvalid(true);
         else setPhoneIsInvalid(false);
 
         if (!emailRegex.test(email)) setEmailIsInvalid(true);
@@ -61,49 +62,71 @@ const Contact = () => {
         );
     };
 
-    const handeSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async (e) => {
+    e.preventDefault();
 
-        if (isValid()) {
-            const data = {
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                phone: phone,
-                message: message,
-            };
+    if (isValid()) {
+        const data = {
+            firstName,
+            lastName,
+            email,
+            tphone,
+            message,
+        };
 
-            try {
-                const res = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data),
-                });
+        try {
+            const res = await fetch('http://localhost:5000/api/sendorderconfirmationemail/send-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
 
-                if (res.ok) {
-                    // Sikeres küldés
-                    setFirstName('');
-                    setLastName('');
-                    setPhone('');
-                    setEmail('');
-                    setMessage('');
-                    setSubmitSuccessful(true);
-                    setSubmitFailed(false);
-                } else {
-                    // Hibás válasz a szervertől
-                    setSubmitSuccessful(false);
-                    setSubmitFailed(true);
-                }
-            } catch (error) {
-                console.error('Email küldési hiba:', error);
+            if (res.ok) {
+                setFirstName('');
+                setLastName('');
+                setTphone('');
+                setEmail('');
+                setMessage('');
+                setSubmitSuccessful(true);
+                setSubmitFailed(false);
+            } else {
+                setSubmitSuccessful(false);
                 setSubmitFailed(true);
             }
-        } else {
+        } catch (error) {
+            console.error('Hiba az email küldése közben:', error);
             setSubmitFailed(true);
         }
-    };
+    } else {
+        setSubmitFailed(true);
+    }
+};
+
+const emailData = {
+    firstName,
+    userInfo,
+    lastName,
+    email,
+    tphone,
+    message,
+};
+
+const sendOrderConfirmationEmail = async () => {
+    try {
+        await axios.post('http://localhost:5000/api/sendorderconfirmationemail/send-email', emailData
+        );
+        console.log('Email sent successfully');
+    } catch (error) {
+        console.error('Error sending email:', error);
+    }
+};
+
+const onSubmit = async (values)=>{
+    sendOrderConfirmationEmail();
+}
+
 
 
     const mapContainerStyle = {
@@ -187,7 +210,7 @@ const Contact = () => {
                     </Flex> */}
 
                     <Box py={5}  >
-                        <form onSubmit={handeSubmit}>
+                        <form onSubmit={handleSubmit}>
                             <Text maxW='700px' fontSize="xl" textAlign={{ base: 'justify', md: 'justify' }} mb={5}>
                                 Amennyiben érdekli együttműködési lehetőség cégünkkel, vagy további kérdése van, kérjük, vegye fel velünk a kapcsolatot az alábbi elérhetőségeken!
                             </Text>
@@ -248,8 +271,8 @@ const Contact = () => {
                                             _focus={{
                                                 borderColor: 'red.600'
                                             }}
-                                            value={phone}
-                                            onChange={(e) => setPhone(e.target.value)}
+                                            value={tphone}
+                                            onChange={(e) => setTphone(e.target.value)}
                                             isInvalid={phoneIsInvalid}
                                         />
                                         {phoneIsInvalid && <Text color="red.500" fontSize="sm">*Legalább hat karaktert</Text>}

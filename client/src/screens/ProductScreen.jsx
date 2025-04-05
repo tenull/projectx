@@ -8,18 +8,13 @@ import {
 	Box,
 	Button,
 	Flex,
-	HStack,
 	Heading,
 	Image,
-	SimpleGrid,
 	Spinner,
 	Stack,
 	Text,
 	Wrap,
 	useToast,
-	Textarea,
-	Input,
-	Tooltip,
 	Tabs,
 	Tab,
 	TabList,
@@ -29,14 +24,11 @@ import {
 	BreadcrumbItem,
 	Container
 } from '@chakra-ui/react';
-import { BiCheckShield, BiPackage, BiSupport } from 'react-icons/bi';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getProduct } from '../redux/actions/productActions';
 import { useEffect, useState } from 'react';
 import { addCartItem } from '../redux/actions/cartActions';
-import Star from '../components/Star';
-import { createProductReview } from '../redux/actions/productActions';
 import { IoTimerOutline } from "react-icons/io5";
 import { MdOutlineBackpack } from "react-icons/md";
 import { TbMapSearch } from "react-icons/tb";
@@ -83,7 +75,7 @@ const ProductScreen = () => {
 			dispatch(addCartItem(id, amount));
 		}
 		toast({
-			description: 'Item has been added.',
+			description: 'Tészta hozzá lett adva.',
 			status: 'success',
 			isClosable: true,
 		});
@@ -135,7 +127,7 @@ const ProductScreen = () => {
 									</Heading>
 									<Stack spacing='5'>
 
-										<Text textAlign='justify'>{product.description}</Text>
+										<Text w={{base:'100%',md:'700px',lg:'800px'}} textAlign='justify'>{product.description}</Text>
 
 
 										<Box flexBasis='50%' minWidth='300px' maxW='500px' display='flex' flexDirection='column' justifyContent='flex-start' alignItems='center'>
@@ -166,14 +158,10 @@ const ProductScreen = () => {
 										</Box>
 										<Box display='flex' alignItems='center'>
 											<Text me={5}>Mennyiség:</Text>
-											{product.productIsNew && (
-												<Badge p='2' rounded='md' w='50px' fontSize='0.8em' colorScheme='green'>
-													New
-												</Badge>
-											)}
+
 											{product.stock === 0 && (
 												<Badge w='80px' fontSize='0.8em' colorScheme='red'>
-													sold out
+													elfogyott
 												</Badge>
 											)}
 											{product.stock > 1 && (
@@ -205,7 +193,7 @@ const ProductScreen = () => {
 										</Box>
 									</Stack>
 								</Stack>
-								<Flex direction='column' align='center' flex='1' _dark={{ bg: 'gray.900' }}>
+								<Flex position='relative' direction='column' align='center' flex='1' _dark={{ bg: 'gray.900' }}>
 									<Image
 										mb='30px'
 										maxH='400px'
@@ -213,6 +201,28 @@ const ProductScreen = () => {
 										alt={product.name}
 										fallbackSrc='https://via.placeholder.com/250'
 									/>
+									{product.productIsNew && (
+										<Badge fontSize='lg' color='white' position='absolute' rounded='lg' right={20} top={1} ml='2' bg='red.500'>
+											új
+										</Badge>
+									)}
+									<Text
+										position="absolute"
+										top={5}
+										left="50px"
+										bg="blackAlpha.700"
+										color="yellow.300"
+										border="2px solid yellow.400"
+										borderRadius="full"
+										px={4}
+										py={1}
+										fontSize="3xl"
+										fontWeight="bold"
+										boxShadow="lg"
+										transform="translateY(-50%)"
+									>
+										{product.packingOf}
+									</Text>
 								</Flex>
 							</Stack>
 

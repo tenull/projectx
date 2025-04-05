@@ -30,7 +30,7 @@ const LoginScreen = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const location = useLocation();
-	const redirect = '/products';
+	const redirect = '/';
 	const toast = useToast();
 
 	const { loading, error, userInfo, serverMsg } = useSelector((state) => state.user);
@@ -44,7 +44,7 @@ const LoginScreen = () => {
 				navigate(redirect);
 			}
 			toast({
-				description: 'Login successful.',
+				description: 'Sikeres bejelentkezés.',
 				status: 'success',
 				isClosable: true,
 			});
@@ -75,10 +75,10 @@ const LoginScreen = () => {
 		<Formik
 			initialValues={{ email: '', password: '' }}
 			validationSchema={Yup.object({
-				email: Yup.string().email('Invalid email.').required('An email address is required.'),
+				email: Yup.string().email('Érvénytelen email.').required('Az email megadása kötelező.'),
 				password: Yup.string()
-					.min(1, 'Password is too short - must contain at least 1 character.')
-					.required('Password is required.'),
+					.min(1, 'A jelszónak legalább 1 karakter hosszúnak kell lennie.')
+					.required('A jelszó megadása kötelező.'),
 			})}
 			onSubmit={(values) => {
 				dispatch(login(values.email, values.password));
@@ -88,64 +88,41 @@ const LoginScreen = () => {
 					<Stack spacing='8'>
 						<Stack spacing='6'>
 							<Stack spacing={{ base: '2', md: '3' }} textAlign='center'>
-								<Heading fontSize={{ base: 'md', lg: 'xl' }}>Log in to your account</Heading>
+								<Heading fontSize={{ base: 'md', lg: 'xl' }}>Bejelentkezés</Heading>
 								<HStack spacing='1' justify='center'>
-									<Text>Don't have an account?</Text>
-									<Button as={ReactLink} to='/registration' variant='link' colorScheme='cyan'>
-										Sign up
+									<Text>Nincs még fiókod?</Text>
+									<Button as={ReactLink} to='/regisztracio' variant='link' colorScheme='red'>
+										Regisztráció
 									</Button>
 								</HStack>
 							</Stack>
 						</Stack>
-						<Box
-							py={{ base: '0', md: '8' }}
-							px={{ base: '4', md: '10' }}
-							bg={{ base: 'transparent', md: 'bg-surface' }}
-							boxShadow={{ base: 'none', md: 'xl' }}>
+						<Box py={{ base: '0', md: '8' }} px={{ base: '4', md: '10' }} bg={{ base: 'transparent', md: 'bg-surface' }} boxShadow={{ base: 'none', md: 'xl' }}>
 							<Stack spacing='6' as='form' onSubmit={formik.handleSubmit}>
 								{error && (
-									<Alert
-										status='error'
-										flexDirection='column'
-										alignItems='center'
-										justifyContent='center'
-										textAlign='center'>
+									<Alert status='error' flexDirection='column' alignItems='center' justifyContent='center' textAlign='center'>
 										<AlertIcon />
-										<AlertTitle>We are sorry!</AlertTitle>
+										<AlertTitle>Sajnáljuk!</AlertTitle>
 										<AlertDescription>{error}</AlertDescription>
 									</Alert>
 								)}
 								<Stack spacing='5'>
 									<FormControl>
 										<TextField type='text' name='email' placeholder='you@example.com' label='Email' />
-										<PasswordField type='password' name='password' placeholder='your password' label='Password' />
-
-										<Button
-											my='2'
-											onClick={() => setShowPasswordReset(!showPasswordReset)}
-											size='sm'
-											colorScheme='cyan'
-											variant='outline'>
-											Forgot Password ?
+										<PasswordField type='password' name='password' placeholder='Jelszó' label='Jelszó' />
+										<Button my='2' onClick={() => setShowPasswordReset(!showPasswordReset)} size='sm' colorScheme='red' variant='outline'>
+											Elfelejtett jelszó?
 										</Button>
 										{showPasswordReset && <PasswordForgottenForm />}
 									</FormControl>
 								</Stack>
 								<Stack spacing='6'>
-									<Button colorScheme='cyan' size='lg' fontSize='md' isLoading={loading} type='submit'>
-										Sign in
+									<Button colorScheme='red' size='lg' fontSize='md' isLoading={loading} type='submit'>
+										Bejelentkezés
 									</Button>
-									<Button
-										leftIcon={<FcGoogle />}
-										colorScheme='cyan'
-										size='lg'
-										fontSize='md'
-										isLoading={loading}
-										onClick={() => handleGoogleLogin()}>
-										Google sign in
+									<Button leftIcon={<FcGoogle />} colorScheme='red' size='lg' fontSize='md' isLoading={loading} onClick={() => handleGoogleLogin()}>
+										Google bejelentkezés
 									</Button>
-
-									
 								</Stack>
 							</Stack>
 						</Box>

@@ -14,13 +14,14 @@ export const shippingMethods = [
     // },
     {
         name: 'DPD házhozszállítás',
-        image: '/images/dpd.png',
+        image: '/images/szallitas/dpd.png',
         max: 31.5,
         date:'Szállítási idő: kb. 1-5 munkanap.',
         prices: [
             { maxPrice: 10000, price: 2790 },
             { maxPrice: 25000, price: 2590 },
-            { maxPrice: Infinity, price: 0 } 
+            { maxPrice: Infinity, price: 0 } ,
+            { maxWeight: 31.5, price: 2790}
         ],
         details: [
             'Szállítási idő: kb. 1-5 munkanap.',
@@ -34,7 +35,7 @@ export const shippingMethods = [
     },
     {
         name: 'GLS házhozszállítás',
-        image: '/images/gls.png',
+        image: '/images/szallitas/gls.png',
         max: 28,
         date:'Szállítási idő: kb. 1-7 munkanap.',
         prices: [
@@ -51,7 +52,7 @@ export const shippingMethods = [
     },
     {
         name: 'MPL futárszolgálat (Magyar Posta)',
-        image: '/images/gls.png',
+        image: '/images/szallitas/mpl-hq-1.png',
         max: 100,
         date:'Szállítási idő: kb. 2-7 munkanap',
         prices: [
@@ -68,7 +69,7 @@ export const shippingMethods = [
     },
     {
         name: 'MPL PostaPont',
-        image: '/images/gls.png',
+        image: '/images/szallitas/PostaPont-logo.webp',
         max: 20,
         date:'Szállítási idő: kb. 1-5 munkanap',
         prices: [
@@ -86,7 +87,7 @@ export const shippingMethods = [
     },
     {
         name: 'MPL csomagautomata',
-        image: '/images/gls.png',
+        image: '/images/szallitas/mplpostapont.jpg',
         max: 100,
         date:'Szállítási idő: kb. 1-5 munkanap',
         prices: [

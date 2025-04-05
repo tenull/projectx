@@ -6,6 +6,8 @@ export const initialState = {
 	userInfo: JSON.parse(localStorage.getItem('userInfo')) ?? null,
 	serverMsg: null,
 	serverStatus: null,
+	favorites: JSON.parse(localStorage.getItem('favorites')) ?? [], 
+	favoritesFlag:false
 };
 
 export const userSlice = createSlice({
@@ -52,6 +54,15 @@ export const userSlice = createSlice({
 			state.orders = payload;
 			state.loading = false;
 		},
+		setFavorites: (state, { payload }) => {
+			state.favorites = payload;
+			state.loading = false;
+			localStorage.setItem('favorites', JSON.stringify(payload));
+		},
+		setFavoritesUpdateFlag: (state, { payload }) => {
+			state.favoritesFlag = payload;
+			state.loading = false;
+		}
 	},
 });
 
@@ -65,6 +76,8 @@ export const {
 	userLogout,
 	verificationEmail,
 	stateReset,
+	setFavorites,
+	setFavoritesUpdateFlag
 } = userSlice.actions;
 
 export default userSlice.reducer;

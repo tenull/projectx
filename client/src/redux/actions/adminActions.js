@@ -11,6 +11,7 @@ import {
 	orderDelete,
 	setOrderFlag,
 	userIsAdmin,
+	setPaidFlag
 } from '../slices/admin';
 
 export const getAllUsers = () => async (dispatch, getState) => {
@@ -26,8 +27,8 @@ export const getAllUsers = () => async (dispatch, getState) => {
 		dispatch(getUsers(data));
 	} catch (error) {
 		setError(
-			error.response && error.response.data.message
-				? error.response.data.message
+			error.response && error.response.data
+				? error.response.data
 				: error.message
 				? error.message
 				: 'An expected error has occured. Please try again later.'
@@ -48,8 +49,8 @@ export const deleteUser = (id) => async (dispatch, getState) => {
 		dispatch(userDelete(data));
 	} catch (error) {
 		setError(
-			error.response && error.response.data.message
-				? error.response.data.message
+			error.response && error.response.data
+				? error.response.data
 				: error.message
 				? error.message
 				: 'An expected error has occured. Please try again later.'
@@ -70,8 +71,8 @@ export const getAllOrders = () => async (dispatch, getState) => {
 		dispatch(getOrders(data));
 	} catch (error) {
 		setError(
-			error.response && error.response.data.message
-				? error.response.data.message
+			error.response && error.response.data
+				? error.response.data
 				: error.message
 				? error.message
 				: 'An expected error has occured. Please try again later.'
@@ -93,8 +94,8 @@ export const deleteOrder = (id) => async (dispatch, getState) => {
 		dispatch(setOrderFlag())
 	} catch (error) {
 		setError(
-			error.response && error.response.data.message
-				? error.response.data.message
+			error.response && error.response.data
+				? error.response.data
 				: error.message
 				? error.message
 				: 'An expected error has occured. Please try again later.'
@@ -112,12 +113,32 @@ export const setDelivered = (id) => async (dispatch, getState) => {
 
 	try {
 		await axios.put(`/api/orders/${id}`, {}, config);
-		console.log(config)
 		dispatch(setDeliveredFlag());
 	} catch (error) {
 		setError(
-			error.response && error.response.data.message
-				? error.response.data.message
+			error.response && error.response.data
+				? error.response.data
+				: error.message
+				? error.message
+				: 'An expected error has occured. Please try again later.'
+		);
+	}
+};
+export const setPaid = (id) => async (dispatch, getState) => {
+	setLoading();
+	const {
+		user: { userInfo },
+	} = getState();
+
+	const config = { headers: { Authorization: `Bearer ${userInfo.token}`, 'Content-Type': 'application/json' } };
+
+	try {
+		await axios.put(`/api/orders/${id}/paid`, {}, config);
+		dispatch(setPaidFlag());
+	} catch (error) {
+		setError(
+			error.response && error.response
+				? error.response.data
 				: error.message
 				? error.message
 				: 'An expected error has occured. Please try again later.'
@@ -180,8 +201,8 @@ export const updateProduct =
 			dispatch(setProductUpdateFlag());
 		} catch (error) {
 			dispatch(setError(
-				error.response && error.response.data.message
-					? error.response.data.message
+				error.response && error.response.data
+					? error.response.data
 					: error.message
 					? error.message
 					: 'An expected error has occurred. Please try again later.'
@@ -204,8 +225,8 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
 		dispatch(resetError());
 	} catch (error) {
 		setError(
-			error.response && error.response.data.message
-				? error.response.data.message
+			error.response && error.response.data
+				? error.response.data
 				: error.message
 				? error.message
 				: 'An expected error has occured. Please try again later.'
@@ -227,8 +248,8 @@ export const uploadProduct = (newProduct) => async (dispatch, getState) => {
 		dispatch(setProductUpdateFlag());
 	} catch (error) {
 		setError(
-			error.response && error.response.data.message
-				? error.response.data.message
+			error.response && error.response.data
+				? error.response.data
 				: error.message
 				? error.message
 				: 'An expected error has occured. Please try again later.'
@@ -250,8 +271,8 @@ export const removeReview = (productId, reviewId) => async (dispatch, getState) 
 		dispatch(setReviewRemovalFlag());
 	} catch (error) {
 		setError(
-			error.response && error.response.data.message
-				? error.response.data.message
+			error.response && error.response.data
+				? error.response.data
 				: error.message
 				? error.message
 				: 'An expected error has occured. Please try again later.'
@@ -280,9 +301,40 @@ export const updateUser = (id, updatedData) => async (dispatch, getState) => {
         dispatch(userIsAdmin(data.user)); 
     } catch (error) {
         dispatch(setError(
-            error.response && error.response.data.message
-                ? error.response.data.message
+            error.response && error.response.data
+                ? error.response.data
                 : error.message || 'Ismeretlen hiba történt.'
         ));
+    }
+};
+
+
+export const checkAndSetPaid = (orderId) => async (dispatch, getState) => {
+    setLoading();
+    const {
+        user: { userInfo },
+    } = getState();
+
+    const config = {
+        headers: { Authorization: `Bearer ${userInfo.token}`, 'Content-Type': 'application/json' }
+    };
+
+    try {
+        // Lekérdezzük a rendelés státuszát a backendből (ami ellenőrzi a Barion státuszát)
+        const { data } = await axios.get(`/api/orders/${orderId}`, config);
+
+        if (data.isPaid) {
+            dispatch(setPaidFlag());
+        } else {
+            alert('A rendelés még nincs kifizetve Barion szerint.');
+        }
+    } catch (error) {
+        setError(
+            error.response && error.response.data
+                ? error.response.data
+                : error.message
+                ? error.message
+                : 'Hiba történt a fizetési státusz ellenőrzésekor.'
+        );
     }
 };

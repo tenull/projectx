@@ -74,8 +74,8 @@ export const getProduct = (id) => async (dispatch) => {
 	} catch (error) {
 		dispatch(
 			setError(
-				error.response && error.response.data.message
-					? error.response.data.message
+				error.response && error.response.data
+					? error.response.data
 					: error.message
 					? error.message
 					: 'An expected error has occured. Please try again later.'
@@ -96,8 +96,8 @@ export const createProductReview = (productId, userId, comment, rating, title) =
 	} catch (error) {
 		dispatch(
 			setError(
-				error.response && error.response.data.message
-					? error.response.data.message
+				error.response && error.response.data
+					? error.response.data
 					: error.message
 					? error.message
 					: 'An expected error has occured. Please try again later.'
@@ -120,8 +120,8 @@ export const getProductDetails = (id) => async (dispatch, getState) => {
 		dispatch(setProductDetails(data));
 	} catch (error) {
 		dispatch(setError(
-			error.response && error.response.data.message
-				? error.response.data.message
+			error.response && error.response.data
+				? error.response.data
 				: 'Failed to fetch product details'
 		));
 	}

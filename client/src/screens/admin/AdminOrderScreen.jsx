@@ -31,7 +31,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { Link as ReactLink } from 'react-router-dom';
 const AdminOrderScreen = () => {
     const dispatch = useDispatch();
-    const { error, loading, orders, deliveredFlag, orderRemoval } = useSelector((state) => state.admin);
+    const { error, loading, orders, deliveredFlag, orderRemoval,paidFlag } = useSelector((state) => state.admin);
     const toast = useToast();
 
     useEffect(() => {
@@ -39,7 +39,7 @@ const AdminOrderScreen = () => {
         dispatch(resetErrorAndRemoval());
         if (orderRemoval) {
             toast({
-                description: 'Order has been removed.',
+                description: 'Rendelés törölve lett.',
                 status: 'success',
                 isClosable: true,
             });
@@ -47,12 +47,19 @@ const AdminOrderScreen = () => {
         }
         if (deliveredFlag) {
             toast({
-                description: 'Order has been set to delivered.',
+                description: 'Rendelés kiszállítás alatt.',
                 status: 'success',
                 isClosable: true,
-            });
+            });  
         }
-    }, [dispatch, toast, orderRemoval, deliveredFlag]);
+        // if (paidFlag) {
+        //     toast({
+        //         description: 'Rendelés kifizetve.',
+        //         status: 'success',
+        //         isClosable: true,
+        //     });  
+        // }
+    }, [dispatch, toast, orderRemoval, deliveredFlag,paidFlag]);
 
     return (
         <Box>
@@ -82,6 +89,7 @@ const AdminOrderScreen = () => {
                                             <Th>kiszállítási forma</Th>
                                             <Th>teljes összeg</Th>
                                             <Th>kiszállítva</Th>
+                                            <Th>kifizetve</Th>
                                         </Tr>
                                     </Thead>
                                     <Tbody>
@@ -93,6 +101,7 @@ const AdminOrderScreen = () => {
                                                     <Td>{order.shipping}</Td>
                                                     <Td>{order.totalPrice} Ft</Td>
                                                     <Td>{order.isDelivered ? <CheckCircleIcon /> : 'X'}</Td>
+                                                    <Td>{order.isPaid ? <CheckCircleIcon /> : 'X'}</Td>
                                                     <Td>
                                                         <Flex direction="column">
                                                             <Button variant="outline" as={ReactLink} to={`/admin/rendeles/${order._id}`}>

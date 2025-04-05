@@ -4,12 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getProducts } from '../redux/actions/productActions';
 import { Box, Breadcrumb, BreadcrumbItem, Container, Text, Wrap, WrapItem, Center, Button, Alert, AlertIcon, AlertTitle, AlertDescription } from '@chakra-ui/react';
-import { ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons';
 import ProductCard from '../components/ProductCard';
 import { IoIosCheckmark } from "react-icons/io";
 import { Link as ReactLink } from "react-router-dom";
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { useNavigate } from 'react-router-dom';
+import { getUserFavorites } from '../redux/actions/userActions';
+import { setFavoritesUpdateFlag } from '../redux/slices/user';
 const ProductsScreen = () => {
 
 	const dispatch = useDispatch();
@@ -19,22 +20,22 @@ const ProductsScreen = () => {
 	const [filteredProducts, setFilteredProducts] = useState([]);
 	const [selectedType, setSelectedType] = useState(null);
 	const [selectedCategory, setSelectedCategory] = useState();
-	const { loading, error, products, pagination, favoritesToggled } = useSelector((state) => state.product);
+	const { loading, error, products, favoritesToggled } = useSelector((state) => state.product);
+	const { userInfo } = useSelector((state) => state.user);
 	const { cartItems } = useSelector((state) => state.cart);
+	const { favoritesFlag, } = useSelector((state) => state.user);
 
 	const handleCategorySelect = (category) => {
 		setSelectedCategory(category.name);
 		navigate(`/tesztaink/${category.filter.packingOf}-${category.filter.type}`);
 	};
 
-
 	useEffect(() => {
-		dispatch(getProducts(pageNumber, favoritesToggled, keyword));
-	}, [dispatch, pageNumber, keyword, favoritesToggled]);
+		dispatch(getProducts(pageNumber, keyword));
 
-	const paginationButtonClick = (page) => {
-		dispatch(getProducts(page, favoritesToggled, keyword));
-	};
+	}, [dispatch, pageNumber, keyword]);
+
+
 
 	const categoryButtons = [
 		{ name: "4 Tojásos körettészta", filter: { packingOf: 4, type: "körettészta" } },
@@ -45,17 +46,15 @@ const ProductsScreen = () => {
 
 	useEffect(() => {
 		if (category) {
-		  const [packingOf, type] = category.split('-'); // Szétbontjuk az URL-ből kapott stringet
-		  const filtered = products.filter(
-			(product) => product.packingOf === Number(packingOf) && product.type === type
-		  );
-		  setFilteredProducts(filtered);
+			const [packingOf, type] = category.split('-');
+			const filtered = products.filter(
+				(product) => product.packingOf === Number(packingOf) && product.type === type
+			);
+			setFilteredProducts(filtered);
 		} else {
-		  setFilteredProducts(products);
+			setFilteredProducts(products);
 		}
-	  }, [category, products]);
-
-	console.log(products)
+	}, [category, products]);
 
 	const filteredByType = filteredProducts.filter(item => {
 		if (!selectedType) return true;
@@ -64,6 +63,13 @@ const ProductsScreen = () => {
 
 	});
 
+
+	useEffect(() => {
+		if (favoritesFlag) {
+			dispatch(getUserFavorites());
+			dispatch(setFavoritesUpdateFlag(false));
+		}
+	}, [favoritesFlag, dispatch]);
 
 
 	return (
@@ -102,31 +108,59 @@ const ProductsScreen = () => {
 							</Text>
 							{categoryButtons.map((category, index) => (
 								<Button
-								key={category.name}
-								onClick={() => handleCategorySelect(category)}
-								minW="100%"
-								borderTop={index === 0 ? "none" : "2px"}
-								borderColor="red.600"
-								borderRadius="0"
-								fontSize="md"
-								fontFamily="Poppins"
-								fontWeight="500"
-								position="relative"
-								bg={selectedCategory === category.name ? "red.600" : "transparent"}
-								color={selectedCategory === category.name ? "white" : "black"}
-								_hover={{ bg: "red.600", color: "white" }}
-								display="flex"
-								justifyContent="space-between"
-							  >
-								{category.name}
-								{selectedCategory === category.name && <IoIosCheckmark style={{ position: 'absolute', right: '1px' }} fontSize='30px' />}
-							  </Button>
+									key={category.name}
+									onClick={() => handleCategorySelect(category)}
+									minW="100%"
+									borderTop={index === 0 ? "none" : "2px"}
+									borderColor="red.600"
+									borderRadius="0"
+									fontSize="md"
+									fontFamily="Poppins"
+									fontWeight="500"
+									position="relative"
+									bg={selectedCategory === category.name ? "red.600" : "transparent"}
+									color={selectedCategory === category.name ? "white" : "black"}
+									_hover={{ bg: "red.600", color: "white" }}
+									display="flex"
+									justifyContent="space-between"
+								>
+									{category.name}
+									{selectedCategory === category.name && <IoIosCheckmark style={{ position: 'absolute', right: '1px' }} fontSize='30px' />}
+								</Button>
 							))}
 
 						</Wrap>
 
-						<Container maxW={{ base: 'container.md', md: 'container.lg', lg: 'container.lg' }} mx={0}>
+						<Container maxW={{ base: 'container.md', md: 'container.lg', lg: 'container.lg' }} mx={0} display='flex' flexDirection='column' alignItems='center'>
+							<Box minW="260px" rounded="md" maxW="5%" display={{ base: "block", md: "none" }}>
+								
+								<Text fontFamily="Poppins" mb={2} color="black" fontWeight="bold" fontSize="4xl">
+									KATEGÓRIA
+								</Text>
+								{categoryButtons.map((category, index) => (
+									<Button
+										key={category.name}
+										onClick={() => handleCategorySelect(category)}
+										minW="100%"
+										borderTop={index === 0 ? "none" : "2px"}
+										borderColor="red.600"
+										borderRadius="0"
+										fontSize="md"
+										fontFamily="Poppins"
+										fontWeight="500"
+										position="relative"
+										bg={selectedCategory === category.name ? "red.600" : "transparent"}
+										color={selectedCategory === category.name ? "white" : "black"}
+										_hover={{ bg: "red.600", color: "white" }}
+										display="flex"
+										justifyContent="space-between"
+									>
+										{category.name}
+										{selectedCategory === category.name && <IoIosCheckmark style={{ position: 'absolute', right: '1px' }} fontSize='30px' />}
+									</Button>
+								))}
 
+							</Box>
 							<Box display='flex' justifyContent='center' gap={0}>
 								<Button
 									bg={selectedType === "lakossagi" ? 'red.600' : 'transparent'}
@@ -175,7 +209,7 @@ const ProductsScreen = () => {
 								</Button>
 
 							</Box>
-							<Wrap mt={5} spacing={{base:'20px',md:'30px'}} justify='center' minHeight='80vh' >
+							<Wrap mt={5} spacing={{ base: '20px', md: '30px' }} justify='center' minHeight='80vh' >
 								{error ? (
 									<Alert status="error">
 										<AlertIcon />

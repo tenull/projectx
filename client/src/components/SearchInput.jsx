@@ -143,7 +143,9 @@ const SearchInput = () => {
                       {product.packingOf}
                     </Text>
 
-                    <Image src={product.image} borderRadius="md" maxW="80px" mx="auto" />
+                    <Image src={product.image} 
+                    fallbackSrc='https://placehold.co/400'
+                    borderRadius="md" maxW="80px" mx="auto" />
                     <Text fontSize="sm" fontWeight="bold" textAlign="center" mt={2}>
                       {product.name}
                     </Text>

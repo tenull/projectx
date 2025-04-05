@@ -33,12 +33,15 @@ const loginUser = asyncHandler(async (req, res) => {
 			active: user.active,
 			firstLogin: user.firstLogin,
 			created: user.createdAt,
+			favorites: user.favorites
 		});
 	} else {
-		res.status(401).send('Invalid Email or Password.');
-		throw new Error('User not found.');
+		res.status(401).send('Hibás e-mail vagy jelszó.');
+		throw new Error('Felhasználó nem található.');
 	}
 });
+
+console.log(loginUser)
 
 // register
 const registerUser = asyncHandler(async (req, res) => {
@@ -46,7 +49,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
 	const userExists = await User.findOne({ email });
 	if (userExists) {
-		res.status(400).send('We already have an account with that email address.');
+		res.status(400).send('Már van egy fiókunk ezzel az e-mail címmel.');
 	}
 
 	const user = await User.create({
@@ -71,10 +74,11 @@ const registerUser = asyncHandler(async (req, res) => {
 			token: newToken,
 			active: user.active,
 			createdAt: user.createdAt,
+			favorites: user.favorites
 		});
 	} else {
-		res.status(400).send('We could not register you.');
-		throw new Error('Something went wrong. Please check your information and try again.');
+		res.status(400).send('Nem tudtuk regisztrálni Önt.');
+		throw new Error('Valami hiba történt.Kérjük, ellenőrizze az adatait és próbálja újra.');
 	}
 });
 
@@ -83,7 +87,7 @@ const verifyEmail = asyncHandler(async (req, res) => {
 	const user = req.user;
 	user.active = true;
 	await user.save();
-	res.json('Thanks for activating your account. You can close this window now.');
+	res.json('Köszönjük, hogy aktiválta fiókját. Most bezárhatja ezt az ablakot.');
 });
 
 // password reset request
@@ -94,10 +98,10 @@ const passwordResetRequest = asyncHandler(async (req, res) => {
 		if (user) {
 			const newToken = genToken(user._id);
 			sendPasswordResetEmail(newToken, user.email, user.name);
-			res.status(200).send(`We have send you a recover email to ${email}`);
+			res.status(200).send(`Küldtünk Önnek egy helyreállítási e-mailt a ${email}`);
 		}
 	} catch (error) {
-		res.status(401).send('There is not account with such an email address');
+		res.status(401).send('Nincs fiók ilyen e-mail címmel');
 	}
 });
 
@@ -111,12 +115,12 @@ const passwordReset = asyncHandler(async (req, res) => {
 		if (user) {
 			user.password = req.body.password;
 			await user.save();
-			res.json('Your password has been updated successfully.');
+			res.json('Jelszava sikeresen frissült.');
 		} else {
-			res.status(404).send('User not found.');
+			res.status(404).send('Felhasználó nem található.');
 		}
 	} catch (error) {
-		res.status(401).send('Password reset failed.');
+		res.status(401).send('A jelszó visszaállítása sikertelen.');
 	}
 });
 
@@ -141,6 +145,7 @@ const googleLogin = asyncHandler(async (req, res) => {
 				token: genToken(user._id),
 				active: user.active,
 				createdAt: user.createdAt,
+				favorites: user.favorites
 			});
 		} else {
 			const newUser = await User.create({
@@ -164,10 +169,11 @@ const googleLogin = asyncHandler(async (req, res) => {
 				token: genToken(newUser._id),
 				active: newUser.active,
 				createdAt: newUser.createdAt,
+				favorites: newUser.favorites
 			});
 		}
 	} catch (error) {
-		res.status(404).send('Something went wrong, please try again later.');
+		res.status(404).send('Valami hiba történt,kérjük próbálja meg később újra.');
 	}
 });
 
@@ -176,8 +182,8 @@ const getUserOrders = asyncHandler(async (req, res) => {
 	if (orders) {
 		res.json(orders);
 	} else {
-		res.status(404).send('No orders could be found.');
-		throw new Error('No Orders found.');
+		res.status(404).send('Nem találtak megrendelést.');
+		throw new Error('Nem található rendelés.');
 	}
 });
 
@@ -222,10 +228,55 @@ const deleteUser = asyncHandler(async (req, res) => {
 		const user = await User.findByIdAndRemove(req.params.id);
 		res.json(user);
 	} catch (error) {
-		res.status(404).send('This user could not be found.');
-		throw new Error('This user could not be found.');
+		res.status(404).send('Ez a felhasználó nem található.');
+		throw new Error('Ez a felhasználó nem található.');
 	}
 });
+
+userRoutes.get('/favorites', protectRoute, asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user.id).populate('favorites');
+    
+    if (!user) {
+        return res.status(404).json({ message: "Felhasználó nem található" });
+    }
+
+    res.json(user.favorites);
+}));
+
+userRoutes.post('/favorites/:productId', protectRoute, asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user.id);
+    
+    if (!user) {
+        return res.status(404).json({ message: "Felhasználó nem található" });
+    }
+
+    const productId = req.params.productId;
+    if (!user.favorites.includes(productId)) {
+        user.favorites.push(productId);
+    }
+
+    await user.save();
+    res.json(user.favorites);
+	console.log(user.favorites)
+}));
+
+
+userRoutes.delete('/favorites/:productId', protectRoute, asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user.id);
+    
+    if (!user) {
+        return res.status(404).json({ message: "Felhasználó nem található" });
+    }
+
+    user.favorites = user.favorites.filter(fav => fav.toString() !== req.params.productId);
+    await user.save();
+
+    res.json(user.favorites);
+	console.log(user.favorites)
+}));
+
+
+
 
 userRoutes.route('/login').post(loginUser);
 userRoutes.route('/register').post(registerUser);

@@ -42,7 +42,7 @@ const LoginForm = () => {
                 navigate(redirect);
             }
             toast({
-                description: 'Login successful.',
+                description: 'Sikeres bejelentkezés.',
                 status: 'success',
                 isClosable: true,
             });
@@ -73,13 +73,13 @@ const LoginForm = () => {
         <Formik
             initialValues={{ email: '', password: '' }}
             validationSchema={Yup.object({
-                email: Yup.string().email('Invalid email.').required('Required'),
-                password: Yup.string().min(1, 'Too short!').required('Required'),
+                email: Yup.string().email('Rossz email formátum.').required('Kötelező'),
+                password: Yup.string().min(1, 'Túl rövid!').required('Kötelező'),
             })}
             onSubmit={(values) => {
                 dispatch(login(values.email, values.password));
                 toast({
-                    description: 'Login successful',
+                    description: 'Sikeres bejelentkezés.',
                     status: 'success',
                     isClosable: true,
                 });
@@ -99,7 +99,7 @@ const LoginForm = () => {
                             <TextField type="text" name="email" placeholder="you@example.com" label="Email" />
                             <PasswordField type="password" name="password" placeholder="your password" label="Password" />
                             <Button size="sm" variant="link" onClick={() => setShowPasswordReset(!showPasswordReset)}>
-                                Forgot Password?
+                                Elfelejtetted a jelszavad?
                             </Button>
                             {showPasswordReset && <PasswordForgottenForm />}
                         </FormControl>

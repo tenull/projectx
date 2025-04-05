@@ -9,6 +9,8 @@ import {
 	userLogout,
 	verificationEmail,
 	stateReset,
+	setFavorites,
+	setFavoritesUpdateFlag
 } from '../slices/user';
 
 import { clearCart } from '../slices/cart';
@@ -25,11 +27,11 @@ export const login = (email, password) => async (dispatch) => {
 	} catch (error) {
 		dispatch(
 			setError(
-				error.response && error.response.data.message
-					? error.response.data.message
+				error.response && error.response.data
+					? error.response.data
 					: error.message
-					? error.message
-					: 'An expected error has occured. Please try again later.'
+						? error.message
+						: 'An expected error has occured. Please try again later.'
 			)
 		);
 	}
@@ -54,11 +56,11 @@ export const register = (name, email, password) => async (dispatch) => {
 	} catch (error) {
 		dispatch(
 			setError(
-				error.response && error.response.data.message
-					? error.response.data.message
+				error.response && error.response.data
+					? error.response.data
 					: error.message
-					? error.message
-					: 'An expected error has occured. Please try again later.'
+						? error.message
+						: 'An expected error has occured. Please try again later.'
 			)
 		);
 	}
@@ -80,11 +82,11 @@ export const verifyEmail = (token) => async (dispatch) => {
 	} catch (error) {
 		dispatch(
 			setError(
-				error.response && error.response.data.message
-					? error.response.data.message
+				error.response && error.response.data
+					? error.response.data
 					: error.message
-					? error.message
-					: 'An expected error has occured. Please try again later.'
+						? error.message
+						: 'An expected error has occured. Please try again later.'
 			)
 		);
 	}
@@ -102,11 +104,11 @@ export const sendResetEmail = (email) => async (dispatch) => {
 	} catch (error) {
 		dispatch(
 			setError(
-				error.response && error.response.data.message
-					? error.response.data.message
+				error.response && error.response.data
+					? error.response.data
 					: error.message
-					? error.message
-					: 'An expected error has occured. Please try again later.'
+						? error.message
+						: 'An expected error has occured. Please try again later.'
 			)
 		);
 	}
@@ -124,11 +126,11 @@ export const resetPassword = (password, token) => async (dispatch) => {
 	} catch (error) {
 		dispatch(
 			setError(
-				error.response && error.response.data.message
-					? error.response.data.message
+				error.response && error.response.data
+					? error.response.data
 					: error.message
-					? error.message
-					: 'An expected error has occured. Please try again later.'
+						? error.message
+						: 'An expected error has occured. Please try again later.'
 			)
 		);
 	}
@@ -149,11 +151,11 @@ export const googleLogin = (googleId, email, name, googleImage) => async (dispat
 	} catch (error) {
 		dispatch(
 			setError(
-				error.response && error.response.data.message
-					? error.response.data.message
+				error.response && error.response
+					? error.response.data
 					: error.message
-					? error.message
-					: 'An expected error has occured. Please try again later.'
+						? error.message
+						: 'An expected error has occured. Please try again later.'
 			)
 		);
 	}
@@ -174,12 +176,78 @@ export const getUserOrders = () => async (dispatch, getState) => {
 	} catch (error) {
 		dispatch(
 			setError(
-				error.response && error.response.data.message
-					? error.response.data.message
+				error.response && error.response.data
+					? error.response.data
 					: error.message
-					? error.message
-					: 'An expected error has occured. Please try again later.'
+						? error.message
+						: 'An expected error has occured. Please try again later.'
 			)
 		);
 	}
 };
+
+export const getUserFavorites = () => async (dispatch, getState) => {
+	dispatch(setLoading(true));
+
+	const {
+		user: { userInfo },
+	} = getState();
+
+	try {
+		const config = { headers: { Authorization: `Bearer ${userInfo.token}`, 'Content-Type': 'application/json' } };
+
+		const { data } = await axios.get(`/api/users/favorites`, config);
+		dispatch(setFavorites(data));
+		dispatch(setFavoritesUpdateFlag());
+
+	} catch (error) {
+		dispatch(
+			setError(
+				error.response && error.response.data
+					? error.response.data
+					: error.message
+						? error.message
+						: 'An expected error has occurred. Please try again later.'
+			)
+		);
+	}
+};
+
+
+export const addToFavorites = (id) => async (dispatch, getState) => {
+    try {
+        const { userInfo } = getState().user;
+
+        const { data } = await axios.post(
+            `/api/users/favorites/${id}`,
+            {},
+            { headers: { Authorization: `Bearer ${userInfo.token}` } }
+        );
+
+        const updatedUserInfo = { ...userInfo, favorites: data };
+        dispatch(userLogin(updatedUserInfo));
+		dispatch(setFavoritesUpdateFlag(true)); 
+    } catch (error) {
+        dispatch(setError(error.response?.data?.message || 'Hiba történt a kedvencek hozzáadásakor.'));
+    }
+};
+
+
+export const removeFromFavorites = (id) => async (dispatch, getState) => {
+    try {
+        const { userInfo } = getState().user;
+
+        const { data } = await axios.delete(
+            `/api/users/favorites/${id}`,
+            { headers: { Authorization: `Bearer ${userInfo.token}` } }
+        );
+
+        const updatedUserInfo = { ...userInfo, favorites: data };
+        dispatch(userLogin(updatedUserInfo));
+		dispatch(setFavoritesUpdateFlag(true)); 
+
+    } catch (error) {
+        dispatch(setError(error.response?.data?.message || 'Hiba történt a kedvencek eltávolításakor.'));
+    }
+};
+

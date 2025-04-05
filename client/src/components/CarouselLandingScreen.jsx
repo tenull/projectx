@@ -5,58 +5,64 @@ import {
     Box,
     IconButton,
     useBreakpointValue,
-    useColorMode as mode,
-    Stack,
     Heading,
     Text,
-    Container,
+    Button,
 } from '@chakra-ui/react'
 import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi'
 import Slider from 'react-slick'
-import { GiTakeMyMoney, } from 'react-icons/gi'
-import { TbTruckDelivery } from 'react-icons/tb'
-// Settings for the slider
-
+import { Link as ReactLink } from 'react-router-dom'
 
 export default function CaptionCarousel() {
     const [slider, setSlider] = React.useState(null)
 
-    const top = useBreakpointValue({ base: '60%', md: '50%' })
+    const top = useBreakpointValue({ base: '50%', md: '50%' })
     const side = useBreakpointValue({ base: '10px', md: '40px' })
 
-    const slidesToShow = useBreakpointValue({ base: 1, md: 1 })
-    const dotsToShow = useBreakpointValue({base:false,md:false})
     const settings = {
-    dots: dotsToShow,
-    arrows: false,
-    infinite: true,
-    autoplay: true,
-    speed: 500,
-    autoplaySpeed: 500000,
-    slidesToShow: slidesToShow, 
-    slidesToScroll: 1,
-}
+        dots: true,
+        arrows: false,
+        infinite: true,
+        autoplay: true,
+        speed: 600,
+        autoplaySpeed: 3500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+    }
 
-    const cards = [ 
-        {
-            image: '/images/pastalogo3.jpg',
-            title: 'Laskodi tészta',
-            title2:'Tekintsd meg 4 és 8 tojásos tésztáinkat'
-        },
+    const cards = [
         {
             image: '/images/pastalogo2.jpg',
-            title: 'Laskodi tészta',
-             title2:'Minőség megfizethető áron'
+            title: 'Friss, házias tészta',
+            subtitle: 'Kézzel készült, válogatott alapanyagokból',
+            right: '',
+            left: ''
         },
         {
-            image: '/images/pastalogo4.jpg',
-            title: 'Laskodi tészta',
-            title2:'25.000 Ft felett ingyenes kiszállítás az ország bármelyik területére'
+            image: '/images/pastalogo3.jpg',
+            title: 'Minőség minden tányéron',
+            subtitle: 'Ellenőrzött forrásból, tradícióval készítve',
+            right: '',
+            left: ''
         },
-    ];
+        {
+            image: '/images/pastalogo5.png',
+            // title: 'Ingyenes szállítás 25.000 Ft felett!',
+            // subtitle: 'Rendelj most, és élvezd a házhoz szállítás kényelmét',
+            // right:'',
+            // left:''
+        },
+        {
+            image: '/images/pastalogo6.png',
+            // title: 'Ingyenes szállítás 25.000 Ft felett!',
+            // subtitle: 'Rendelj most, és élvezd a házhoz szállítás kényelmét',
+            // right:'',
+            // left:''
+        },
+    ]
 
     return (
-        <Box position={'relative'}  >
+        <Box position={'relative'} width="100%" height="500px" overflow="hidden">
             <link
                 rel="stylesheet"
                 type="text/css"
@@ -68,69 +74,94 @@ export default function CaptionCarousel() {
                 href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
             />
 
+            {/* Balra nyíl */}
             <IconButton
                 aria-label="left-arrow"
-                variant='outline'
-                _hover={{variant:'none'}}
+                variant="unstyled"
                 position="absolute"
                 left={side}
                 top={top}
-                transform={'translate(0%, -50%)'}
-                zIndex={1}
-                onClick={() => slider?.slickPrev()}>
-                <BiLeftArrowAlt color='white' size="40px" />
+                transform="translate(0%, -50%)"
+                zIndex={2}
+                onClick={() => slider?.slickPrev()}
+                _hover={{ opacity: 0.8 }}
+            >
+                <BiLeftArrowAlt color="white" size="50px" />
             </IconButton>
+
+            {/* Jobbra nyíl */}
             <IconButton
                 aria-label="right-arrow"
-                variant='outline'
-                _hover={{variant:'none'}}
+                variant="unstyled"
                 position="absolute"
                 right={side}
                 top={top}
-                transform={'translate(0%, -50%)'}
-                zIndex={1}
-                onClick={() => slider?.slickNext()}>
-                <BiRightArrowAlt color='white' size="40px" />
+                transform="translate(0%, -50%)"
+                zIndex={2}
+                onClick={() => slider?.slickNext()}
+                _hover={{ opacity: 0.8 }}
+            >
+                <BiRightArrowAlt color="white" size="50px" />
             </IconButton>
-            <style>
-              
-            </style>
 
-            <Slider   {...settings} ref={(slider)  => setSlider(slider)} style={{ height: '500px' }}>
-                {Array.isArray(cards) && cards.map((card, index) => (
+
+            <Slider {...settings} ref={(slider) => setSlider(slider)}>
+                {cards.map((card, index) => (
                     <Box
-                    
                         key={index}
                         position="relative"
-                        // backgroundImage={`url(${card.image})`} 
+                        width="100%"
+                        height="500px"
+                        backgroundImage={`url(${card.image})`}
+                        backgroundPosition="center"
+                        backgroundSize="cover"
+                        backgroundRepeat="no-repeat"
                         display="flex"
-                        justifyContent="center"
                         alignItems="center"
+                        justifyContent="center"
+                        px={{ base: 6, md: 16 }}
                     >
-                            <Box
-                                spacing={3}
-                                width={{base:'100%',md:'100%'}}
-                                height={{base:'400px', md:'500px'}}
-                                textAlign="center"
-                                backgroundColor="red.600" 
-                                backgroundImage={`url(${card.image})`} 
-                                backgroundPosition="center"
-                                backgroundSize='cover'
-                                backgroundRepeat="no-repeat"
-                                padding="20px"
-                                rounded="10px"
+                        <Box
+                            color="white"
+                            textAlign="center"
+                            // bg="rgba(0, 0, 0, 0.6)"
+                            p={6}
+                            borderRadius="lg"
+                        >
+                            <Heading
+                                fontSize={{ base: '3xl', md: '5xl' }}
+                                fontWeight="bold"
+                                fontFamily="'Playfair Display', serif"
+                                mb={4}
+                                lineHeight="1.2"
                             >
-                                <Heading display={'flex'} alignItems={'center'} justifyContent={'center'} fontSize={{ base: '2xl', md: '3xl', lg: '4xl' }} fontFamily='Pacifico, cursive' color="white">
-                                    {card.title}
-                                </Heading>
-                                <Heading display={'flex'} justifyContent={'center'} fontSize={{ base: '2xl', md: '3xl', lg: '4xl' }} fontFamily='Pacifico, cursive' color="white">
-                                    {card.title2}
-                                </Heading>
-                                <Text fontSize={{ base: 'md', lg: 'lg' }} color="white">
-                                    {card.text}
-                                </Text>
-                            </Box>
-                      
+                                {card.title}
+                            </Heading>
+                            <Text
+                                fontSize={{ base: 'lg', md: 'xl' }}
+                                fontWeight="medium"
+                                maxW="600px"
+                                mx="auto"
+                                mb={6}
+                                fontFamily="'Lora', serif"
+                            >
+                                {card.subtitle}
+                            </Text>
+                            {index !== 3 && index !==2 && ( 
+                                <Button
+                                    colorScheme="red"
+                                    as={ReactLink}
+                                    to='/tesztaink'
+                                    size="lg"
+                                    fontWeight="bold"
+                                    fontSize="lg"
+                                    _hover={{ bg: 'red.600' }}
+                                >
+                                    Fedezd fel kínálatunkat
+                                </Button>
+                            )}
+
+                        </Box>
                     </Box>
                 ))}
             </Slider>

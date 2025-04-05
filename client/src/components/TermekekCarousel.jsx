@@ -16,6 +16,8 @@ import {
 import ProductCard from "./ProductCard";
 import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
 import { useDispatch, useSelector } from 'react-redux';
+import { getUserFavorites } from "../redux/actions/userActions";
+import { setFavoritesUpdateFlag } from "../redux/slices/user";
 import Slider from 'react-slick';
 import React, { useEffect } from 'react';
 import {
@@ -29,6 +31,7 @@ const TermekekCarousel = () => {
     const dispatch = useDispatch();
     const { loading, error, products } = useSelector((state) => state.product);
     const { productUpdate } = useSelector((state) => state.product);
+    const { favoritesFlag } = useSelector((state) => state.user);
     const toast = useToast();
     const top = useBreakpointValue({ base: '60%', md: '50%' });
     const side = useBreakpointValue({ base: '5px', md: '-30px' });
@@ -77,6 +80,13 @@ const TermekekCarousel = () => {
             document.head.removeChild(link2);
         };
     }, []);
+
+        useEffect(() => {
+            if (favoritesFlag) {
+                dispatch(getUserFavorites());
+                dispatch(setFavoritesUpdateFlag(false)); 
+            }
+        }, [favoritesFlag, dispatch]);
 
     return (
         <Box py={10}>

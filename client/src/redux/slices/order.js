@@ -6,6 +6,7 @@ export const initialState = {
 	orderInfo: null,
 	orderId: null,
 	shippingAddress: JSON.parse(localStorage.getItem('shippingAddress')) ?? null,
+	// billingAddress: JSON.parse(localStorage.getItem('billingAddress')) ?? null,
 };
 
 export const orderSlice = createSlice({
@@ -24,13 +25,18 @@ export const orderSlice = createSlice({
 			state.loading = false;
 			localStorage.setItem('shippingAddress', JSON.stringify(payload));
 		},
+		// setBillingAddress: (state, { payload }) => {
+		// 	state.billingAddress = payload;
+		// 	state.loading = false;
+		// 	localStorage.setItem('billingAddress', JSON.stringify(payload));
+		// },
 		clearOrder: (state) => {
 			state = initialState;
 		},
 	},
 });
 
-export const { setLoading, setError, setShippingAddress, clearOrder } = orderSlice.actions;
+export const { setLoading, setError, setShippingAddress,setBillingAddress, clearOrder } = orderSlice.actions;
 
 export default orderSlice.reducer;
 export const orderSelector = (state) => state.order;

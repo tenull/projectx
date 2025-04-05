@@ -5,6 +5,7 @@ import cart from './slices/cart';
 import user from './slices/user';
 import order from './slices/order';
 import admin from './slices/admin';
+import notification from './slices/notification'
 
 const reducer = combineReducers({
 	product,
@@ -12,6 +13,7 @@ const reducer = combineReducers({
 	user,
 	order,
 	admin,
+	notification
 });
 
 export default configureStore({ reducer });

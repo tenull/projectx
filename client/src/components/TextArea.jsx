@@ -1,16 +1,32 @@
 import { FormControl, FormLabel, Textarea, FormErrorMessage } from "@chakra-ui/react";
-import { useField } from 'formik';
+import { useField, useFormikContext } from "formik";
+import { useDispatch } from "react-redux";
+import { setShippingAddress } from "../redux/slices/order"; // csak akkor, ha kell!
 
 const TextArea = ({ label, name, placeholder }) => {
-    const [field, meta] = useField(name);
+  const [field, meta] = useField(name);
+  const { setFieldValue, values } = useFormikContext();
+  const dispatch = useDispatch();
 
-    return (  
-        <FormControl isInvalid={meta.error && meta.touched} mb='6'>
-            <FormLabel htmlFor={name}>{label}</FormLabel>
-            <Textarea {...field} id={name} name={name} placeholder={placeholder} />
-            <FormErrorMessage>{meta.error}</FormErrorMessage>
-        </FormControl>
-    );
-}
- 
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setFieldValue(name, value); // Formik mező frissítés
+    dispatch(setShippingAddress({ ...values, [name]: value })); // opcionális: Redux frissítés, ha használod
+  };
+
+  return (
+    <FormControl isInvalid={meta.touched && meta.error} mb="6">
+      <FormLabel htmlFor={name}>{label}</FormLabel>
+      <Textarea
+        id={name}
+        name={name}
+        placeholder={placeholder}
+        value={values[name]}
+        onChange={handleChange}
+      />
+      <FormErrorMessage>{meta.error}</FormErrorMessage>
+    </FormControl>
+  );
+};
+
 export default TextArea;

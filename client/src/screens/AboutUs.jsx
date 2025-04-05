@@ -44,7 +44,7 @@ const AboutUs = () => {
                             display={{ base: 'flex', md: 'none' }}
                             justifyContent='center'
                             boxShadow='dark-lg'
-                            backgroundImage={`url(../images/pastafactory6.jpg)`}
+                            backgroundImage={`url(../images/rolunk/LTGy-65.jpg)`}
                             backgroundPosition='center'
                             backgroundSize='cover'
                             width='300px'
@@ -58,7 +58,7 @@ const AboutUs = () => {
                             mb={3}
                             display={{ base: 'flex', md: 'none' }}
                             boxShadow='dark-lg'
-                            backgroundImage={`url(../images/pastafactory3.jpg)`}
+                            backgroundImage={`url(../images/rolunk/LTGy-31.jpg)`}
                             backgroundPosition='center'
                             backgroundSize='cover'
                             width='300px'
@@ -72,7 +72,7 @@ const AboutUs = () => {
                             mb={3}
                             display={{ base: 'block', md: 'none' }}
                             boxShadow='dark-lg'
-                            backgroundImage={`url(../images/pastafactory4.jpg)`}
+                            backgroundImage={`url(../images/rolunk/LTGy-42.jpg)`}
                             backgroundPosition='center'
                             backgroundSize='cover'
                             width='300px'
@@ -84,7 +84,7 @@ const AboutUs = () => {
                         <Box>
                             <Box
                             filter="auto" dropShadow="0px 0px 10px rgba(0, 0, 0, 0.5)" 
-                                backgroundImage={`url(../images/pastafactory6.jpg)`}
+                                backgroundImage={`url(../images/rolunk/LTGy-31.jpg)`}
                                 backgroundPosition="center"
                                 backgroundSize="cover"
                                 width="300px"
@@ -103,7 +103,7 @@ const AboutUs = () => {
                         <Box>
                             <Box
                             filter="auto" dropShadow="0px 0px 10px rgba(0, 0, 0, 0.5)" 
-                                backgroundImage={`url(../images/pastafactory3.jpg)`}
+                                backgroundImage={`url(../images/rolunk/LTGy-42.jpg)`}
                                 backgroundPosition='center'
                                 backgroundSize='cover'
                                 width='300px'
@@ -123,7 +123,7 @@ const AboutUs = () => {
                         <Box>
                             <Box
                                filter="auto" dropShadow="0px 0px 10px rgba(0, 0, 0, 0.5)" 
-                                backgroundImage={`url(../images/pastafactory4.jpg)`}
+                                backgroundImage={`url(../images/rolunk/LTGy-17.jpg)`}
                                 backgroundPosition='center'
                                 backgroundSize='cover'
                                 width='300px'

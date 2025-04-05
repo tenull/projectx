@@ -1,43 +1,31 @@
 import { Container } from "@chakra-ui/react";
 import { Navigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { DeleteIcon } from '@chakra-ui/icons';
 import {
     Badge,
-    Box,
-    Select,
     Button,
-    Flex,
     FormControl,
     FormLabel,
     Input,
     Switch,
-    Td,
     Textarea,
-    Tr,
     VStack,
-    useDisclosure,
     Text,
-    Tbody,
-    Tooltip,
-    Spacer,
     useToast,
-    Image,
 	Collapse
 } from '@chakra-ui/react';
 import { ChevronDownIcon,ChevronUpIcon } from "@chakra-ui/icons";
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { uploadProduct } from "../../redux/actions/adminActions";
-import axios from "axios";
 
 const AddNewProductScreen = () => {
 
     const { userInfo } = useSelector((state) => state.user);
     const location = useLocation();
-    const { error, loading } = useSelector((state) => state.admin);
-    const { products, productUpdate } = useSelector((state) => state.product);
+    
+    const {  productUpdate } = useSelector((state) => state.product);
     const toast = useToast();
     const dispatch = useDispatch()
     

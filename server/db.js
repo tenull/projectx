@@ -1,9 +1,12 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+dotenv.config();
+
 
 const connectToDatabase = async () => {
 	try {
 		mongoose.set('strictQuery', false);
-		const connect = await mongoose.connect('mongodb+srv://tamas:L!123456@cluster0.5xkjv.mongodb.net/laskoditeszta', {
+		const connect = await mongoose.connect(process.env.MONGO_URI, {
 			useUnifiedTopology: true,
 			useNewUrlParser: true,
 		});

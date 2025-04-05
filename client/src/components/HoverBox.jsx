@@ -63,7 +63,8 @@ const HoverBox = ({ text,image,link }) => {
       />
      <Text
   fontSize="xl"
-  color="white"
+  color={hovered? 'red.600':'white'}
+  transition={hovered? 'ease-in-out 0.3s' :'ease-in-out 0.3s'}
   fontWeight="bold"
   textShadow="2px 2px 5px rgba(0, 0, 0, 0.9)" 
 >

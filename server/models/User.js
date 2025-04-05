@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema(
 		firstLogin: { type: Boolean, default: true },
 		googleImage: { type: String, default: undefined },
 		googleId: { type: String, default: undefined },
+		favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }]
 	},
 	{ timestamps: true }
 );

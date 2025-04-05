@@ -1,31 +1,34 @@
 import { Box, Input, Image, Text, Badge, Flex, IconButton, Skeleton, useToast, Tooltip, Button } from '@chakra-ui/react';
-import { BiExpand } from 'react-icons/bi';
 import React, { useState } from 'react';
-import { addToFavorites, removeFromFavorites } from '../redux/actions/productActions';
+import { addToFavorites, removeFromFavorites } from '../redux/actions/userActions';
 import { useSelector, useDispatch } from 'react-redux';
 import { MdOutlineFavorite, MdOutlineFavoriteBorder } from 'react-icons/md';
 import { Link as ReactLink } from 'react-router-dom';
 import { addCartItem } from '../redux/actions/cartActions';
 import { useEffect } from 'react';
 import { TbShoppingCartPlus } from 'react-icons/tb';
-import { keyframes } from '@emotion/react';
+import { getUserFavorites } from '../redux/actions/userActions';
 import { removeCartItem } from '../redux/actions/cartActions';
 import { FaTrashCan } from 'react-icons/fa6';
+import { setFavoritesUpdateFlag } from '../redux/slices/user';
 const ProductCard = ({ product, loading }) => {
 	const dispatch = useDispatch();
-	const { favorites } = useSelector((state) => state.product);
-	const [isShown, setIsShown] = useState(false);
+	const { favorites } = useSelector((state) => state.user);
+	const [, setIsShown] = useState(false);
 	const { cartItems } = useSelector((state) => state.cart);
 	const cartItem = cartItems.find(item => item.id === product._id);
 	const [cartQty, setCartQty] = useState(0);
 	const toast = useToast();
 	const [cartPlusDisabled, setCartPlusDisabled] = useState(false);
+	const { userInfo, favoritesFlag } = useSelector((state) => state.user);
 
 	useEffect(() => {
 		if (cartItem) {
 			setCartQty(cartItem.qty);
 		}
+
 	}, [cartItem]);
+
 
 	const handleQtyChange = (e) => {
 		let value = parseInt(e.target.value, 10);
@@ -87,11 +90,32 @@ const ProductCard = ({ product, loading }) => {
 			dispatch(addCartItem(id, 1));
 		}
 		toast({
-			description: 'Item has been added.',
+			description: 'A tészta hozzá lett adva.',
 			status: 'success',
 			isClosable: true,
 		});
 	};
+
+	const isFavorite = favorites.some(fav => fav._id === product._id);
+
+	const toggleFavorite = () => {
+		if (!userInfo) {
+			toast({
+				description: 'Előbb be kell jelentkezned!',
+				status: 'warning',
+				isClosable: true,
+			});
+			return;
+		}
+		if (isFavorite) {
+			dispatch(removeFromFavorites(product._id));
+		} else {
+			dispatch(addToFavorites(product._id));
+		}
+	};
+
+
+
 
 	return (
 		<Skeleton
@@ -107,25 +131,16 @@ const ProductCard = ({ product, loading }) => {
 				overflow='hidden'
 				p='4'
 				shadow='md'>
-				{favorites.includes(product._id) ? (
+
+				<Tooltip label={isFavorite ? "Eltávolítás a kedvencek közül" : "Hozzáadás a kedvencekhez"}>
 					<IconButton
-						icon={<MdOutlineFavorite size='20px' />}
-						position='absolute'
-						left='1'
-						top={1}
-						size='sm'
-						onClick={() => dispatch(removeFromFavorites(product._id))}
+						icon={isFavorite ? <MdOutlineFavorite size="20px" /> : <MdOutlineFavoriteBorder size="20px" />}
+						onClick={toggleFavorite}
+
+						aria-label={isFavorite ? "Eltávolítás a kedvencek közül" : "Hozzáadás a kedvencekhez"}
 					/>
-				) : (
-					<IconButton
-						icon={<MdOutlineFavoriteBorder size='20px' />}
-						position='absolute'
-						left='1'
-						top={1}
-						size='sm'
-						onClick={() => dispatch(addToFavorites(product._id))}
-					/>
-				)}
+				</Tooltip>
+
 				<Text
 					position="absolute"
 					top="35px"
@@ -159,17 +174,19 @@ const ProductCard = ({ product, loading }) => {
 							onMouseEnter={() => setIsShown(true)}
 							onMouseLeave={() => setIsShown(false)}
 							src={product.image}
-							fallbackSrc='https://via.placeholder.com/150'
+							fallbackSrc='https://placehold.co/400'
 							alt={product.name}
 							height='200px'
 						/>
 					</Box>
-					{product.stock < 5 ? (
-						<Badge colorScheme='yellow'>csak {product.stock} db maradt</Badge>
-					) : product.stock < 1 ? (
-						<Badge colorScheme='red'>elfogyott</Badge>
+					{product.stock <= 0 ? (
+						<Badge alignSelf="flex-start" colorScheme="red">Elfogyott</Badge>
+					) : product.stock - (cartItems.find(item => item.id === product._id)?.qty || 0) <= 0 ? (
+						<Badge alignSelf="flex-start" colorScheme="red">Elfogyott</Badge>
+					) : product.stock < 5 ? (
+						<Badge alignSelf="flex-start" colorScheme="yellow">Csak {product.stock - (cartItems.find(item => item.id === product._id)?.qty || 0)} db maradt</Badge>
 					) : (
-						<Badge colorScheme='green'>Raktáron</Badge>
+						<Badge alignSelf="flex-start" colorScheme="green">raktáron</Badge>
 					)}
 					{/* <Text textAlign='center' noOfLines={2} fontSize='sm' mt='2' mb={-2}>
 					{product.packing}
@@ -180,9 +197,10 @@ const ProductCard = ({ product, loading }) => {
 					<Text textAlign='center' noOfLines={2} fontSize='xl' fontWeight='semibold'>
 						{product.name}
 					</Text>
-					<Text textAlign='center' noOfLines={1} fontSize='md' color='gray.600'>
-						{product.packaking * 1000}g
+					<Text textAlign="center" noOfLines={1} fontSize="md" color="gray.600">
+						{product.packaking < 1 ? product.packaking * 1000 + "g" : product.packaking + "kg"}
 					</Text>
+
 					<Flex justify='center' alignItems='center' mt='2'>
 						<Text textAlign='center' fontSize='xl' fontWeight='semibold' color='red.600'>
 							{product.price} Ft

@@ -36,8 +36,14 @@ const orderSchema = new mongoose.Schema(
 			city: { type: String, required: true },
 			postalCode: { type: String, required: true },
 			phone:{ type:String,required: true},
-			comment:{type:String}
+			comment:{type:String},
+			billingAddress: { type: String, required: true },
+			billingCity: { type: String, required: true },
+			billingPostalCode: { type: String, required: true },
+			billingPhone:{ type:String,required: true},
+			billingName:{ type:String},
 		},
+
 		shipping: { type: String, default: 0.0 },
 		totalPrice: { type: Number, default: 0.0 },
 		subtotal: { type: Number, default: 0.0 },
@@ -48,6 +54,11 @@ const orderSchema = new mongoose.Schema(
 		deliveredAt: {
 			type: Date,
 		},
+		isPaid: { type: Boolean, required: true, default: false },
+		PaidStatus:{type:String},
+		paidAt: {
+			type: Date, 
+		  },
 	},
 	{ timestamps: true }
 );

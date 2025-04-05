@@ -19,9 +19,9 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllOrders, deleteOrder, resetErrorAndRemoval, setDelivered, setOrderToDelete } from '../redux/actions/adminActions';
+import { getAllOrders, deleteOrder, resetErrorAndRemoval, setDelivered, setPaid } from '../redux/actions/adminActions';
 import ConfirmRemovalAlert from '../components/ConfirmRemovalAlert';
-import { TbTruckDelivery } from 'react-icons/tb';
+import { TbMoneybag, TbTruckDelivery } from 'react-icons/tb';
 import { DeleteIcon } from '@chakra-ui/icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -31,14 +31,13 @@ const OrderScreen = () => {
   const [orderToDelete, setOrderToDelete] = useState('');
   const cancelRef = useRef();
   const dispatch = useDispatch();
-  const { orders, orderRemoval, deliveredFlag } = useSelector((state) => state.admin);
-  const { userInfo } = useSelector((state) => state.user)
+  const { orders, orderRemoval, deliveredFlag, paidFlag } = useSelector((state) => state.admin);
   const toast = useToast();
   const [order, setOrder] = useState(null);
   const navigate = useNavigate();
   const redirectUrl = '/admin/rendeles'
 
-  console.log(order)
+
 
   useEffect(() => {
     dispatch(getAllOrders());
@@ -50,25 +49,25 @@ const OrderScreen = () => {
       const foundOrder = orders.find((order) => order._id === id);
       setOrder(foundOrder || null);
     }
-  }, [id]);
+  }, [id, orders]);
 
-  useEffect(() => {
-    if (orderRemoval) {
-      toast({
-        description: 'Order has been removed.',
-        status: 'success',
-        isClosable: true,
-      });
-    }
+  // useEffect(() => {
+  //   if (orderRemoval) {
+  //     toast({
+  //       description: 'Rendelés törölve lett.',
+  //       status: 'success',
+  //       isClosable: true,
+  //     });
+  //   }
 
-    if (deliveredFlag) {
-      toast({
-        description: 'Order has been set to delivered.',
-        status: 'success',
-        isClosable: true,
-      });
-    }
-  }, [toast, orderRemoval, deliveredFlag]);
+  //   if (deliveredFlag) {
+  //     toast({
+  //       description: 'Rendelés kiszállítás alatt van.',
+  //       status: 'success',
+  //       isClosable: true,
+  //     });
+  //   }
+  // }, [toast, orderRemoval, deliveredFlag,paidFlag]);
 
   const openDeleteConfirmBox = () => {
     setOrderToDelete(order);
@@ -82,8 +81,22 @@ const OrderScreen = () => {
       navigate('/admin/rendeles');
     }
   };
+  const onSetToPaid = () => {
+    if (order) {
+      dispatch(resetErrorAndRemoval());
+      dispatch(setPaid(order._id));
+      navigate('/admin/rendeles');
+    }
+  };
 
   if (!order) return <p>Order not found</p>;
+
+  const paymentName = {
+    cash_on_delivery: 'Utánvétes fizetés (+495 Ft)',
+    credit_card: 'Bankkártyával',
+    bank_transfer: 'Banki átutalással',
+  };
+
 
   return (
     <VStack spacing={6} align="stretch">
@@ -95,7 +108,10 @@ const OrderScreen = () => {
         <Box>
           <Text fontWeight="bold">Szállítás</Text>
           <Text>{order.username} ({order.email})</Text>
-          <Text>{order.shippingAddress.address}, {order.shippingAddress.city}</Text>
+          <Text>{order.shippingAddress.postalCode},{order.shippingAddress.city},{order.shippingAddress.address}</Text>
+          <Text fontWeight="bold">Számlázási adatok</Text>
+          <Text>{order.shippingAddress.billingName}</Text>
+          <Text>{order.shippingAddress.billingPostalCode},{order.shippingAddress.billingCity},{order.shippingAddress.billingAddress}, {order.shippingAddress.BillingCity}</Text>
           {order.isDelivered ? (
             <Text color="green.500">Kiszállítva: {order.updatedAt}</Text>
           ) : (
@@ -104,12 +120,13 @@ const OrderScreen = () => {
           <Divider my={4} />
 
           <Text fontWeight="bold">Fizetés</Text>
-          <Text>Fizetési mód: {order.paymentMethod}</Text>
+          <Text>Fizetési mód: {paymentName[order.paymentMethod] || "Ismeretlen fizetési mód"}</Text>
           {order.isPaid ? (
             <Text color="green.500">Fizetve: {order.paidAt}</Text>
           ) : (
             <Text color="red.500">Nincs kifizetve</Text>
           )}
+          <Text>{order.PaidStatus}</Text>
           <Divider my={4} />
 
           <Text fontWeight="bold">Rendelés tételei</Text>
@@ -157,6 +174,20 @@ const OrderScreen = () => {
                   >
                     Kiszállítva
                   </Button>
+                  {order.paymentMethod !== 'credit_card' && (
+                    <Button
+                      w="100px"
+                      leftIcon={<TbMoneybag />}
+                      colorScheme="green"
+                      size="sm"
+                      onClick={onSetToPaid}
+                      isDisabled={order.isPaid}
+                    >
+                      {order.isPaid ? 'Kifizetve' : 'Kifizetés'}
+                    </Button>
+                  )}
+
+
                   <Button
                     w='100px'
                     leftIcon={<DeleteIcon />}

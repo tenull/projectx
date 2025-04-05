@@ -7,8 +7,6 @@ import {
     Th,
     Thead,
     Tr,
-    useToast,
-    useDisclosure,
     VStack,
     Heading,
     Grid,
@@ -18,21 +16,17 @@ import {
     Flex,
     Container
   } from '@chakra-ui/react';
-  import { useEffect, useState, useRef } from 'react';
+  import { useEffect, useState } from 'react';
   import { useDispatch, useSelector } from 'react-redux';
-  import { getAllOrders, deleteOrder, resetErrorAndRemoval, setDelivered, setOrderToDelete } from '../redux/actions/adminActions';
-  import ConfirmRemovalAlert from '../components/ConfirmRemovalAlert';
-  import { TbTruckDelivery } from 'react-icons/tb';
-  import { DeleteIcon } from '@chakra-ui/icons';
-  import { useNavigate, useParams } from 'react-router-dom';
+  import { getAllOrders, resetErrorAndRemoval } from '../redux/actions/adminActions';
+  import { useParams } from 'react-router-dom';
   import { Link } from 'react-router-dom';
   const YourOrderScreenDetails = () => {
     const { id } = useParams(); 
     const dispatch = useDispatch();
-    const { orders, orderRemoval, deliveredFlag } = useSelector((state) => state.admin);
-    const { userInfo } = useSelector((state) => state.user)
+    const { orders } = useSelector((state) => state.admin);
     const [order, setOrder] = useState(null);
-    const navigate = useNavigate();
+
 
   
     useEffect(() => {
@@ -41,11 +35,17 @@ import {
     }, [dispatch]);
   
     useEffect(() => {
-      if (orders.length > 0 && id) {
+      if (orders?.length > 0 && id) {
         const foundOrder = orders.find((order) => order._id === id);
         setOrder(foundOrder || null);
       }
-    }, [id]);
+    }, [id, orders]);
+
+    const paymentName = {
+      cash_on_delivery: 'Utánvétes fizetés (+495 Ft)',
+      credit_card: 'Bankkártyával',
+      bank_transfer: 'Banki átutalással',
+    };
   
     if (!order) return <p>Order not found</p>;
   
@@ -58,18 +58,22 @@ import {
         </Button>
         <Grid templateColumns={{ base: "1fr", md: "2fr 1fr" }} gap={6}>
           <Box>
-            <Text fontWeight="bold">Szállítás</Text>
+            <Text fontWeight="bold">Szállítási adatok</Text>
             <Text>{order.username} ({order.email})</Text>
-            <Text>{order.shippingAddress.address}, {order.shippingAddress.city}</Text>
-            {order.isDelivered ? (
-              <Text color="green.500">Kiszállítva: {order.updatedAt}</Text>
-            ) : (
-              <Text color="red.500">Nincs kiszállítva</Text>
-            )}
+            <Text>{order.shippingAddress.postalCode},{order.shippingAddress.city},{order.shippingAddress.address}</Text>
+
+            <Text fontWeight="bold">Számlázási adatok</Text>
+            <Text>{order.shippingAddress.billingName}</Text>
+            <Text>{order.shippingAddress.billingPostalCode},{order.shippingAddress.billingCity},{order.shippingAddress.billingAddress}, {order.shippingAddress.BillingCity}</Text>
+             {order.isDelivered ? (
+            <Text color="green.500">Kiszállítva: {order.updatedAt}</Text>
+          ) : (
+            <Text color="red.500">Nincs kiszállítva</Text>
+          )}
             <Divider my={4} />
   
             <Text fontWeight="bold">Fizetés</Text>
-            <Text>Fizetési mód: {order.paymentMethod}</Text>
+          <Text>Fizetési mód: {paymentName[order.paymentMethod] || "Ismeretlen fizetési mód"}</Text>
             {order.isPaid ? (
               <Text color="green.500">Fizetve: {order.paidAt}</Text>
             ) : (

@@ -1,17 +1,33 @@
-import { FormControl, FormLabel, FormErrorMessage } from '@chakra-ui/form-control';
-import { Input } from '@chakra-ui/input';
-import { Field, useField } from 'formik';
+import { FormControl, FormLabel, Input, FormErrorMessage } from '@chakra-ui/react';
+import { useField, useFormikContext } from 'formik';
+import { useDispatch } from 'react-redux';
+import { setShippingAddress } from '../redux/slices/order';
 
-const TextField = ({ label, type, name, placeholder }) => {
-	const [field, meta] = useField({ type, name, placeholder });
+const TextField = ({ label, type = "text", name, placeholder }) => {
+  const [field, meta] = useField(name);
+  const { setFieldValue, values } = useFormikContext();
+  const dispatch = useDispatch();
 
-	return (
-		<FormControl isInvalid={meta.error && meta.touched} mb='6'>
-			<FormLabel noOfLines={1}>{label}</FormLabel>
-			<Field as={Input} {...field} type={type} name={name} placeholder={placeholder} />
-			<FormErrorMessage>{meta.error}</FormErrorMessage>
-		</FormControl>
-	);
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setFieldValue(name, value); // Frissíti a Formikot
+    dispatch(setShippingAddress({ ...values, [name]: value })); // Frissíti Redux-ot
+  };
+
+  return (
+    <FormControl isInvalid={meta.touched && meta.error} mb="6">
+      <FormLabel htmlFor={name}>{label}</FormLabel>
+      <Input
+        {...field}
+        id={name}
+        type={type}
+        placeholder={placeholder}
+        value={values[name]}
+        onChange={handleChange} // saját handler
+      />
+      <FormErrorMessage>{meta.error}</FormErrorMessage>
+    </FormControl>
+  );
 };
 
 export default TextField;

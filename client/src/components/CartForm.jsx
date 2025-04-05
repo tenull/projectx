@@ -68,9 +68,9 @@ const CartForm = ({ cartItems, onClose }) => {
                                 h="25px"
                                 fit="cover"
                                 src={image}
-                                fallbackSrc="https://via.placeholder.com/150"
+                                fallbackSrc="https://placehold.co/400"
                             />
-                            <Text fontSize="sm" fontWeight="medium">{name} {packaking*1000}g</Text>
+                            <Text fontSize="sm" fontWeight="medium">{name} {packaking < 1 ? packaking * 1000 + "g" : packaking + "kg"}</Text>
                             <Spacer />
                             <FaTrashCan cursor='pointer' onClick={() => dispatch(removeCartItem(id))} />
                         </Flex>

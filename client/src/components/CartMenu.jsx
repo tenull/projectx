@@ -18,7 +18,7 @@ const CartMenu = () => {
             // onMouseEnter={handleMouseEnter} 
             // onMouseLeave={handleMouseLeave} 
             >
-                <>
+        
                     <Box position="relative">
                         <IconButton
                             aria-label="Kosár"
@@ -44,7 +44,7 @@ const CartMenu = () => {
                             </Text>
                         )}
                         {cartItems.length > 0 && cartItems.map((cart) => (
-                            <Text fontWeight='bold' position='absolute' ml='8' mt='-5' fontSize='2xs'>
+                            <Text key={cart.id}  transition='ease-in-out 3s' fontWeight='bold' position='absolute' ml='8' mt='-5' fontSize='2xs'>
                                 {subtotal}Ft
                             </Text>
                         ))}
@@ -65,7 +65,7 @@ const CartMenu = () => {
 
                         </DrawerContent>
                     </Drawer>
-                </>
+               
             </Box>
 
             {/* {isCartVisible && (

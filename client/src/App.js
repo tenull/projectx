@@ -34,6 +34,13 @@ import AdminProductEditScreen from './screens/admin/AdminProductEditScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import YourOrdersScreenDetails from './screens/YourOrderScreenDetails';
 import SearchScreen from './screens/SearchScreen';
+import AdminNotification from './screens/admin/AdminNotification';
+import FavoritesScreen from './screens/FavoritesScreen';
+import PalyazatScreen from './screens/PalyazatScreen';
+import PaymentResult from './screens/PaymentResult';
+import NotFoundScreen from './screens/NotFoundScreen';
+import ScrollToTop from './components/ScrollToTop';
+import ScrollToTopButton from './components/ScrollToTopButton';
 function App() {
 	const theme = extendTheme({
 		styles: {
@@ -64,6 +71,8 @@ function App() {
 				<GoogleOAuthProvider clientId={googleClient}>
 					<Router>
 						<Header />
+						<ScrollToTop/>
+						<ScrollToTopButton/>
 						<main>
 							<Routes>
 								<Route path='/tesztaink/:category' element={<ProductsScreen />} />
@@ -81,7 +90,7 @@ function App() {
 								<Route path='/email-verify/:token' element={<EmailVerificationScreen />} />
 								<Route path='/password-reset/:token' element={<PasswordResetScreen />} />
 								<Route path='/penztar' element={<CheckoutScreen />} />
-								<Route path='/torles' element={<CancelScreen />} />
+								<Route path='/sikertelen' element={<CancelScreen />} />
 								<Route path='/rendelesitortenet' element={<YourOrdersScreen />} />
 								<Route path='/rendelesitortenet/:id' element={<YourOrdersScreenDetails />} />
 								<Route path='/sikeres' element={<SuccessScreen />} />
@@ -94,9 +103,12 @@ function App() {
 									<Route path="termekek" element={<AdminProductScreen />} />
 									<Route path="termekek/:id/edit" element={<AdminProductEditScreen />} />
 									<Route path="ujtermek" element={<AdminNewProductScreen />} />
-									<Route path="uzenet" element={<AdminMessage />} />
+									<Route path="uzenet" element={<AdminNotification />} />
 								</Route>
-
+								<Route path='/kedvencek' element={<FavoritesScreen />} />
+								<Route path="/payment-result" element={<PaymentResult />} />
+								<Route path="/palyazat" element={<PalyazatScreen />} />
+								<Route path="*" element={<NotFoundScreen />} /> 
 							</Routes>
 						</main>
 						<Footer />

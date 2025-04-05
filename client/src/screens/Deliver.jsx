@@ -1,4 +1,4 @@
-import { Box, Flex, Text, Image, Grid, GridItem, Center,Breadcrumb,BreadcrumbItem } from '@chakra-ui/react';
+import { Box, Text, Image, Grid, GridItem, Center,Breadcrumb,BreadcrumbItem } from '@chakra-ui/react';
 import { shippingMethods } from '../shippingMethods';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { Link as ReactLink } from 'react-router-dom';
@@ -39,7 +39,11 @@ const Deliver = () => {
                 {shippingMethods.map((method, index) => (
                     <Box key={index} p={6} borderWidth={1} borderRadius="md" boxShadow="md" bg="white">
                         <Text fontSize="xl" fontWeight="bold" mb={4}>{method.name}</Text>
-                        <Image src={method.image} alt={method.name} mb={4} borderRadius="md" />
+                        <Box h='250px' display='flex' justifyContent='center'>
+                            <Image  src={method.image} alt={method.name} mb={4} borderRadius="md" /> 
+                        </Box>
+                        
+                       
                         {method.details.map((detail, i) => (
                             <Text key={i} fontSize="md" color="gray.700" mb={2}>{detail}</Text>
                         ))}

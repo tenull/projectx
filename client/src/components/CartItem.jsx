@@ -50,11 +50,11 @@ const CartItem = ({ cartItem }) => {
 	return (
 		<Flex minWidth='300px' borderBottom='1px solid gray' py={4} align='center'>
 
-			<Image rounded='lg' w='120px' h='120px' fit='cover' src={image} fallbackSrc='https://via.placeholder.com/150' />
+			<Image rounded='lg' w='120px' h='120px' fit='cover' src={image} fallbackSrc='https://placehold.co/400' />
 			<VStack p='2' w='100%' spacing='4' align='stretch'>
 				<Flex alignItems='center' justify='space-between'>
 					<Text fontWeight='medium'>
-						{name}
+						{name} {packaking < 1 ? packaking * 1000 + "g" : packaking + "kg"}
 					</Text>
 					<Flex alignItems="center">
 						<Button

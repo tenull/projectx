@@ -74,7 +74,7 @@ export const cartSlice = createSlice({
             localStorage.removeItem('paymentMethod');
 			localStorage.removeItem('selectedShippingMethod');
             state.cartItems = [];
-            state.shipping = Number(4.99);
+            state.shipping = null;
             state.paymentMethod = null;
             state.subtotal = 0;
             state.loading = false;

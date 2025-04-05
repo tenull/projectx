@@ -39,6 +39,7 @@ const stripePayment = async (req, res) => {
 	paymentMethod:data.paymentMethod,
 	paymentMethodCost:data.paymentMethodCost,
 	selectedShippingMethod:data.selectedShippingMethod,
+  pickupPoint: req.body.pickupPoint || null,
 	totalPrice: Number(data.subtotal) + Number(data.selectedShippingMethod) + (data.paymentMethodCost)
   });
   console.log(order)
