@@ -4,7 +4,7 @@ import { Link as ReactLink } from "react-router-dom";
 
 const AboutUs = () => {
     return (
-        <Box position='relative' top='100px' maxW="8xl" mx="auto" p={{ base: '0', lg: '12' }} minH="6xl">
+        <Box maxW="8xl" mx="auto" p={{ base: '0', lg: '12' }} minH="6xl">
             <Center
                 height={{ base: '200px', md: '300px' }}
                 backgroundColor="red.600"
