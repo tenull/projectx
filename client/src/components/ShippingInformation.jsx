@@ -37,7 +37,7 @@ const ShippingInformation = () => {
 	const textColor = useColorModeValue("gray.700", "gray.200");
 
 
-
+console.log(shippingAddress)
 
 	const onSubmit = async (values) => {
 		dispatch(setAddress(values));
@@ -129,24 +129,33 @@ const ShippingInformation = () => {
 							Vissza a kosárhoz
 						</Button>
 						<Button
-							variant="outline"
-							colorScheme="red"
-							w="100%"
-							as={ReactLink}
-							to='/payment-result'
-							onClick={async () => {
-								formik.handleSubmit(); 
-								if (paymentMethod === "cash_on_delivery" || paymentMethod === "bank_transfer") {
-								  await sendOrderConfirmationEmail(); // csak ha NEM kártyás
-								}
-								navigate('/sikeres'); // vagy Barion redirect
-							  }}
-							  
-							isDisabled={!formik.isValid || !shipping || !paymentMethod}
+  variant="outline"
+  colorScheme="red"
+  w="100%"
+  as={ReactLink}
+  to='/payment-result'
+  onClick={async () => {
+    formik.handleSubmit();
+    if (paymentMethod === "cash_on_delivery" || paymentMethod === "bank_transfer") {
+      await sendOrderConfirmationEmail();
+    }
+    navigate('/sikeres');
+  }}
+  isDisabled={
+    !formik.isValid || 
+    !shippingAddress || 
+    !paymentMethod || 
+    !localStorage.getItem('billingAddress') || // Ellenőrizze, hogy van-e 'billingAddress' a localStorage-ben
+    !JSON.parse(localStorage.getItem('billingAddress'))?.billingAddress || // Ha van, ellenőrizze a kitöltöttséget
+    !JSON.parse(localStorage.getItem('billingAddress'))?.billingPostalCode || 
+    !JSON.parse(localStorage.getItem('billingAddress'))?.billingCity || 
+    !JSON.parse(localStorage.getItem('billingAddress'))?.billingPhone
+  }
+>
+  Fizetés
+</Button>
 
-						>
-							Fizetés
-						</Button>
+
 					</Flex>
 				</>
 			)}

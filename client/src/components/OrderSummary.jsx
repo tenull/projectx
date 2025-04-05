@@ -33,13 +33,13 @@ const OrderSummary = ({ checkoutSreen = false }) => {
 					<Text fontWeight='medium' color={mode('gray.600', 'gray.400')}>
 						Szállítási mód
 					</Text>
-					<Text fontWeight='medium'>{shipping}</Text>
+					<Text fontWeight='medium'>{shipping || "Ismeretlen szállítási mód"}</Text>
 				</Flex>
 				<Flex justify='space-between'>
 					<Text fontWeight='medium' color={mode('gray.600', 'gray.400')}>
 						Szállítási költség
 					</Text>
-					<Text fontWeight='medium'>{selectedShippingMethod} Ft</Text>
+					<Text fontWeight='medium'>{selectedShippingMethod || "Ismeretlen szállítási költség"} Ft</Text>
 				</Flex>
 				<Flex justify='space-between'>
 					<Text fontWeight='medium' color={mode('gray.600', 'gray.400')}>

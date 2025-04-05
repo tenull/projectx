@@ -29,7 +29,7 @@ import { googleLogin, register } from '../redux/actions/userActions';
 const RegistrationScreen = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const redirect = '/products';
+	const redirect = '/';
 	const toast = useToast();
 	const { loading, error, userInfo } = useSelector((state) => state.user);
 	const headingBR = useBreakpointValue({ base: 'md', md: 'lg' });

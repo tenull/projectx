@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Flex, Box, FormControl, Checkbox } from "@chakra-ui/react";
 import TextField from "./TextField";
 import { useFormikContext } from "formik";
@@ -25,6 +25,21 @@ const OrderBillingData = () => {
             setFieldValue("billingPhone", "");
         }
     };
+
+    useEffect(() => {
+        if (sameAsShipping) {
+            // If checked, store the shipping address in localStorage
+            localStorage.setItem('billingAddress', JSON.stringify({
+                billingAddress: shippingAddress.address,
+                billingPostalCode: shippingAddress.postalCode,
+                billingCity: shippingAddress.city,
+                billingPhone: shippingAddress.phone,
+            }));
+        } else {
+            // If unchecked, clear the billing address from localStorage
+            localStorage.removeItem('billingAddress');
+        }
+    }, [sameAsShipping, shippingAddress]);
 
     return (
         <FormControl>

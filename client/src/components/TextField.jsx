@@ -10,8 +10,8 @@ const TextField = ({ label, type = "text", name, placeholder }) => {
 
   const handleChange = (e) => {
     const { value } = e.target;
-    setFieldValue(name, value); // Frissíti a Formikot
-    dispatch(setShippingAddress({ ...values, [name]: value })); // Frissíti Redux-ot
+    setFieldValue(name, value); 
+    dispatch(setShippingAddress({ ...values, [name]: value })); 
   };
 
   return (

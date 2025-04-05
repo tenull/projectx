@@ -15,11 +15,16 @@ const OrderDetailsForm = () => {
     city: shippingAddress ? shippingAddress.city : "",
     phone: shippingAddress ? shippingAddress.phone : "",
     comment: shippingAddress ? shippingAddress.comment : "",
+    billingName: shippingAddress ? shippingAddress.billingName : "",
+    billingAddress: shippingAddress ? shippingAddress.billingAddress : "",
+    billingPostalCode: shippingAddress ? shippingAddress.billingPostalCode : "",
+    billingCity: shippingAddress ? shippingAddress.billingCity : "",
+    billingPhone: shippingAddress ? shippingAddress.billingPhone : "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-	console.log(`Changing ${name} to ${value}`);
+    console.log(`Changing ${name} to ${value}`);
     setFormValues({
       ...formValues,
       [name]: value,
@@ -28,8 +33,8 @@ const OrderDetailsForm = () => {
 
   useEffect(() => {
     if (formValues) {
-		console.log("Form Values Updated:", formValues)
-      dispatch(setShippingAddress(formValues)); 
+      console.log("Form Values Updated:", formValues)
+      dispatch(setShippingAddress(formValues));
     }
   }, [formValues, dispatch]);
 
