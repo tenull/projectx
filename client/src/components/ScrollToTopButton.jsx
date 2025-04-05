@@ -39,6 +39,7 @@ const ScrollToTopButton = () => {
         color: 'white',
         border: 'none',
         cursor: 'pointer',
+        transition: 'transform 0.3s ease',
       }}
       _hover={{ transform: 'scale(1.05)' }}
     >
