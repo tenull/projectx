@@ -90,7 +90,7 @@ const ProductsScreen = () => {
 					>
 						Tésztáink
 					</Center>
-					<Breadcrumb mt={3} fontSize={{ base: 'xs', md: 'sm' }} spacing={{ base: '3px', md: '8px' }} separator={<ChevronRightIcon color='gray.400' />}>
+					<Breadcrumb ms={2} mt={3} fontSize={{ base: 'xs', md: 'sm' }} spacing={{ base: '3px', md: '8px' }} separator={<ChevronRightIcon color='gray.400' />}>
 						<BreadcrumbItem>
 							<ReactLink to='/'>Főoldal</ReactLink>
 						</BreadcrumbItem>
