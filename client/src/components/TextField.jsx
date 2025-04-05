@@ -23,7 +23,7 @@ const TextField = ({ label, type = "text", name, placeholder }) => {
         type={type}
         placeholder={placeholder}
         value={values[name]}
-        onChange={handleChange} // saját handler
+        onChange={handleChange} 
       />
       <FormErrorMessage>{meta.error}</FormErrorMessage>
     </FormControl>

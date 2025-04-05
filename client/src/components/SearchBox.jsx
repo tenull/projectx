@@ -9,7 +9,7 @@ const SearchBox = () => {
 
   useEffect(() => {
     setKeyword(urlKeyword || '');
-  }, [urlKeyword]); // Ha változik az URL, frissítjük a keresőmezőt
+  }, [urlKeyword]);
 
   const submitHandler = (e) => {
     e.preventDefault();

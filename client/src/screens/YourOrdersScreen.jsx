@@ -93,7 +93,7 @@ const YourOrdersScreen = () => {
 			)}
 		</>
 	) : (
-		<Navigate to='/login' replace={true} state={{ from: location }} />
+		<Navigate to='/bejelentkezes' replace={true} state={{ from: location }} />
 	);
 };
 

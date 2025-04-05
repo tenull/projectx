@@ -28,7 +28,6 @@ const OrderBillingData = () => {
 
     useEffect(() => {
         if (sameAsShipping) {
-            // If checked, store the shipping address in localStorage
             localStorage.setItem('billingAddress', JSON.stringify({
                 billingAddress: shippingAddress.address,
                 billingPostalCode: shippingAddress.postalCode,
@@ -36,7 +35,7 @@ const OrderBillingData = () => {
                 billingPhone: shippingAddress.phone,
             }));
         } else {
-            // If unchecked, clear the billing address from localStorage
+          
             localStorage.removeItem('billingAddress');
         }
     }, [sameAsShipping, shippingAddress]);

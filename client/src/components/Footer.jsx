@@ -17,7 +17,7 @@ const Footer = () => (
 	<Box bg="white" py={10}>
 		<Container maxW="7xl">
 			<Stack spacing={10} direction={{ base: 'column', md: 'row' }} justify="space-between">
-				{/* Logo + Brand */}
+			
 				<Stack spacing={4} align={{ base: 'center', md: 'start' }}>
 					<Flex alignItems="center" gap={4}>
 						<Image src="/images/laskoditesztalogo.png" width="80px" height="80px" />
@@ -26,8 +26,6 @@ const Footer = () => (
 						</Text>
 					</Flex>
 				</Stack>
-
-				{/* Navigation Links */}
 				<Stack direction={{ base: 'column', md: 'row' }} spacing={10} flex={1} justify="center">
 					<Stack spacing={3} align={{ base: 'center', md: 'start' }}>
 						<Text fontSize="md" fontWeight="semibold" color="gray.600">Menü</Text>
@@ -44,7 +42,6 @@ const Footer = () => (
 					</Stack>
 				</Stack>
 
-				{/* Contact Info */}
 				<Stack spacing={3} align={{ base: 'center', md: 'end' }}>
 					<Text fontSize="md" fontWeight="semibold" color="gray.600">Elérhetőség</Text>
 					<Text fontSize="sm" color="gray.500">Cím: 4543, Laskod Szabadság út 31.</Text>
@@ -54,8 +51,6 @@ const Footer = () => (
 			</Stack>
 
 			<Divider my={6} />
-
-			{/* Footer Bottom */}
 			<Stack direction={{ base: 'column', md: 'row' }} justify="space-between" align="center">
 				<Text fontSize="sm" color="gray.500">&copy; {new Date().getFullYear()} Laskodi Tészta. Minden jog fenntartva.</Text>
 				<ButtonGroup>

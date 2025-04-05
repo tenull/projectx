@@ -1,7 +1,7 @@
 import { FormControl, FormLabel, Textarea, FormErrorMessage } from "@chakra-ui/react";
 import { useField, useFormikContext } from "formik";
 import { useDispatch } from "react-redux";
-import { setShippingAddress } from "../redux/slices/order"; // csak akkor, ha kell!
+import { setShippingAddress } from "../redux/slices/order"; 
 
 const TextArea = ({ label, name, placeholder }) => {
   const [field, meta] = useField(name);
@@ -10,8 +10,8 @@ const TextArea = ({ label, name, placeholder }) => {
 
   const handleChange = (e) => {
     const { value } = e.target;
-    setFieldValue(name, value); // Formik mező frissítés
-    dispatch(setShippingAddress({ ...values, [name]: value })); // opcionális: Redux frissítés, ha használod
+    setFieldValue(name, value);
+    dispatch(setShippingAddress({ ...values, [name]: value }));
   };
 
   return (

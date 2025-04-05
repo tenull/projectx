@@ -10,7 +10,6 @@ const ProfileScreen = () => {
     const { loading, error, orders, userInfo } = useSelector((state) => state.user);
     const location = useLocation();
 
-    console.log(orders)
 
     useEffect(() => {
         if (userInfo) {

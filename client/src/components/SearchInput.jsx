@@ -57,7 +57,6 @@ const SearchInput = () => {
 
   return (
     <>
-      {/* Kereső ikon gomb */}
       <IconButton
         icon={<BiSearchAlt size="25px" />}
         onClick={onOpen}

@@ -55,8 +55,8 @@ const OrderDetailsForm = () => {
             label="Irányítószám"
             type="number"
             value={formValues.postalCode}
-            onChange={handleChange} // Bind handleChange
-          />
+            onChange={handleChange} 
+                      />
         </Box>
         <Box flex="2">
           <TextField
@@ -64,7 +64,7 @@ const OrderDetailsForm = () => {
             placeholder="Város"
             label="Város"
             value={formValues.city}
-            onChange={handleChange} // Bind handleChange
+            onChange={handleChange} 
           />
         </Box>
       </Flex>
@@ -73,7 +73,7 @@ const OrderDetailsForm = () => {
         placeholder="Utca, házszám"
         label="Utca, házszám"
         value={formValues.address}
-        onChange={handleChange} // Bind handleChange
+        onChange={handleChange} 
       />
       <TextField
         name="phone"
@@ -81,14 +81,14 @@ const OrderDetailsForm = () => {
         label="Telefonszám"
         type="number"
         value={formValues.phone}
-        onChange={handleChange} // Bind handleChange
+        onChange={handleChange}
       />
       <TextArea
         name="comment"
         placeholder="Megjegyzés szállítási idővel kapcsolatban stb."
         label="Megjegyzés"
         value={formValues.comment}
-        onChange={handleChange} // Bind handleChange
+        onChange={handleChange} 
       />
     </FormControl>
   );

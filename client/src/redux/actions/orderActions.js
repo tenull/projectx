@@ -21,17 +21,14 @@ export const setPayment = () => async (dispatch, getState) => {
 	try {
 	  const config = { headers: { Authorization: `Bearer ${userInfo.token}`, 'Content-Type': 'application/json' } };
 	  
-	  // Ha bankkártyás fizetést választottak, akkor Barion API hívás
+
 	  if (paymentMethod === 'credit_card') {
 		const { data } = await axios.post('/api/checkout', newOrder, config);
   
-		// Itt irányítjuk a felhasználót a Barion oldalra
+
 		window.location.assign(data.url);
 	  } else {
-		// Ha banki átutalás, akkor a siker oldalra irányítunk
 		const { data } = await axios.post('/api/successpayment', newOrder, config);
-  
-		// Az adatot itt lehetne validálni, például a sikeres rendelés megerősítésére
 		window.location.assign('/sikeres');
 	  }
 	} catch (error) {

@@ -37,8 +37,6 @@ const ShippingInformation = () => {
 	const textColor = useColorModeValue("gray.700", "gray.200");
 
 
-console.log(shippingAddress)
-
 	const onSubmit = async (values) => {
 		dispatch(setAddress(values));
 		dispatch(setPayment());

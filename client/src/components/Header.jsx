@@ -51,8 +51,8 @@ const Header = () => {
 	const [, setShowBanner] = useState(userInfo ? !userInfo.active : false);
 	const [isLoginVisible, setIsLoginVisible] = useState(false);
 	const [isCartVisible, setIsCartVisible] = useState(false);
-	const loginRef = useRef(null); // Ref a teljes panelhez
-	const formRef = useRef(null);  // Ref a LoginForm-hoz
+	const loginRef = useRef(null); 
+	const formRef = useRef(null); 
 	let timeoutId;
 	const handleMouseEnter = () => {
 		clearTimeout(timeoutId);
