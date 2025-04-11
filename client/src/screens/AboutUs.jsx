@@ -10,7 +10,7 @@ const AboutUs = () => {
                 backgroundColor="red.600"
                 color="white"
                 position="relative"
-                backgroundImage='/images/pastalogo2.jpg'
+                backgroundImage={`linear-gradient(rgb(51, 51, 51, 0.7), #c53030),/images/pastalogo2.jpg`}
                 backgroundPosition="20% 30%"
                 backgroundRepeat="no-repeat"
                 backgroundSize="cover"

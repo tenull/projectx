@@ -9,6 +9,7 @@ const PalyazatScreen = () => {
             <Center
                 height={{ base: '200px', md: '300px' }}
                 backgroundColor="red.600"
+                backgroundImage={`linear-gradient(rgb(51, 51, 51, 0.7), #c53030),/images/pastalogo2.jpg`}
                 color="white"
                 position="relative"
                 backgroundPosition="bottom"

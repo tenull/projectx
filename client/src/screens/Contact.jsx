@@ -148,6 +148,7 @@ const onSubmit = async (values)=>{
         <Box maxW="8xl" mx="auto" p={{ base: '0', lg: '12' }} minH="6xl">
             <Center
                 height={{ base: '200px', md: '300px' }}
+                backgroundImage={`linear-gradient(rgb(51, 51, 51, 0.7), #c53030),/images/pastalogo2.jpg`}
                 backgroundColor="red.600"
                 color="white"
                 position="relative"

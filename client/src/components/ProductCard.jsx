@@ -10,6 +10,7 @@ import { TbShoppingCartPlus } from 'react-icons/tb';
 import { getUserFavorites } from '../redux/actions/userActions';
 import { removeCartItem } from '../redux/actions/cartActions';
 import { FaTrashCan } from 'react-icons/fa6';
+import { FaEgg } from 'react-icons/fa6';
 import { setFavoritesUpdateFlag } from '../redux/slices/user';
 const ProductCard = ({ product, loading }) => {
 	const dispatch = useDispatch();
@@ -126,13 +127,13 @@ const ProductCard = ({ product, loading }) => {
 
 				border={cartQty < 1 ? '' : '1px solid red'}
 				rounded='md'
-				width={{ base: '170px', md: '220px', lg: '250px' }}
+				width={{ base: '140px', md: '220px', lg: '250px' }}
 				maxW={{ base: '220px', md: '250px' }}
 				overflow='hidden'
 				p='4'
 				shadow='md'>
 
-				<Tooltip label={isFavorite ? "Eltávolítás a kedvencek közül" : "Hozzáadás a kedvencekhez"}>
+				<Tooltip label={isFavorite ? "Eltávolítás a kedvencek közül" : "Hozzáadás a kedvencekhez"} hasArrow>
 					<IconButton
 						icon={isFavorite ? <MdOutlineFavorite size="20px" /> : <MdOutlineFavoriteBorder size="20px" />}
 						onClick={toggleFavorite}
@@ -140,24 +141,26 @@ const ProductCard = ({ product, loading }) => {
 						aria-label={isFavorite ? "Eltávolítás a kedvencek közül" : "Hozzáadás a kedvencekhez"}
 					/>
 				</Tooltip>
-
-				<Text
+				<Tooltip label={`${product.packingOf} tojásos`} placement="top" hasArrow>
+				<Box
 					position="absolute"
-					top="35px"
-					right="10px"
-					bg="blackAlpha.700"
-					color="yellow.300"
-					border="2px solid yellow.400"
+					top={5}
+					zIndex={1}
+					right="50px"
 					borderRadius="full"
-					px={3}
-					py={1}
-					fontSize="lg"
-					fontWeight="bold"
+					display="flex"
+					alignItems="center"
+					justifyContent="center"
 					boxShadow="lg"
-					transform="translateY(-50%)"
 				>
-					{product.packingOf}
-				</Text>
+					<Box position="absolute" fontSize={{base:'3xl',md:'5xl'}} color="yellow.600">
+						<FaEgg />
+					</Box>
+					<Text fontSize={{base:'',md:'xl'}}fontWeight="bold" color="white" zIndex="1">
+						{product.packingOf}
+					</Text>
+				</Box>
+				</Tooltip>
 
 				{product.productIsNew && (
 					<Badge fontSize='lg' color='white' position='absolute' rounded='lg' right={1} top={1} ml='2' bg='red.500'>
@@ -170,13 +173,13 @@ const ProductCard = ({ product, loading }) => {
 				>
 					<Box display='flex' justifyContent='center'>
 						<Image
-
+							filter=' drop-shadow(4px 4px 4px rgba(0, 0, 0, .45));'
 							onMouseEnter={() => setIsShown(true)}
 							onMouseLeave={() => setIsShown(false)}
 							src={product.image}
 							fallbackSrc='https://placehold.co/400'
 							alt={product.name}
-							height='200px'
+							height={{base:'100px',md:'200px'}}
 						/>
 					</Box>
 					{product.stock <= 0 ? (
@@ -194,7 +197,7 @@ const ProductCard = ({ product, loading }) => {
 					{/* <Text textAlign='center' noOfLines={2} fontSize='sm' mt='2' mb={-2}>
 					{product.packingOf} Tojásos
 				</Text> */}
-					<Text textAlign='center' noOfLines={2} fontSize={{base:'lg',md:'xl'}} fontWeight='semibold'>
+					<Text h='50px' textAlign='center' noOfLines={2} fontSize={{ base: 'md', md: 'xl' }} fontWeight='semibold'>
 						{product.name}
 					</Text>
 					<Text textAlign="center" noOfLines={1} fontSize="md" color="gray.600">

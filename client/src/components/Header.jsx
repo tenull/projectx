@@ -51,8 +51,8 @@ const Header = () => {
 	const [, setShowBanner] = useState(userInfo ? !userInfo.active : false);
 	const [isLoginVisible, setIsLoginVisible] = useState(false);
 	const [isCartVisible, setIsCartVisible] = useState(false);
-	const loginRef = useRef(null); 
-	const formRef = useRef(null); 
+	const loginRef = useRef(null);
+	const formRef = useRef(null);
 	let timeoutId;
 	const handleMouseEnter = () => {
 		clearTimeout(timeoutId);
@@ -101,7 +101,7 @@ const Header = () => {
 
 	return (
 		<>
-			<Box height={{base:'70px',md:'100px'}} pt={2} zIndex={2} bg={mode(`white`, 'gray.900')} position='sticky' top='0' w='100%' px='4'>
+			<Box height={{ base: '70px', md: '100px' }} pt={2} zIndex={2} bg={mode(`white`, 'gray.900')} position='sticky' top='0' w='100%' px='4'>
 				<Box alignItems='center' display='flex' justifyContent='space-between' px={10}>
 					<Box width={{ base: '0', md: '150px' }} h='1px'>
 						<Flex display={{ base: 'flex', md: 'none' }} position='absolute' left={7} top={4}>
@@ -119,7 +119,14 @@ const Header = () => {
 					{/* <Icon as={BsPhoneFlip} h='6' w='6' color={mode('black', 'yellow.200')} /> */}
 					<Box display='flex' alignItems='center' as={ReactLink} to='/'>
 						<Image src="/images/laskoditesztalogo.png" width="50px" height="50px" />
-						<Text as='b' display={{ base: 'none', md: 'block' }} fontSize={{ base: 'xl', md: '2xl' }}>LaskodiTészta</Text>
+						<Box  as={ReactLink} to='/' position='relative' alignItems="center" justifyContent='flex-start' display={{base:'none',md:'flex'}} flexDirection="column">
+							<Text as="b" href="#wave">
+								LASKODI
+							</Text>
+							<Text top={5} position='absolute' as="b" fontSize="10px" alignItems="center" >
+								TÉSZTA
+							</Text>
+						</Box>
 					</Box>
 					<Flex alignItems='center' justify='flex-end'>
 						{userInfo ? (

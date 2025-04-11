@@ -22,8 +22,15 @@ import {
 	TabPanel,
 	Breadcrumb,
 	BreadcrumbItem,
-	Container
+	Container,
+	useDisclosure,
+	Modal,
+	ModalOverlay,
+	ModalContent,
+	ModalBody,
+	Tooltip
 } from '@chakra-ui/react';
+import { FaEgg } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getProduct } from '../redux/actions/productActions';
@@ -37,6 +44,7 @@ import { ChevronRightIcon } from '@chakra-ui/icons';
 
 const ProductScreen = () => {
 	const [amount, setAmount] = useState(1);
+	const { isOpen, onOpen, onClose } = useDisclosure();
 	const { id } = useParams();
 	const dispatch = useDispatch();
 	const { loading, error, product, reviewed } = useSelector((state) => state.product);
@@ -80,10 +88,10 @@ const ProductScreen = () => {
 			isClosable: true,
 		});
 	};
-	
+
 
 	return (
-		<Wrap  spacing='30px' justify='center' minHeight='100vh'>
+		<Wrap spacing='30px' justify='center' minHeight='100vh'>
 
 			{loading ? (
 				<Stack direction='row' spacing='4'>
@@ -127,7 +135,7 @@ const ProductScreen = () => {
 									</Heading>
 									<Stack spacing='5'>
 
-										<Text w={{base:'100%',md:'700px',lg:'800px'}} textAlign='justify'>{product.description}</Text>
+										<Text w={{ base: '100%', md: '700px', lg: '800px' }} textAlign='justify'>{product.description}</Text>
 
 
 										<Box flexBasis='50%' minWidth='300px' maxW='500px' display='flex' flexDirection='column' justifyContent='flex-start' alignItems='center'>
@@ -194,35 +202,56 @@ const ProductScreen = () => {
 									</Stack>
 								</Stack>
 								<Flex position='relative' direction='column' align='center' flex='1' _dark={{ bg: 'gray.900' }}>
-									<Image
-										mb='30px'
-										maxH='400px'
-										src={product.image}
-										alt={product.name}
-										fallbackSrc='https://via.placeholder.com/250'
-									/>
+									<Box
+										cursor="zoom-in"
+										onClick={onOpen}
+										transition="transform 0.2s"
+										_hover={{ transform: "scale(1.05)" }}
+										maxW="300px" 
+									>
+										<Image
+											filter=' drop-shadow(4px 4px 4px rgba(0, 0, 0, .45));'
+											// _hover={{ transform: 'translateY(-5px)', transition: 'transform 0.3s ease-in-out' }}
+											mb='30px'
+											maxH='400px'
+											src={product.image}
+											alt={product.name}
+											fallbackSrc='https://via.placeholder.com/250'
+										/>
+									</Box>
+									<Modal isOpen={isOpen} onClose={onClose} isCentered size="xl">
+										<ModalOverlay />
+										<ModalContent bg="transparent" boxShadow="none">
+											<ModalBody p={0}>
+												<Image src={product.image} alt={product.name} borderRadius="md" />
+											</ModalBody>
+										</ModalContent>
+									</Modal>
 									{product.productIsNew && (
 										<Badge fontSize='lg' color='white' position='absolute' rounded='lg' right={20} top={1} ml='2' bg='red.500'>
 											új
 										</Badge>
 									)}
-									<Text
+									<Tooltip label={`${product.packingOf} tojásos`} placement="top" hasArrow>
+									<Box
 										position="absolute"
 										top={5}
 										left="50px"
-										bg="blackAlpha.700"
-										color="yellow.300"
-										border="2px solid yellow.400"
 										borderRadius="full"
-										px={4}
-										py={1}
-										fontSize="3xl"
-										fontWeight="bold"
+										display="flex"
+										alignItems="center"
+										justifyContent="center"
 										boxShadow="lg"
-										transform="translateY(-50%)"
 									>
-										{product.packingOf}
-									</Text>
+										<Box position="absolute" fontSize="6xl" color="yellow.600">
+											<FaEgg />
+										</Box>
+										<Text fontSize="2xl" fontWeight="bold" color="white" zIndex="1">
+											{product.packingOf}
+										</Text>
+									</Box>
+									</Tooltip>
+
 								</Flex>
 							</Stack>
 

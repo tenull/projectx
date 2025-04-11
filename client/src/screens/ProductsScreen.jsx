@@ -40,7 +40,7 @@ const ProductsScreen = () => {
 	const categoryButtons = [
 		{ name: "4 Tojásos körettészta", filter: { packingOf: 4, type: "körettészta" } },
 		{ name: "4 Tojásos levestészta", filter: { packingOf: 4, type: "levestészta" } },
-		{ name: "8 Tojásos körettészta", filter: { packingOf: 8, type: "körettészta" } },
+		// { name: "8 Tojásos körettészta", filter: { packingOf: 8, type: "körettészta" } },
 		{ name: "8 Tojásos levestészta", filter: { packingOf: 8, type: "levestészta" } }
 	];
 
@@ -75,10 +75,11 @@ const ProductsScreen = () => {
 	return (
 		<>
 			{products.length >= 1 && (
-				<Box maxW="8xl" mx="auto" p={{ base: '0', lg: '12' }} minH="6xl">
+				<Box mx='auto' maxW="8xl" p={{ base: '0', lg: '12' }} minH="6xl">
 					<Center
 						height={{ base: '200px', md: '300px' }}
 						backgroundColor="red.600"
+						backgroundImage={`linear-gradient(rgb(51, 51, 51, 0.7), #c53030),/images/pastalogo2.jpg`}
 						color="white"
 						position="relative"
 						backgroundPosition="bottom"
@@ -100,9 +101,9 @@ const ProductsScreen = () => {
 						</BreadcrumbItem>
 
 					</Breadcrumb>
-					<Container maxW='container.xl' display='flex' spacing="30px" justify="between" minHeight="80vh" >
+					<Container maxW='container.xl' px={0} display='flex' spacing="30px" justify="between" minHeight="80vh" >
 
-						<Box minW="260px" rounded="md" maxW="5%" display={{ base: "none", md: "block" }}>
+						<Box position='sticky' height='500px' top='150px' minW="260px" rounded="md" maxW="5%" display={{ base: "none", md: "block" }}>
 							<Text fontFamily="Poppins" mb={2} color="black" fontWeight="bold" fontSize="4xl">
 								KATEGÓRIA
 							</Text>
