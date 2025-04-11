@@ -97,6 +97,8 @@ export default function CaptionCarousel() {
                 {cards.map((card, index) => (
                     index === 0 ? (
                         <Flex
+                        border='1px solid red'
+                        borderRadius='10px'
                             className='test'
                             key={index}
                             direction={{ base: "column", md: "row" }}
