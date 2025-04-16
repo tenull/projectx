@@ -92,7 +92,7 @@ const TermekekCarousel = () => {
         <Box py={10}>
             <Container px={0} mx={0} my={5} maxW='container.xl'>
                 <Wrap justify='center' pt='' pb='10'>
-                    <Text fontWeight='semibold' fontSize='3xl'>TÉSZTÁINK</Text>
+                    <Text fontFamily="'Playfair Display', serif" fontWeight='semibold' fontSize='3xl'>TÉSZTÁINK</Text>
                 </Wrap>
                 <Box display='flex' justify='center' position="relative">
                     <IconButton

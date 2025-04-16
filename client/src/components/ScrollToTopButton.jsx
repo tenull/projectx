@@ -29,6 +29,7 @@ const ScrollToTopButton = () => {
 
   return (
     <Button
+    zIndex={3}
       onClick={scrollToTop}
       style={{
         position: 'fixed',

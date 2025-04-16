@@ -158,6 +158,7 @@ const onSubmit = async (values)=>{
                 fontSize={{ base: '2xl', md: '4xl' }}
                 fontWeight="bold"
                 textAlign="center"
+                fontFamily="'Playfair Display', serif"
             >
                 Kapcsolat
             </Center>

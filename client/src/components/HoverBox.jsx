@@ -15,6 +15,7 @@ const HoverBox = ({ text,image,link }) => {
       alignItems="center"
       w="300px"
       h="400px"
+      borderRadius='10px'
       backgroundImage={image}
       backgroundPosition='center'
       backgroundSize='cover'
@@ -63,7 +64,7 @@ const HoverBox = ({ text,image,link }) => {
       />
      <Text
   fontSize="xl"
-  color={hovered? 'red.600':'white'}
+  color={hovered? 'red.500':'white'}
   transition={hovered? 'ease-in-out 0.3s' :'ease-in-out 0.3s'}
   fontWeight="bold"
   textShadow="2px 2px 5px rgba(0, 0, 0, 0.9)" 

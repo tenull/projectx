@@ -6,15 +6,15 @@ import ProductCard from '../components/ProductCard';
 import { setFavoritesUpdateFlag } from '../redux/slices/user';
 const FavoritesScreen = () => {
     const dispatch = useDispatch();
-    const { loading, error, favorites,userInfo,favoritesFlag } = useSelector((state) => state.user);
+    const { loading, error, favorites, userInfo, favoritesFlag } = useSelector((state) => state.user);
 
     useEffect(() => {
         if (favoritesFlag) {
             dispatch(getUserFavorites());
-            dispatch(setFavoritesUpdateFlag(false)); 
+            dispatch(setFavoritesUpdateFlag(false));
         }
     }, [favoritesFlag, dispatch]);
-    
+
     if (loading) {
         return (
             <Wrap justify='center'>
@@ -26,7 +26,7 @@ const FavoritesScreen = () => {
     }
 
     return (
-        <Box>
+        <Box py={{ base: 6, md: 12 }}>
             {error && (
                 <Alert status='error'>
                     <AlertIcon />
@@ -35,13 +35,27 @@ const FavoritesScreen = () => {
                 </Alert>
             )}
 
-            <Center marginY='20px'>
-                <Text fontSize='4xl' fontWeight='bold'>Kedvenc termékek</Text>
+            <Center mb={8}>
+                <Text
+                    fontSize={{ base: '2xl', md: '4xl' }}
+                    fontWeight="bold"
+                    fontFamily="'Playfair Display', serif"
+                    color="gray.700"
+                    textAlign="center"
+                >
+                    Kedvelt termékek
+                </Text>
             </Center>
 
             {favorites.length === 0 ? (
-                <Center>
-                    <Text mb='50vh' fontSize='xl'>Jelenleg nincs hozzáadva kedvenc termék.</Text>
+                <Center minH="40vh" px={4}>
+                    <Text
+                        fontSize={{ base: 'md', md: 'xl' }}
+                        color="gray.500"
+                        textAlign="center"
+                    >
+                        Jelenleg nincs hozzáadva kedvelt termék.
+                    </Text>
                 </Center>
             ) : (
                 <Wrap mb='25vh' spacing='30px' justify='center' mx={{ base: '3', md: '20', lg: '32' }}>

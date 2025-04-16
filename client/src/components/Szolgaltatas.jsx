@@ -52,9 +52,9 @@ const Szolgaltatas = () => {
             </Box> */}
 
             <Box
-               
-
-                display="flex" justifyContent={{ base: 'space-between', md: 'space-evenly' }} flexWrap="wrap" gap={1} py={3}>
+               fontFamily='Poppins'
+                
+                display="flex" justifyContent={{ base: 'space-between', md: 'space-evenly' }}   flexWrap="wrap" gap={5} py={3}>
                 {/* Minden doboz 45%-os szélességet kap */}
                 <Box
                     display="flex"
@@ -64,6 +64,7 @@ const Szolgaltatas = () => {
                     minW={{ base: '345px', md: '465px' }}
                     flexBasis={{ base: "100%", md: "45%" }}
                     maxW="45%"
+                    
                     _hover={{
                         '& > div:first-of-type': {
                             boxShadow: "0 0 0 3px white, 0 0 0 7px #822727",
@@ -76,10 +77,10 @@ const Szolgaltatas = () => {
                         <TbEggs size="40px" color="white" />
                     </Box>
                     <Box minW={{ base: '250px', md: '400px' }}>
-                        <Text fontWeight="bold" fontSize="lg" color="gray.800" mb={2}>
+                        <Text fontWeight="bold" fontSize={{base:'sm',md:'md'}}color="gray.800" mb={{base:0,md:2}}>
                             Friss, pasztőrözött tyúktojásléből készült tészták
                         </Text>
-                        <Text color="gray.600" fontSize="md">
+                        <Text color="gray.600" fontSize={{base:'xs',md:'sm'}} textAlign='justify'>
                             A frissesség és a minőség garanciája, kizárólag hazai alapanyagokból.
                         </Text>
                     </Box>
@@ -105,10 +106,10 @@ const Szolgaltatas = () => {
                         <FaTemperatureFull size="40px" color="white" />
                     </Box>
                     <Box minW={{ base: '250px', md: '400px' }}>
-                        <Text fontWeight="bold" fontSize="lg" color="gray.800" mb={2}>
+                    <Text fontWeight="bold" fontSize={{base:'sm',md:'md'}}color="gray.800" mb={{base:0,md:2}}>
                             Magas hőmérsékletű szárítórendszer
                         </Text>
-                        <Text color="gray.600" fontSize="md">
+                        <Text color="gray.600" fontSize={{base:'xs',md:'sm'}} textAlign='justify'>
                             Korszerű technológia a maximális biztonság és az állandó minőség érdekében.
                         </Text>
                     </Box>
@@ -134,10 +135,10 @@ const Szolgaltatas = () => {
                         <PiSealCheckBold size="40px" color="white" />
                     </Box>
                     <Box minW={{ base: '250px', md: '400px' }}>
-                        <Text fontWeight="bold" fontSize="lg" color="gray.800" mb={2}>
+                    <Text fontWeight="bold" fontSize={{base:'sm',md:'md'}}color="gray.800" mb={{base:0,md:2}}>
                             Minőségellenőrzött termékek
                         </Text>
-                        <Text color="gray.600" fontSize="md">
+                        <Text color="gray.600" fontSize={{base:'xs',md:'sm'}} textAlign='justify'>
                             Folyamatos minőség-ellenőrzés akkreditált laboratóriumi körülmények között.
                         </Text>
                     </Box>
@@ -163,10 +164,10 @@ const Szolgaltatas = () => {
                         <GiHungary size="40px" color="white" />
                     </Box>
                     <Box minW={{ base: '250px', md: '400px' }}>
-                        <Text fontWeight="bold" fontSize="lg" color="gray.800" mb={2}>
+                    <Text fontWeight="bold" fontSize={{base:'sm',md:'md'}}color="gray.800" mb={{base:0,md:2}}>
                             Hazai alapanyagokból készült házias jellegű tészták
                         </Text>
-                        <Text color="gray.600" fontSize="md">
+                        <Text color="gray.600" fontSize={{base:'xs',md:'sm'}} textAlign='justify'>
                             Hazai alapanyagokból készült, hagyományos ízeket idéző száraztészták.
                         </Text>
                     </Box>
@@ -203,16 +204,10 @@ const Szolgaltatas = () => {
                         <FaHandshake size="40px" color="white" />
                     </Box>
                     <Box minW={{ base: '250px', md: '400px' }}>
-                        <Text
-                            fontWeight="bold"
-                            fontSize="lg"
-                            color="gray.800"
-                            mb={2}
-                            transition="all 0.3s ease"
-                        >
+                    <Text fontWeight="bold" fontSize={{base:'sm',md:'md'}}color="gray.800" mb={{base:0,md:2}}>
                             Kiváló partnerkapcsolatok
                         </Text>
-                        <Text color="gray.600" fontSize="md">
+                        <Text color="gray.600" fontSize={{base:'xs',md:'sm'}} textAlign='justify'>
                             Hosszú távú, korrekt együttműködés ügyfeleinkkel és szállítóinkkal.
                         </Text>
                     </Box>

@@ -1,3 +1,7 @@
 .test {
     display: flex!important;
 }
+
+body{
+    font-family: Poppins!important;
+}

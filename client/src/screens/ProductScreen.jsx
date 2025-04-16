@@ -125,7 +125,7 @@ const ProductScreen = () => {
 
 							</Breadcrumb>
 
-							<Stack direction={{ base: 'column', lg: 'row' }} align='center'>
+							<Stack fontFamily='Poppins' direction={{ base: 'column', lg: 'row' }} align='center'>
 								<Stack mt={5} pr={{ base: '0', md: 'row' }} flex='1.5' mb={{ base: '12', md: 'none' }}>
 									<Heading fontSize='sm' fontWeight='bold'>
 										{product.brand}

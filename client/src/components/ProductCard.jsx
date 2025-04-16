@@ -1,5 +1,6 @@
 import { Box, Input, Image, Text, Badge, Flex, IconButton, Skeleton, useToast, Tooltip, Button } from '@chakra-ui/react';
 import React, { useState } from 'react';
+import { extendTheme } from '@chakra-ui/react';
 import { addToFavorites, removeFromFavorites } from '../redux/actions/userActions';
 import { useSelector, useDispatch } from 'react-redux';
 import { MdOutlineFavorite, MdOutlineFavoriteBorder } from 'react-icons/md';
@@ -12,6 +13,8 @@ import { removeCartItem } from '../redux/actions/cartActions';
 import { FaTrashCan } from 'react-icons/fa6';
 import { FaEgg } from 'react-icons/fa6';
 import { setFavoritesUpdateFlag } from '../redux/slices/user';
+
+
 const ProductCard = ({ product, loading }) => {
 	const dispatch = useDispatch();
 	const { favorites } = useSelector((state) => state.user);
@@ -197,15 +200,15 @@ const ProductCard = ({ product, loading }) => {
 					{/* <Text textAlign='center' noOfLines={2} fontSize='sm' mt='2' mb={-2}>
 					{product.packingOf} Tojásos
 				</Text> */}
-					<Text h='50px' textAlign='center' noOfLines={2} fontSize={{ base: 'md', md: 'xl' }} fontWeight='semibold'>
+					<Text mt={2} h='30px' textAlign='center' noOfLines={2}   fontSize={{ base: 'sm', md: 'md', lg: 'lg' }} fontFamily="Poppins" fontWeight='semibold'>
 						{product.name}
 					</Text>
-					<Text textAlign="center" noOfLines={1} fontSize="md" color="gray.600">
+					<Text textAlign="center" noOfLines={1} fontFamily="Poppins" fontSize="md" color="gray.600">
 						{product.packaking < 1 ? product.packaking * 1000 + "g" : product.packaking + "kg"}
 					</Text>
 
 					<Flex justify='center' alignItems='center' mt='2'>
-						<Text textAlign='center' fontSize='xl' fontWeight='semibold' color='red.600'>
+						<Text textAlign='center' fontSize="sm" fontFamily="Poppins" fontWeight='semibold' color='red.600'>
 							{product.price} Ft
 						</Text>
 					</Flex>

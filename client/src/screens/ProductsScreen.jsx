@@ -88,6 +88,7 @@ const ProductsScreen = () => {
 						fontSize={{ base: '2xl', md: '4xl' }}
 						fontWeight="bold"
 						textAlign="center"
+						 fontFamily="'Playfair Display', serif"
 					>
 						Tésztáink
 					</Center>
@@ -205,7 +206,7 @@ const ProductsScreen = () => {
 										borderColor: 'red.600'
 									}}
 								>
-									Gyűjtő
+									Lédig
 									{selectedType === "gyujto" && <IoIosCheckmark style={{ position: 'absolute', right: '1px' }} fontSize='30px' />}
 								</Button>
 
@@ -224,7 +225,7 @@ const ProductsScreen = () => {
 										</Text>
 
 										{selectedType === 'gyujto' &&
-											<Text mt={10} textAlign='center' fontSize='xl'>A gyűjtő csomagolása 10 kg-os polietilén zsákban történik.</Text>}
+											<Text mt={10} textAlign='center' fontSize='xl'>A lédig csomagolása 10 kg-os polietilén zsákban történik.</Text>}
 									</Box>
 								) : (
 									filteredByType.map((product) => (
