@@ -1,1 +1,0 @@
-{"version":3,"file":"static/css/main.bec656af.css","mappings":"AAAA,MACI,sBACJ,CAEA,KACI,6BACJ","sources":["index.css"],"sourcesContent":[".test {\r\n    display: flex!important;\r\n}\r\n\r\nbody{\r\n    font-family: Poppins!important;\r\n}"],"names":[],"sourceRoot":""}
