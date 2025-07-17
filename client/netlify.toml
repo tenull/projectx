@@ -3,3 +3,6 @@
   to = "http://91.214.112.61:8000/api/:splat"
   status = 200
   force = true
+
+[build.environment]
+  NODE_VERSION = "18"
