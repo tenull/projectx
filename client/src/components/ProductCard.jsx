@@ -145,24 +145,24 @@ const ProductCard = ({ product, loading }) => {
 					/>
 				</Tooltip>
 				<Tooltip label={`${product.packingOf} tojásos`} placement="top" hasArrow>
-				<Box
-					position="absolute"
-					top={5}
-					zIndex={1}
-					right="50px"
-					borderRadius="full"
-					display="flex"
-					alignItems="center"
-					justifyContent="center"
-					boxShadow="lg"
-				>
-					<Box position="absolute" fontSize={{base:'3xl',md:'5xl'}} color="yellow.600">
-						<FaEgg />
+					<Box
+						position="absolute"
+						top={5}
+						zIndex={1}
+						right="50px"
+						borderRadius="full"
+						display="flex"
+						alignItems="center"
+						justifyContent="center"
+						boxShadow="lg"
+					>
+						<Box position="absolute" fontSize={{ base: '3xl', md: '5xl' }} color="yellow.600">
+							<FaEgg />
+						</Box>
+						<Text fontSize={{ base: '', md: 'xl' }} fontWeight="bold" color="white" zIndex="1">
+							{product.packingOf}
+						</Text>
 					</Box>
-					<Text fontSize={{base:'',md:'xl'}}fontWeight="bold" color="white" zIndex="1">
-						{product.packingOf}
-					</Text>
-				</Box>
 				</Tooltip>
 
 				{product.productIsNew && (
@@ -182,7 +182,7 @@ const ProductCard = ({ product, loading }) => {
 							src={product.image}
 							fallbackSrc='https://placehold.co/400'
 							alt={product.name}
-							height={{base:'100px',md:'200px'}}
+							height={{ base: '100px', md: '200px' }}
 						/>
 					</Box>
 					{product.stock <= 0 ? (
@@ -200,20 +200,20 @@ const ProductCard = ({ product, loading }) => {
 					{/* <Text textAlign='center' noOfLines={2} fontSize='sm' mt='2' mb={-2}>
 					{product.packingOf} Tojásos
 				</Text> */}
-					<Text mt={2} h='30px' textAlign='center' noOfLines={2}   fontSize={{ base: 'sm', md: 'md', lg: 'lg' }} fontFamily="Poppins" fontWeight='semibold'>
+					<Text mt={2} h='30px' textAlign='center' noOfLines={2} fontSize={{ base: 'sm', md: 'md', lg: 'lg' }} fontFamily="Poppins" fontWeight='semibold'>
 						{product.name}
 					</Text>
 					<Text textAlign="center" noOfLines={1} fontFamily="Poppins" fontSize="md" color="gray.600">
 						{product.packaking < 1 ? product.packaking * 1000 + "g" : product.packaking + "kg"}
 					</Text>
 
-					<Flex justify='center' alignItems='center' mt='2'>
+					{/* <Flex justify='center' alignItems='center' mt='2'>
 						<Text textAlign='center' fontSize="sm" fontFamily="Poppins" fontWeight='semibold' color='red.600'>
 							{product.price} Ft
 						</Text>
-					</Flex>
+					</Flex> */}
 				</Box>
-				<Flex justify='center' mt='2'>
+				{/* <Flex justify='center' mt='2'>
 					{cartQty > 0 ? (
 						<Flex alignItems='center'  >
 							<Button
@@ -283,7 +283,21 @@ const ProductCard = ({ product, loading }) => {
 							</Button>
 						</Tooltip>
 					)}
-				</Flex>
+				</Flex> */}
+				<Button
+					w='100%'
+					colorScheme='red'
+					isDisabled={product.stock <= 0 || cartPlusDisabled}
+					as={ReactLink}
+					to={`/teszta/${product._id}`}
+				>
+
+
+
+					Megnézem
+
+
+				</Button>
 			</Box>
 		</Skeleton>
 	);

@@ -178,7 +178,7 @@ const ProductScreen = () => {
 												</Badge>
 											)}
 										</Box>
-										<Box display='flex' alignItems='center' justifyContent='space-between'>
+										{/* <Box display='flex' alignItems='center' justifyContent='space-between'>
 											<Flex w='170px' p='5px' border='1px' borderColor='gray.200' alignItems='center'>
 												<Button isDisabled={amount <= 1} onClick={() => changeAmount('minus')}>
 													<MinusIcon />
@@ -198,7 +198,7 @@ const ProductScreen = () => {
 												onClick={() => addItem()}>
 												Kosárba
 											</Button>
-										</Box>
+										</Box> */}
 									</Stack>
 								</Stack>
 								<Flex position='relative' direction='column' align='center' flex='1' _dark={{ bg: 'gray.900' }}>

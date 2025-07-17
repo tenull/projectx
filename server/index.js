@@ -37,7 +37,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/sendorderconfirmationemail', emailRoutes);
 
-app.get('/api/config/google', (req, res) => res.send(process.env.GOOGLE_CLIENT_ID));
+app.get('/api/config/google', (req, res) => res.send('914658874090-oi3d53n6vpvaftclqrscv5em97lhdus2.apps.googleusercontent.com'));
 
 app.get("/api/pickup-points", async (req, res) => {
     const pickupPoints = await fetch("https://api.csomagszallito.hu/pickup-points") // Külső API hívás
@@ -47,19 +47,19 @@ app.get("/api/pickup-points", async (req, res) => {
 });
 
 
-const port = 5000;
+const port = 8000;
 
 const __dirname = path.resolve();
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
-if (process.env.NODE_ENV == 'production') {
+if ('production' == 'production') {
 	app.use(express.static(path.join(__dirname, '/client/build')));
 
 	app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html')));
 }
 
 app.get('/', (req, res) => {
-	res.send('Api is running...');
+	res.send('Api is running verywell');
 });
 
 app.listen(port, () => {

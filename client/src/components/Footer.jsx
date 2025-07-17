@@ -11,6 +11,7 @@ import {
 	Icon,
 	Image,
 } from '@chakra-ui/react';
+import { Link as ReactLink } from "react-router-dom";
 import { FaFacebook } from 'react-icons/fa';
 
 const Footer = () => (
@@ -29,16 +30,17 @@ const Footer = () => (
 				<Stack direction={{ base: 'column', md: 'row' }} spacing={10} flex={1} justify="center">
 					<Stack spacing={3} align={{ base: 'center', md: 'start' }}>
 						<Text fontSize="md" fontWeight="semibold" color="gray.600">Menü</Text>
-						<Button variant="link" color="gray.500">Rólunk</Button>
-						<Button variant="link" color="gray.500">Tésztáink</Button>
-						<Button variant="link" color="gray.500">Kapcsolat</Button>
+						<Button  as={ReactLink} to='/rolunk' variant="link" color="gray.500">Rólunk</Button>
+						<Button  as={ReactLink} to='/tesztaink' variant="link" color="gray.500">Tésztáink</Button>
+						<Button  as={ReactLink} to='/palyazat' variant="link" color="gray.500">Pályázat</Button>
+						<Button  as={ReactLink} to='/kapcsolat' variant="link" color="gray.500">Kapcsolat</Button>
 					</Stack>
 
 					<Stack spacing={3} align={{ base: 'center', md: 'start' }}>
 						<Text fontSize="md" fontWeight="semibold" color="gray.600">Információk</Text>
-						<Button variant="link" color="gray.500">ÁSZF</Button>
-						<Button variant="link" color="gray.500">Adatkezelés</Button>
-						<Button variant="link" color="gray.500">Szállítás</Button>
+						<Button  data-disabled="" variant="link" color="gray.500">ÁSZF</Button>
+						<Button data-disabled="" variant="link" color="gray.500">Adatkezelés</Button>
+						<Button data-disabled="" variant="link" color="gray.500">Szállítás</Button>
 					</Stack>
 				</Stack>
 

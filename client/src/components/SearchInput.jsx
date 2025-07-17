@@ -144,16 +144,16 @@ const SearchInput = () => {
 
                     <Image src={product.image} 
                     fallbackSrc='https://placehold.co/400'
-                    borderRadius="md" maxW="80px" mx="auto" />
+                    borderRadius="md" maxW="80px" minW='80px' mx="auto" />
                     <Text fontSize="sm" fontWeight="bold" textAlign="center" mt={2}>
                       {product.name}
                     </Text>
                     <Text fontSize="xs" color="gray.600" textAlign="center">
-                      {product.packaging} g
+                      {product.packaking*1000} g
                     </Text>
-                    <Text fontSize="sm" color="red.500" fontWeight="bold" textAlign="center">
+                    {/* <Text fontSize="sm" color="red.500" fontWeight="bold" textAlign="center">
                       {product.price} Ft
-                    </Text>
+                    </Text> */}
                   </Box>
                 ))
               ) : (

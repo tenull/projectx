@@ -38,7 +38,7 @@ const Links = [
 	{ name: 'Rólunk', route: '/rolunk' },
 	{ name: 'Tésztáink', route: '/tesztaink' },
 	{ name: 'Pályázat', route: '/palyazat' },
-	{ name: 'Szállítási információk', route: '/szallitasi-informaciok' },
+	// { name: 'Szállítási információk', route: '/szallitasi-informaciok' },
 	{ name: 'Kapcsolat', route: '/kapcsolat' },
 ];
 
@@ -141,7 +141,7 @@ const Header = () => {
 												referrerPolicy='no-referrer'
 											/>
 										) : (
-											<BiUserCheck size='35' />
+											<BiUserCheck size='35'/>
 										)}
 
 										{/* <ChevronDownIcon ms={-3}/> */}
@@ -185,9 +185,10 @@ const Header = () => {
 							<Box>
 								<Box display={{ base: 'none', md: 'block' }} position="relative" ref={loginRef}>
 									<IconButton
+									data-disabled=""
 										icon={<BiUser />}
 										fontSize="25px"
-										onClick={() => setIsLoginVisible(!isLoginVisible)}
+										// onClick={() => setIsLoginVisible(!isLoginVisible)}
 										aria-label="User"
 									/>
 									{isLoginVisible && (
@@ -209,8 +210,9 @@ const Header = () => {
 										icon={<BiUser />}
 										fontSize="25px"
 										as={ReactLink}
-										to='/bejelentkezes'
+										// to='/bejelentkezes'
 										aria-label="User"
+										data-disabled=""
 									/>
 
 								</Box>
@@ -236,7 +238,7 @@ const Header = () => {
 
 						<SearchInput products={products} />
 
-						<CartMenu />
+						{/* <CartMenu /> */}
 
 					</Flex>
 				</Box>
