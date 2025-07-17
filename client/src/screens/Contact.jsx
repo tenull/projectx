@@ -17,7 +17,7 @@ import {
 import { PhoneIcon, TimeIcon } from '@chakra-ui/icons';
 import { MdMail } from "react-icons/md";
 import { MdLocationPin } from "react-icons/md";
-import axios from "axios";
+
 import { useSelector } from "react-redux";
 const Contact = () => {
 

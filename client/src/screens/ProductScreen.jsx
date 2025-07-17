@@ -33,7 +33,7 @@ import { FaEgg } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getProduct } from '../redux/actions/productActions';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 // import { addCartItem } from '../redux/actions/cartActions';
 import { IoTimerOutline } from "react-icons/io5";
 import { MdOutlineBackpack } from "react-icons/md";
