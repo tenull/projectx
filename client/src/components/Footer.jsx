@@ -8,7 +8,6 @@ import {
 	Text,
 	Box,
 	Flex,
-	Icon,
 	Image,
 } from '@chakra-ui/react';
 import { Link as ReactLink } from "react-router-dom";

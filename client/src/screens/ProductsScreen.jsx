@@ -20,8 +20,8 @@ const ProductsScreen = () => {
 	const [filteredProducts, setFilteredProducts] = useState([]);
 	const [selectedType, setSelectedType] = useState(null);
 	const [selectedCategory, setSelectedCategory] = useState();
-	const { loading, error, products, favoritesToggled } = useSelector((state) => state.product);
-	const { userInfo } = useSelector((state) => state.user);
+	const { loading, error, products, } = useSelector((state) => state.product);
+	// const { userInfo } = useSelector((state) => state.user);
 	const { cartItems } = useSelector((state) => state.cart);
 	const { favoritesFlag, } = useSelector((state) => state.user);
 

@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Box, Text, Input, Button, IconButton, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, useDisclosure, Flex } from '@chakra-ui/react';
+import { Box, Text, IconButton, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, useDisclosure } from '@chakra-ui/react';
 import { TbShoppingCart } from 'react-icons/tb';
 import CartForm from './CartForm';
 
 const CartMenu = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { cartItems, subtotal } = useSelector((state) => state.cart);
-    const { favoritesToggled, products } = useSelector((state) => state.product);
+    const {  products } = useSelector((state) => state.product);
     return (
         <Box  position='relative'>
             <Box

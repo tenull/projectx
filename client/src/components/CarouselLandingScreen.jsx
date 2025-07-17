@@ -9,7 +9,6 @@ import {
     Text,
     Button,
     Flex,
-    Image
 } from '@chakra-ui/react'
 import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi'
 import Slider from 'react-slick'

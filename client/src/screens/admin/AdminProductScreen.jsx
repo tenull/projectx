@@ -13,19 +13,18 @@ import {
     useDisclosure
 } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { getProducts, resetProductError } from '../../redux/actions/productActions';
-import ConfirmRemovalAlert from '../../components/ConfirmRemovalAlert';
+
 import ProductItemScreen from '../ProductItemScreen';
-import { deleteProduct } from '../../redux/actions/adminActions';
 
 const AdminProductScreen = () => {
-    const cancelRef = useRef();
-    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const {  onOpen,  } = useDisclosure();
     const dispatch = useDispatch();
     const { products, productUpdate, loading, error } = useSelector((state) => state.product);
     const toast = useToast();
-    const [productToDelete, setProductToDelete] = useState(null);
+    const [, setProductToDelete] = useState(null);
     
     useEffect(() => {
         dispatch(getProducts());

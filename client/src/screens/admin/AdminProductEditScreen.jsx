@@ -6,7 +6,7 @@ import {
 	Input,
 	Spinner,
 	Textarea,
-	useToast,
+
 	Badge,
 	Switch,
 	Collapse
@@ -22,7 +22,6 @@ const AdminProductEditScreen = () => {
 	const { id: productId } = useParams();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const toast = useToast();
 	const { product, loading,productUpdate } = useSelector((state) => state.product);
 	const [name, setName] = useState('');
 	const [price, setPrice] = useState('');

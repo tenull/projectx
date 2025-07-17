@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useParams, Link as ReactLink } from 'react-router-dom';
+import { useParams, } from 'react-router-dom';
 import { verifyEmail } from '../redux/actions/userActions';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -10,7 +10,7 @@ import {
 	AlertDescription,
 	Text,
 	Spinner,
-	Button,
+
 	Alert,
 } from '@chakra-ui/react';
 

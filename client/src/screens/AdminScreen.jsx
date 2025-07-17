@@ -4,7 +4,7 @@ import AdminLayout from '../components/AdminLayout';
 const AdminScreen = () => {
 
     const { userInfo } = useSelector((state) => state.user);
-    const { error, loading, orders, deliveredFlag, orderRemoval } = useSelector((state) => state.admin);
+    const {  loading, orders } = useSelector((state) => state.admin);
     const location = useLocation();
 
 

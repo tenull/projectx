@@ -14,7 +14,6 @@ import {
 	Spacer,
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import { MdDriveFolderUpload } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 import { uploadProduct } from '../redux/actions/adminActions';
 

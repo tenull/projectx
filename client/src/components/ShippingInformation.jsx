@@ -6,20 +6,18 @@ import {
 	AccordionIcon,
 	Box,
 	Button,
-	VStack,
 	Flex,
 	useColorModeValue
 } from "@chakra-ui/react";
 import { Formik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
-import { setShipping } from "../redux/actions/cartActions";
 import { setAddress, setPayment } from "../redux/actions/orderActions";
 import { Link as ReactLink } from "react-router-dom";
 import OrderDetailsForm from "./OrderDetailsForm";
 import ShippingMethodForm from "./ShippingMethodForm";
 import PaymentMethod from "./PaymentMethod";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import OrderBillingData from "./OrderBillingDetails";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -27,7 +25,7 @@ const ShippingInformation = () => {
 	const { shipping, cartItems, PaymentMethodCost, subtotal } = useSelector((state) => state.cart);
 	const { userInfo } = useSelector((state) => state.user);
 	const { shippingAddress } = useSelector((state) => state.order);
-	const { paymentMethod, paymentMethodCost } = useSelector((state) => state.cart);
+	const { paymentMethod } = useSelector((state) => state.cart);
 	const dispatch = useDispatch();
 	const navigate = useNavigate()
 	const [activeIndex, setActiveIndex] = useState(0);

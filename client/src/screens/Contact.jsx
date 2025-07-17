@@ -1,12 +1,12 @@
-import { Box, Container, Center, Text, Image, Breadcrumb, BreadcrumbItem } from "@chakra-ui/react";
+import { Box, Container,  Text,  Breadcrumb, BreadcrumbItem } from "@chakra-ui/react";
 import { Link as ReactLink } from "react-router-dom";
 import { ChevronRightIcon } from "@chakra-ui/icons";
-import React, { useRef, useState } from 'react';
+import React, {  useState } from 'react';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import {
     Button,
     Flex,
-    Heading,
+
     Icon,
     Input,
     Link,
@@ -37,7 +37,7 @@ const Contact = () => {
     const [messageIsInvalid, setMessageIsInvalid] = useState(false);
 
     const emailRegex = new RegExp(
-        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     );
 
     const isValid = () => {
@@ -115,19 +115,19 @@ const emailData = {
     message,
 };
 
-const sendOrderConfirmationEmail = async () => {
-    try {
-        await axios.post('http://localhost:5000/api/sendorderconfirmationemail/send-email', emailData
-        );
-        console.log('Email sent successfully');
-    } catch (error) {
-        console.error('Error sending email:', error);
-    }
-};
+// const sendOrderConfirmationEmail = async () => {
+//     try {
+//         await axios.post('http://localhost:5000/api/sendorderconfirmationemail/send-email', emailData
+//         );
+//         console.log('Email sent successfully');
+//     } catch (error) {
+//         console.error('Error sending email:', error);
+//     }
+// };
 
-const onSubmit = async (values)=>{
-    sendOrderConfirmationEmail();
-}
+// const onSubmit = async (values)=>{
+//     sendOrderConfirmationEmail();
+// }
 
 
 

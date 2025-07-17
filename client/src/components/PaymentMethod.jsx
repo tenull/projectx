@@ -5,7 +5,7 @@ import { CheckIcon } from '@chakra-ui/icons';
 
 const PaymentMethod = () => {
     const dispatch = useDispatch();
-    const { paymentMethod, paymentMethodCost } = useSelector((state) => state.cart);
+    const { paymentMethod } = useSelector((state) => state.cart);
 
     const handlePaymentChange = (value) => {
         const paymentCosts = {

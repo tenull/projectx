@@ -1,10 +1,10 @@
-import { CloseButton, Button, Input, Flex, Image, Select, Spacer, Text, VStack, useColorModeValue as mode } from '@chakra-ui/react';
+import { CloseButton, Button, Input, Flex, Image,  Spacer, Text, VStack } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
 import { addCartItem, removeCartItem } from '../redux/actions/cartActions';
 import { FaTrashCan } from 'react-icons/fa6';
 import { useToast } from '@chakra-ui/react';
 const CartItem = ({ cartItem }) => {
-	const { name, image, price, stock, qty, id, brand,packaking } = cartItem;
+	const { name, image, price, stock, qty, id, packaking } = cartItem;
 	const dispatch = useDispatch();
 	const toast = useToast()
 	

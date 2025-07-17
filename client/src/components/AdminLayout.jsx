@@ -9,7 +9,7 @@ import { getAllOrders, resetErrorAndRemoval } from '../redux/actions/adminAction
 const AdminLayout = () => {
     const location = useLocation();
     const dispatch = useDispatch();
-    const { error, loading, orders, deliveredFlag, orderRemoval } = useSelector((state) => state.admin);
+    const {  loading, orders, } = useSelector((state) => state.admin);
     const isDashboard = location.pathname === "/admin";
     
     useEffect(() => {

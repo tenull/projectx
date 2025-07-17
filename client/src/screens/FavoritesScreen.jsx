@@ -6,7 +6,7 @@ import ProductCard from '../components/ProductCard';
 import { setFavoritesUpdateFlag } from '../redux/slices/user';
 const FavoritesScreen = () => {
     const dispatch = useDispatch();
-    const { loading, error, favorites, userInfo, favoritesFlag } = useSelector((state) => state.user);
+    const { loading, error, favorites,  favoritesFlag } = useSelector((state) => state.user);
 
     useEffect(() => {
         if (favoritesFlag) {

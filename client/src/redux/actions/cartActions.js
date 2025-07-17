@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { setError, setLoading, setShippingCosts, cartItemAdd, cartItemRemoval, clearCart,setPaymentMethod,setSelectedShippingMethod,setPaymentMethodCost } from '../slices/cart';
-import PaymentMethod from '../../components/PaymentMethod';
+
 
 export const addCartItem = (id, qty) => async (dispatch) => {
 	dispatch(setLoading(true));

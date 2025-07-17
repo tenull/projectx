@@ -8,8 +8,7 @@ import {
     AlertDialogFooter
 } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
-import { updateUser } from "../redux/actions/adminActions";
-import { Navigate, redirect, useNavigate } from "react-router-dom";
+
 
 const ConfirmAdminChangeAlert = ({ isOpen, onClose, cancelRef, updateUser,user,navigate,redirectUrl }) => {
     const dispatch = useDispatch();

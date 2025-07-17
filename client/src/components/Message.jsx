@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+
 import {
     Button,
     AlertDialog,
@@ -8,7 +8,6 @@ import {
     AlertDialogHeader,
     AlertDialogOverlay,
 } from '@chakra-ui/react';
-import { useDispatch } from 'react-redux';
 
 
 const Message = ({ message,isOpen, onClose }) => {

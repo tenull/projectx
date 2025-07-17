@@ -1,18 +1,16 @@
 import {
-    CloseButton, Box, Button, Input, Flex, Image, Spacer, Text, VStack, useColorModeValue as mode, useToast
+     Box, Button, Input, Flex, Image, Spacer, Text, VStack,  useToast
 } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCartItem, removeCartItem } from '../redux/actions/cartActions';
 import { FaTrashCan } from "react-icons/fa6";
-import { useState } from 'react';
-import { Link, Link as ReactLink } from 'react-router-dom';
 import { TbShoppingCartOff } from "react-icons/tb";
 import { useNavigate } from 'react-router-dom';
 const CartForm = ({ cartItems, onClose }) => {
     const dispatch = useDispatch();
     const toast = useToast();
     const { loading } = useSelector((state) => state.user);
-    const { subtotal, shipping } = useSelector((state) => state.cart);
+    const { subtotal, } = useSelector((state) => state.cart);
     const navigate = useNavigate()
     const handleQtyChange = (id, stock, value) => {
         let newQty = parseInt(value, 10);
@@ -143,7 +141,7 @@ const CartForm = ({ cartItems, onClose }) => {
                 </Box>
             )}
 
-            {!cartItems.length == 0 && (<>
+            {!cartItems.length === 0 && (<>
                 <Box py={5} display='flex' justifyContent='space-between' fontWeight='bold'>
                     <Text>Teljes összeg</Text>
                     <Text>{subtotal} Ft</Text>

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { setError, setShippingAddress, setBillingAddress, clearOrder } from '../slices/order';
+import { setError, setShippingAddress, setBillingAddress } from '../slices/order';
 
 export const setAddress = (data) => (dispatch) => {
 	dispatch(setShippingAddress(data));
@@ -28,7 +28,7 @@ export const setPayment = () => async (dispatch, getState) => {
 
 		window.location.assign(data.url);
 	  } else {
-		const { data } = await axios.post('/api/successpayment', newOrder, config);
+		// const {  } = await axios.post('/api/successpayment', newOrder, config);
 		window.location.assign('/sikeres');
 	  }
 	} catch (error) {

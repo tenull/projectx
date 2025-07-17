@@ -8,7 +8,7 @@ import {
 	Thead,
 	Tbody,
 	Button,
-	useDisclosure,
+	
 	Alert,
 	Stack,
 	Spinner,
@@ -27,9 +27,9 @@ import {
 	Spacer,
 } from '@chakra-ui/react';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllUsers, deleteUser, resetErrorAndRemoval } from '../redux/actions/adminActions';
+
 import { getProducts } from '../redux/actions/productActions';
 import { removeReview } from '../redux/actions/adminActions';
 

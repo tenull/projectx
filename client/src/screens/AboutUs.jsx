@@ -1,4 +1,4 @@
-import { Box, Center, Flex, Heading, Container, Text, Breadcrumb, BreadcrumbItem,useBreakpointValue } from "@chakra-ui/react";
+import { Box,Flex, Container, Text, Breadcrumb, BreadcrumbItem,useBreakpointValue } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { Link as ReactLink } from "react-router-dom";
 
@@ -181,7 +181,7 @@ const AboutUs = () => {
                                 sx={{
                                     imageRendering: "auto",
                                     WebkitImageRendering: "optimize-contrast",
-                                    imageRendering: "smooth"
+                                    
                                 }}
                             /></Box>
                         <Box>
@@ -200,7 +200,7 @@ const AboutUs = () => {
                                 sx={{
                                     imageRendering: "auto",
                                     WebkitImageRendering: "optimize-contrast",
-                                    imageRendering: "smooth"
+                                  
                                 }}
 
                             /></Box>
@@ -220,7 +220,7 @@ const AboutUs = () => {
                                 sx={{
                                     imageRendering: "auto",
                                     WebkitImageRendering: "optimize-contrast",
-                                    imageRendering: "smooth"
+                                    
                                 }}
                             /></Box>
                     </Box>

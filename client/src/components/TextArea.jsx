@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { setShippingAddress } from "../redux/slices/order"; 
 
 const TextArea = ({ label, name, placeholder }) => {
-  const [field, meta] = useField(name);
+  const [ meta] = useField(name);
   const { setFieldValue, values } = useFormikContext();
   const dispatch = useDispatch();
 

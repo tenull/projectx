@@ -8,7 +8,7 @@ import {
     Thead,
     Tbody,
     Button,
-    useDisclosure,
+
     Alert,
     Stack,
     Spinner,
@@ -19,15 +19,13 @@ import {
     Text,
     Flex,
     useToast,
-    Container
+
 } from '@chakra-ui/react';
-import { CheckCircleIcon, DeleteIcon } from '@chakra-ui/icons';
-import { useEffect, useState, useRef } from 'react';
+import { CheckCircleIcon,  } from '@chakra-ui/icons';
+import { useEffect,  } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllOrders, deleteOrder, resetErrorAndRemoval, setDelivered } from '../../redux/actions/adminActions';
-import ConfirmRemovalAlert from '../../components/ConfirmRemovalAlert';
-import { TbTruckDelivery } from 'react-icons/tb';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { getAllOrders, resetErrorAndRemoval, } from '../../redux/actions/adminActions';
+
 import { Link as ReactLink } from 'react-router-dom';
 const AdminOrderScreen = () => {
     const dispatch = useDispatch();

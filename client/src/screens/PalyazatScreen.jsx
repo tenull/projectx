@@ -1,5 +1,5 @@
-import { Box,Flex, useBreakpointValue, Text, Image, Grid, GridItem, Center,Breadcrumb,BreadcrumbItem } from '@chakra-ui/react';
-import { shippingMethods } from '../shippingMethods';
+import { Box,Flex, useBreakpointValue, Text, Image,Breadcrumb,BreadcrumbItem } from '@chakra-ui/react';
+
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { Link as ReactLink } from 'react-router-dom';
 

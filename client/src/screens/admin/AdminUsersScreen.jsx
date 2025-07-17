@@ -7,7 +7,6 @@ import {
     Td,
     Thead,
     Tbody,
-    Button,
     useDisclosure,
     Alert,
     Stack,
@@ -19,7 +18,7 @@ import {
     useToast,
     IconButton,
     Text,
-    Container
+
 } from "@chakra-ui/react";
 import { CheckCircleIcon, DeleteIcon } from "@chakra-ui/icons";
 import { FaTimes, FaEdit } from "react-icons/fa";
@@ -30,7 +29,6 @@ import { updateUser } from "../../redux/actions/adminActions";
 import ConfirmRemovalAlert from "../../components/ConfirmRemovalAlert";
 import ConfirmAdminChangeAlert from "../../components/ConfirmAdminChangeAlert"
 import { useNavigate } from "react-router-dom";
-import { NavLink, Outlet } from 'react-router-dom';
 const AdminUsersScreen = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { isOpen: isAdminOpen, onOpen: openAdminModal, onClose: closeAdminModal } = useDisclosure();

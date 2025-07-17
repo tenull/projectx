@@ -1,4 +1,4 @@
-import { MinusIcon, SmallAddIcon } from '@chakra-ui/icons';
+// import { MinusIcon, SmallAddIcon } from '@chakra-ui/icons';
 import {
 	Alert,
 	AlertDescription,
@@ -6,7 +6,6 @@ import {
 	AlertTitle,
 	Badge,
 	Box,
-	Button,
 	Flex,
 	Heading,
 	Image,
@@ -35,7 +34,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getProduct } from '../redux/actions/productActions';
 import { useEffect, useState } from 'react';
-import { addCartItem } from '../redux/actions/cartActions';
+// import { addCartItem } from '../redux/actions/cartActions';
 import { IoTimerOutline } from "react-icons/io5";
 import { MdOutlineBackpack } from "react-icons/md";
 import { TbMapSearch } from "react-icons/tb";
@@ -43,12 +42,12 @@ import { Link as ReactLink } from 'react-router-dom';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 
 const ProductScreen = () => {
-	const [amount, setAmount] = useState(1);
+	// const [amount, setAmount] = useState(1);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const { id } = useParams();
 	const dispatch = useDispatch();
 	const { loading, error, product, reviewed } = useSelector((state) => state.product);
-	const { cartItems } = useSelector((state) => state.cart);
+	// const { cartItems } = useSelector((state) => state.cart);
 	const toast = useToast();
 
 
@@ -66,28 +65,28 @@ const ProductScreen = () => {
 		}
 	}, [dispatch, id, toast, reviewed]);
 
-	const changeAmount = (input) => {
-		if (input === 'plus') {
-			setAmount(amount + 1);
-		}
-		if (input === 'minus') {
-			setAmount(amount - 1);
-		}
-	};
+	// const changeAmount = (input) => {
+	// 	if (input === 'plus') {
+	// 		setAmount(amount + 1);
+	// 	}
+	// 	if (input === 'minus') {
+	// 		setAmount(amount - 1);
+	// 	}
+	// };
 
-	const addItem = () => {
-		if (cartItems.some((cartItem) => cartItem.id === id)) {
-			cartItems.find((cartItem) => cartItem.id === id);
-			dispatch(addCartItem(id, amount));
-		} else {
-			dispatch(addCartItem(id, amount));
-		}
-		toast({
-			description: 'Tészta hozzá lett adva.',
-			status: 'success',
-			isClosable: true,
-		});
-	};
+	// const addItem = () => {
+	// 	if (cartItems.some((cartItem) => cartItem.id === id)) {
+	// 		cartItems.find((cartItem) => cartItem.id === id);
+	// 		dispatch(addCartItem(id, amount));
+	// 	} else {
+	// 		dispatch(addCartItem(id, amount));
+	// 	}
+	// 	toast({
+	// 		description: 'Tészta hozzá lett adva.',
+	// 		status: 'success',
+	// 		isClosable: true,
+	// 	});
+	// };
 
 
 	return (

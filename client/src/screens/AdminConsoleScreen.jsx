@@ -3,7 +3,6 @@ import { Navigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import UsersTab from '../components/UsersTab';
 import OrdersTab from '../components/OrdersTab';
-import ReviewsTab from '../components/ReviewsTab';
 import ProductsTab from '../components/ProductsTab';
 
 const AdminConsoleScreen = () => {

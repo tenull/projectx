@@ -7,7 +7,6 @@ import {
   Th,
   Thead,
   Tr,
-  useToast,
   useDisclosure,
   VStack,
   Heading,
@@ -31,8 +30,7 @@ const OrderScreen = () => {
   const [orderToDelete, setOrderToDelete] = useState('');
   const cancelRef = useRef();
   const dispatch = useDispatch();
-  const { orders, orderRemoval, deliveredFlag, paidFlag } = useSelector((state) => state.admin);
-  const toast = useToast();
+  const { orders } = useSelector((state) => state.admin);
   const [order, setOrder] = useState(null);
   const navigate = useNavigate();
   const redirectUrl = '/admin/rendeles'

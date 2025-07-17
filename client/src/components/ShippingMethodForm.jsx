@@ -7,10 +7,10 @@ import { CheckIcon } from '@chakra-ui/icons';
 
 const ShippingMethodForm = () => {
     const dispatch = useDispatch();
-    const { shipping, subtotal, selectedShippingMethodPrice } = useSelector((state) => state.cart);
+    const { shipping, subtotal, } = useSelector((state) => state.cart);
     const { cartItems } = useSelector((state) => state.cart);
     const totalWeight = cartItems.reduce((acc, item) => acc + item.qty * (item.packaking ?? 0), 0);
-    const [selectedShippingPrice, setSelectedShippingPrice] = useState(selectedShippingMethodPrice || shipping || "");
+ 
     const [selectedShipping, setSelectedShipping] = useState(shipping || "");
 
     const handleShippingChange = (value) => {

@@ -3,23 +3,23 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getProducts } from '../redux/actions/productActions';
-import { Box, Breadcrumb, BreadcrumbItem, Container, Text, Wrap, WrapItem, Center, Button, Alert, AlertIcon, AlertTitle, AlertDescription } from '@chakra-ui/react';
-import { ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons';
+import { Box, Breadcrumb, BreadcrumbItem, Container, Text, WrapItem, Center, Alert, AlertIcon, AlertTitle, AlertDescription } from '@chakra-ui/react';
+
 import ProductCard from '../components/ProductCard';
-import { IoIosCheckmark } from "react-icons/io";
+
 import { Link as ReactLink } from "react-router-dom";
 import { ChevronRightIcon } from '@chakra-ui/icons';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 const SearchScreen = () => {
 
     const dispatch = useDispatch();
     const { category } = useParams();
-    const navigate = useNavigate();
+  
     const { pageNumber = 1, keyword = '' } = useParams();
     const [filteredProducts, setFilteredProducts] = useState([]);
-    const [selectedType, setSelectedType] = useState(null);
-    const [selectedCategory, setSelectedCategory] = useState();
-    const { loading, error, products, pagination, favoritesToggled } = useSelector((state) => state.product);
+    const [selectedType, ] = useState(null);
+    const [selectedCategory, ] = useState();
+    const { loading, error, products, favoritesToggled } = useSelector((state) => state.product);
     const { cartItems } = useSelector((state) => state.cart);
 
 
@@ -28,9 +28,9 @@ const SearchScreen = () => {
         dispatch(getProducts(pageNumber, favoritesToggled, keyword));
     }, [dispatch, pageNumber, keyword, favoritesToggled]);
 
-    const paginationButtonClick = (page) => {
-        dispatch(getProducts(page, favoritesToggled, keyword));
-    };
+    // const paginationButtonClick = (page) => {
+    //     dispatch(getProducts(page, favoritesToggled, keyword));
+    // };
 
 
 

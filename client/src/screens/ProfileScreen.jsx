@@ -2,13 +2,12 @@ import { Container, Text, Box, Button, Image } from "@chakra-ui/react";
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserOrders } from '../redux/actions/userActions';
 import { useEffect } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
 import { Link as ReactLink } from "react-router-dom";
 import { BiUserCheck } from "react-icons/bi";
 const ProfileScreen = () => {
     const dispatch = useDispatch();
-    const { loading, error, orders, userInfo } = useSelector((state) => state.user);
-    const location = useLocation();
+    const {  orders, userInfo } = useSelector((state) => state.user);
+
 
 
     useEffect(() => {

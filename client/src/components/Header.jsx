@@ -31,7 +31,7 @@ import { MdOutlineAdminPanelSettings } from 'react-icons/md';
 import { FcGoogle } from 'react-icons/fc';
 import { googleLogout } from '@react-oauth/google';
 import LoginForm from './LoginForm';
-import CartMenu from './CartMenu';
+// import CartMenu from './CartMenu';
 import SearchInput from './SearchInput';
 import MobileNav from './MobileNav';
 const Links = [
@@ -50,20 +50,20 @@ const Header = () => {
 	const { userInfo } = useSelector((state) => state.user);
 	const [, setShowBanner] = useState(userInfo ? !userInfo.active : false);
 	const [isLoginVisible, setIsLoginVisible] = useState(false);
-	const [isCartVisible, setIsCartVisible] = useState(false);
+	
 	const loginRef = useRef(null);
 	const formRef = useRef(null);
-	let timeoutId;
-	const handleMouseEnter = () => {
-		clearTimeout(timeoutId);
-		setIsCartVisible(true);
-	};
+	
+	// const handleMouseEnter = () => {
+	// 	clearTimeout(timeoutId);
+	// 	setIsCartVisible(true);
+	// };
 
-	const handleMouseLeave = () => {
-		timeoutId = setTimeout(() => {
-			setIsCartVisible(false);
-		}, 300);
-	};
+	// const handleMouseLeave = () => {
+	// 	timeoutId = setTimeout(() => {
+	// 		setIsCartVisible(false);
+	// 	}, 300);
+	// };
 
 	useEffect(() => {
 		if (userInfo && !userInfo.active) {

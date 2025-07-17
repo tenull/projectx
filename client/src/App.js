@@ -28,7 +28,6 @@ import AdminLastOrderScreen from './screens/admin/AdminLastOrderScreen';
 import AdminUsersScreen from './screens/admin/AdminUsersScreen';
 import AdminProductScreen from './screens/admin/AdminProductScreen';
 import AdminNewProductScreen from './screens/admin/AdminNewProductScreen';
-import AdminMessage from './screens/admin/AdminMessage';
 import OrderScreen from './screens/OrderScreen';
 import AdminProductEditScreen from './screens/admin/AdminProductEditScreen';
 import ProfileScreen from './screens/ProfileScreen';

@@ -1,18 +1,15 @@
-import { Box, Input, Image, Text, Badge, Flex, IconButton, Skeleton, useToast, Tooltip, Button } from '@chakra-ui/react';
+import { Box,  Image, Text, Badge, IconButton, Skeleton, useToast, Tooltip, Button } from '@chakra-ui/react';
 import React, { useState } from 'react';
-import { extendTheme } from '@chakra-ui/react';
+
 import { addToFavorites, removeFromFavorites } from '../redux/actions/userActions';
 import { useSelector, useDispatch } from 'react-redux';
 import { MdOutlineFavorite, MdOutlineFavoriteBorder } from 'react-icons/md';
 import { Link as ReactLink } from 'react-router-dom';
-import { addCartItem } from '../redux/actions/cartActions';
+// import { addCartItem } from '../redux/actions/cartActions';
 import { useEffect } from 'react';
-import { TbShoppingCartPlus } from 'react-icons/tb';
-import { getUserFavorites } from '../redux/actions/userActions';
-import { removeCartItem } from '../redux/actions/cartActions';
-import { FaTrashCan } from 'react-icons/fa6';
+// import { removeCartItem } from '../redux/actions/cartActions';
 import { FaEgg } from 'react-icons/fa6';
-import { setFavoritesUpdateFlag } from '../redux/slices/user';
+
 
 
 const ProductCard = ({ product, loading }) => {
@@ -24,7 +21,7 @@ const ProductCard = ({ product, loading }) => {
 	const [cartQty, setCartQty] = useState(0);
 	const toast = useToast();
 	const [cartPlusDisabled, setCartPlusDisabled] = useState(false);
-	const { userInfo, favoritesFlag } = useSelector((state) => state.user);
+	const { userInfo,  } = useSelector((state) => state.user);
 
 	useEffect(() => {
 		if (cartItem) {
@@ -34,48 +31,48 @@ const ProductCard = ({ product, loading }) => {
 	}, [cartItem]);
 
 
-	const handleQtyChange = (e) => {
-		let value = parseInt(e.target.value, 10);
+	// const handleQtyChange = (e) => {
+	// 	let value = parseInt(e.target.value, 10);
 
-		if (value > product.stock) {
-			value = product.stock;
-			toast({
-				description: 'Elérted a maximális készletet.',
-				status: 'warning',
-				isClosable: true,
-			});
-		} else if (value < 1 || isNaN(value)) {
-			value = 1;
-		}
+	// 	if (value > product.stock) {
+	// 		value = product.stock;
+	// 		toast({
+	// 			description: 'Elérted a maximális készletet.',
+	// 			status: 'warning',
+	// 			isClosable: true,
+	// 		});
+	// 	} else if (value < 1 || isNaN(value)) {
+	// 		value = 1;
+	// 	}
 
-		setCartQty(value);
-		dispatch(addCartItem(product._id, value));
-	};
+	// 	setCartQty(value);
+	// 	dispatch(addCartItem(product._id, value));
+	// };
 
-	const increaseQty = () => {
-		if (cartQty < product.stock) {
-			const newQty = cartQty + 1;
-			setCartQty(newQty);
-			dispatch(addCartItem(product._id, newQty));
-		} else {
-			toast({
-				description: 'Nem tudsz többet hozzáadni, nincs elég készlet.',
-				status: 'warning',
-				isClosable: true,
-			});
-		}
-	};
+	// const increaseQty = () => {
+	// 	if (cartQty < product.stock) {
+	// 		const newQty = cartQty + 1;
+	// 		setCartQty(newQty);
+	// 		dispatch(addCartItem(product._id, newQty));
+	// 	} else {
+	// 		toast({
+	// 			description: 'Nem tudsz többet hozzáadni, nincs elég készlet.',
+	// 			status: 'warning',
+	// 			isClosable: true,
+	// 		});
+	// 	}
+	// };
 
-	const decreaseQty = () => {
-		if (cartQty > 1) {
-			const newQty = cartQty - 1;
-			setCartQty(newQty);
-			dispatch(addCartItem(product._id, newQty));
-		} else {
-			setCartQty(0);
-			dispatch(removeCartItem(product._id));
-		}
-	};
+	// const decreaseQty = () => {
+	// 	if (cartQty > 1) {
+	// 		const newQty = cartQty - 1;
+	// 		setCartQty(newQty);
+	// 		dispatch(addCartItem(product._id, newQty));
+	// 	} else {
+	// 		setCartQty(0);
+	// 		dispatch(removeCartItem(product._id));
+	// 	}
+	// };
 
 
 
@@ -86,19 +83,19 @@ const ProductCard = ({ product, loading }) => {
 		}
 	}, [product, cartItems]);
 
-	const addItem = (id) => {
-		if (cartItems.some((cartItem) => cartItem.id === id)) {
-			const item = cartItems.find((cartItem) => cartItem.id === id);
-			dispatch(addCartItem(id, item.qty + 1));
-		} else {
-			dispatch(addCartItem(id, 1));
-		}
-		toast({
-			description: 'A tészta hozzá lett adva.',
-			status: 'success',
-			isClosable: true,
-		});
-	};
+	// const addItem = (id) => {
+	// 	if (cartItems.some((cartItem) => cartItem.id === id)) {
+	// 		const item = cartItems.find((cartItem) => cartItem.id === id);
+	// 		dispatch(addCartItem(id, item.qty + 1));
+	// 	} else {
+	// 		dispatch(addCartItem(id, 1));
+	// 	}
+	// 	toast({
+	// 		description: 'A tészta hozzá lett adva.',
+	// 		status: 'success',
+	// 		isClosable: true,
+	// 	});
+	// };
 
 	const isFavorite = favorites.some(fav => fav._id === product._id);
 
