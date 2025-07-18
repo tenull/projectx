@@ -54,7 +54,7 @@ function App() {
 	const [googleClient, setGoogleClient] = useState(null);
 	useEffect(() => {
 		const googleKey = async () => {
-			const { data: googleId } = await axios.get('/api/config/google');
+			const { data: googleId } = await axios.get('http://91.214.112.61:8000/api/config/google');
 			setGoogleClient(googleId);
 		};
 		googleKey();
